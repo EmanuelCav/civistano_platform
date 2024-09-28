@@ -4,11 +4,11 @@ import StartHeader from "./components/StartHeader"
 
 const Header = () => {
     return (
-        <div className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
-            <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <div className="bg-white border-gray-200 px-4 border-b border-solid fixed top-0 w-full">
+            <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
                 <Icon />
-                <StartHeader />
                 <Navigation />
+                <StartHeader />
             </div>
         </div>
     )
