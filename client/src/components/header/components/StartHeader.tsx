@@ -1,11 +1,10 @@
-import Link from "next/link"
 
-const StartHeader = () => {
+const StartHeader = ({ handleSurveyData }: { handleSurveyData: () => void }) => {
     return (
         <div className="flex items-center justify-center">
-            <Link href="#" className="text-white bg-sky-700	hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-sm px-4 py-2 ">
+            <button className="text-white bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-sm px-4 py-2" onClick={handleSurveyData}>
                 Empezar ahora
-            </Link>
+            </button>
         </div>
     )
 }
