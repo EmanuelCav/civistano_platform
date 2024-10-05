@@ -23,29 +23,28 @@ const Question = () => {
     const [isYes, setIsYes] = useState<boolean>(false)
     const [isDisabled, setIsDisabled] = useState<boolean>(true)
 
-    const handleSelect = (value: boolean) => {
+    const [questionId, setQuestionId] = useState<number>(1)
+
+    const handleSelect = (value: boolean, id: number) => {
         setIsYes(value)
+        setQuestionId(id)
         setIsDisabled(false)
     }
 
     const handleContinue = () => {
-        if (isYes) {
-            dispatch(updateQuestion(questions.yes))
-        } else {
-            dispatch(updateQuestion(questions.no))
-        }
-
+        dispatch(updateQuestion(questions.find((question => question.id === questionId))))
         setIsDisabled(true)
     }
 
     useEffect(() => {
-        dispatch(updateQuestion(questions))
+        dispatch(updateQuestion(questions.find((question => question.id === questionId))))
     }, [])
 
     return (
         <ContainerFixed>
             <p className="text-gray-900 text-xl my-2 text-center">{survey.question.question}</p>
-            <ButtonsSurvey handleSelect={handleSelect} isYes={isYes} isDisabled={isDisabled} />
+            <ButtonsSurvey handleSelect={handleSelect} isYes={isYes} isDisabled={isDisabled} 
+            question={questions.find((question => question.id === questionId))!} />
             <button className={isDisabled ? "text-white w-full bg-sky-100 font-medium rounded-lg text-lg px-4 py-2 mt-4"
                 : "text-white w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-lg px-4 py-2 mt-4"}
                 disabled={isDisabled} onClick={handleContinue}>

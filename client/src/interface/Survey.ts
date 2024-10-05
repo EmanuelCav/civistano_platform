@@ -5,7 +5,7 @@ export interface IReducerSurvey {
 export interface IQuestion {
     question?: string;
     isAdministrative?: boolean;
-    no?: IQuestion;
-    yes?: IQuestion;
+    no?: number;
+    yes?: number;
 }
 

@@ -34,6 +34,9 @@ export default function Home() {
         isQuestion && <Question />
       }
       <Main handleSurveyData={handleSurveyData} />
+      <Main handleSurveyData={handleSurveyData} />
+      <Main handleSurveyData={handleSurveyData} />
+      <Main handleSurveyData={handleSurveyData} />
     </div>
   );
 }
