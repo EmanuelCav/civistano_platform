@@ -7,12 +7,16 @@ import Navigation from "./components/Navigation"
 import StartHeader from "./components/StartHeader"
 import SurveyData from "../general/SurveyData"
 import Question from "../general/Question"
+import Return from "../general/Return"
 
 const Header = () => {
 
-
     const [isSurveyData, setIsSurveyData] = useState<boolean>(false)
     const [isQuestion, setIsQuestion] = useState<boolean>(false)
+
+    const [isAdministrative, setIsAdministrative] = useState<boolean>(false)
+    const [isJudicial, setIsJudicial] = useState<boolean>(false)
+    const [isNotPossible, setIsNotPossible] = useState<boolean>(false)
 
     const handleClose = () => {
         setIsSurveyData(false)
@@ -34,7 +38,19 @@ const Header = () => {
                 isSurveyData && <SurveyData handleClose={handleClose} handleShowQuestion={handleShowQuestion} />
             }
             {
-                isQuestion && <Question />
+                isQuestion && <Question setIsAdministrative={setIsAdministrative}
+                    setIsNotPossible={setIsNotPossible}
+                    setIsQuestion={setIsQuestion}
+                    setIsJudicial={setIsJudicial} />
+            }
+            {
+                isAdministrative && <Return text="Es administrativo" />
+            }
+            {
+                isJudicial && <Return text="Es judicial" />
+            }
+            {
+                isNotPossible && <Return text="No es posible" />
             }
             <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
                 <Icon />

@@ -13,6 +13,13 @@ export type SurveyDataPropsType = {
 export type ButtonsSurveyPropsType = {
     isDisabled: boolean;
     isYes: boolean;
-    handleSelect: (value: boolean, id: number) => void;
+    handleSelect: (value: boolean, id: number | undefined) => void;
     question: IQuestion;
+}
+
+export type QuestionPropsType = {
+    setIsAdministrative: (isAdministrative: boolean) => void;
+    setIsJudicial: (isJudicial: boolean) => void;
+    setIsNotPossible: (isPossible: boolean) => void;
+    setIsQuestion: (setIsQuestion: boolean) => void;
 }

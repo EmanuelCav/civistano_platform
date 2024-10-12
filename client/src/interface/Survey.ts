@@ -3,8 +3,8 @@ export interface IReducerSurvey {
 }
 
 export interface IQuestion {
+    id?: number;
     question?: string;
-    isAdministrative?: boolean;
     no?: number;
     yes?: number;
 }
