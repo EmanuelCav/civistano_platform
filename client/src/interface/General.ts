@@ -4,6 +4,7 @@ import { IReducerUser } from "./User";
 export interface IReducer {
     survey: IReducerSurvey;
     user: IReducerUser;
+    response: IResponse;
 }
 
 export interface ITab {
@@ -12,7 +13,23 @@ export interface ITab {
 }
 
 export interface IAncestry {
+    _id: string;
     ancestry: string,
     hierarchy: number;
     isFemale: boolean;
+    areParents: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IChecklist {
+    title: string;
+    description: string;
+    areParents: boolean;
+    link: string;
+    isChecked: boolean;
+}
+
+export interface IResponse {
+    loading: boolean;
 }

@@ -21,6 +21,8 @@ func Config() map[string]string {
 	variables["uri"] = envFile["MONGO_URI"]
 	variables["userCollection"] = envFile["USER_COLLECTION"]
 	variables["roleCollection"] = envFile["ROLE_COLLECTION"]
+	variables["ancestryCollection"] = envFile["ANCESTRY_COLLECTION"]
+	variables["ancestryUserCollection"] = envFile["ANCESTRY_USER_COLLECTION"]
 	variables["defaultRole"] = envFile["DEFAULT_ROLE"]
 	variables["privilegedRole"] = envFile["PRIVILEGED_ROLE"]
 	variables["jwt"] = envFile["JWT"]

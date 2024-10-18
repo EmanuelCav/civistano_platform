@@ -13,3 +13,11 @@ func ConnectionUser() *mongo.Collection {
 func ConnectionRole() *mongo.Collection {
 	return utils.GetCollection(config.Config()["roleCollection"])
 }
+
+func ConnectionAncestry() *mongo.Collection {
+	return utils.GetCollection(config.Config()["ancestryCollection"])
+}
+
+func ConnectionUserAncestry() *mongo.Collection {
+	return utils.GetCollection(config.Config()["ancestryUserCollection"])
+}

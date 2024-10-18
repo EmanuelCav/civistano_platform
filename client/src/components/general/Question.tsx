@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import ContainerFixed from './ContainerFixed'
@@ -9,22 +9,25 @@ import ButtonsSurvey from "./components/question/ButtonsSurvey";
 import { selector } from "@/server/reducer/selector";
 import { updateQuestion } from "@/server/reducer/survey.reducer";
 import { updateAncestry } from "@/server/reducer/user.reducer";
+import { getAncestors } from "@/server/actions/ancestry.action";
+import { AppDispatch } from "@/server/store";
 
-import { IReducer } from "@/interface/General";
+import { IAncestry, IReducer } from "@/interface/General";
 import { QuestionPropsType } from "@/types/header.types";
 
 import { questions } from '../../utils/questions'
-import { ancestry } from "@/utils/selects";
 
 const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQuestion }: QuestionPropsType) => {
 
     const survey = useSelector((state: IReducer) => selector(state).survey)
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const [isSelect, setIsSelect] = useState<boolean>(true)
     const [isYes, setIsYes] = useState<boolean>(false)
     const [isDisabled, setIsDisabled] = useState<boolean>(true)
+
+    const [ancestors, setAncestors] = useState<IAncestry[]>([])
 
     const [personAncestry, setPersonAncestry] = useState<string>('')
 
@@ -33,7 +36,6 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
     const handleSelectAncestry = (e: ChangeEvent<HTMLSelectElement>) => {
         const { value } = e.target
         setPersonAncestry(value)
-        dispatch(updateAncestry(ancestry.find(a => a.ancestry === personAncestry)!))
     }
 
     const handleSelect = (value: boolean, id: number | undefined) => {
@@ -70,14 +72,20 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
         e.preventDefault()
         setIsSelect(false)
 
-        if (ancestry.find((a) => a.ancestry === personAncestry)?.isFemale) {
+        if (ancestors.find((a) => a.ancestry === personAncestry)?.isFemale) {
             setQuestionId(1)
             dispatch(updateQuestion(questions.find((question => question.id === 1))))
         } else {
             setQuestionId(2)
             dispatch(updateQuestion(questions.find((question => question.id === 2))))
         }
+
+        dispatch(updateAncestry(ancestors.find((a) => a.ancestry === personAncestry)!))
     }
+    
+    useEffect(() => {
+        dispatch(getAncestors(setAncestors as any))
+    }, [])
 
     return (
         <ContainerFixed>
@@ -89,7 +97,7 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
                             className="bg-gray-50 my-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-orange-500 block w-full p-2.5">
                             <option disabled value="">Ascendiente italiano</option>
                             {
-                                ancestry.map((value, index) => {
+                                ancestors.map((value, index) => {
                                     return <option value={value.ancestry} key={index}>{value.ancestry}</option>
                                 })
                             }

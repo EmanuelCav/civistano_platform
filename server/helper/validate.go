@@ -12,24 +12,14 @@ func ValidateEmail(email string) bool {
 	return err == nil
 }
 
-func ValidateStringAndNumber(text string) bool {
-	isStringNumber := regexp.MustCompile(`^[a-zA-Z0-9ñÑ ]+$`).MatchString
-	return isStringNumber(text)
+func ValidateUppercaseString(text string) bool {
+	isString := regexp.MustCompile(`^[A-ZÑ]+$`).MatchString
+	return isString(text)
 }
 
 func ValidateString(text string) bool {
 	isString := regexp.MustCompile(`^[a-zA-ZñÑ ]+$`).MatchString
 	return isString(text)
-}
-
-func ValidateNumber(text string) bool {
-	isNumber := regexp.MustCompile(`^[0-9]+$`).MatchString
-	return isNumber(text)
-}
-
-func ValidateSomeCharacters(text string) bool {
-	isSomeCharacters := regexp.MustCompile("^[^<>]+$").MatchString
-	return isSomeCharacters(text)
 }
 
 func Validate() *validator.Validate {

@@ -26,6 +26,7 @@ func main() {
 
 	routes.UserRoute(app)
 	routes.RoleRoute(app)
+	routes.AncestryRoute(app)
 
 	err2 := app.Listen(":" + config.Config()["port"])
 

@@ -30,7 +30,7 @@ func GenerateToken(id primitive.ObjectID) string {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":        id,
-		"ExpiresAt": time.Now().Add(time.Hour * 24).Unix(),
+		"ExpiresAt": time.Now().AddDate(0, 6, 0).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte(config.Config()["jwt"]))

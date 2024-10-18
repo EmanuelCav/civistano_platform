@@ -53,9 +53,20 @@ func CreateUser(c *fiber.Ctx) error {
 
 	var user models.CreateUserModel
 	var roleUser models.RoleModel
+	var ancestry models.AncestryModel
 
 	ctx, cancel := context.Context()
 	defer cancel()
+
+	id := c.Params("id")
+
+	ancestryId, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
@@ -75,39 +86,53 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	var err error
-
-	if user.Role == "" {
-		err = connections.ConnectionRole().FindOne(ctx, bson.M{"role": config.Config()["defaultRole"]}).Decode(&roleUser)
-	} else {
-		err = connections.ConnectionRole().FindOne(ctx, bson.M{"role": user.Role}).Decode(&roleUser)
-	}
-
-	if err != nil {
+	if err := connections.ConnectionRole().FindOne(ctx, bson.M{"role": config.Config()["defaultRole"]}).Decode(&roleUser); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	user.Password = helper.HashPassword(user.Password)
+	if err := connections.ConnectionAncestry().FindOne(ctx, bson.M{"_id": ancestryId}).Decode(&ancestry); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
-	newUser := models.UserModel{
+	newAncestryUser := models.AncestryUserModel{
 		Id:        primitive.NewObjectID(),
-		Firstname: user.Firstname,
-		Lastname:  user.Lastname,
-		Password:  user.Password,
-		Email:     user.Email,
-		Role:      roleUser.Id,
-		Status:    false,
+		Ancestry:  ancestry.Id,
+		Firstname: "",
+		Lastname:  "",
 		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
 		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
 	}
 
-	_, err2 := connections.ConnectionUser().InsertOne(ctx, newUser)
+	_, err2 := connections.ConnectionUserAncestry().InsertOne(ctx, newAncestryUser)
 
 	if err2 != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err2.Error(),
+		})
+	}
+
+	newUser := models.UserModel{
+		Id:        primitive.NewObjectID(),
+		Firstname: "",
+		Lastname:  "",
+		Email:     user.Email,
+		Role:      roleUser.Id,
+		Status:    false,
+		IsMarried: false,
+		Ancestry:  newAncestryUser.Id,
+		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	}
+
+	_, err3 := connections.ConnectionUser().InsertOne(ctx, newUser)
+
+	if err3 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err3.Error(),
 		})
 	}
 
@@ -116,80 +141,6 @@ func CreateUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"user":  newUser,
 		"token": token,
-	})
-
-}
-
-func Login(c *fiber.Ctx) error {
-
-	var user models.LoginModel
-	var userLoggedIn models.UserModel
-
-	ctx, cancel := context.Context()
-	defer cancel()
-
-	err := c.BodyParser(&user)
-
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	if err := helper.Validate().Struct(&user); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"message": "There are empty. Please complete",
-		})
-	}
-
-	if err := validation.LoginValid(user); err != "" {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"message": err,
-		})
-	}
-
-	connections.ConnectionUser().FindOne(ctx, bson.M{"email": user.Email}, helper.UserFilter()).Decode(&userLoggedIn)
-
-	token := helper.GenerateToken(userLoggedIn.Id)
-
-	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
-		"user":  userLoggedIn,
-		"token": token,
-	})
-
-}
-
-func RemoveUser(c *fiber.Ctx) error {
-
-	var user models.UserModel
-
-	ctx, cancel := context.Context()
-	defer cancel()
-
-	id := c.Params("id")
-
-	userId, err := primitive.ObjectIDFromHex(id)
-
-	if err != nil {
-		return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
-		return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
-			"message": "User does not exists",
-		})
-	}
-
-	if err := connections.ConnectionUser().FindOneAndDelete(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
-		"message": "User removed successfully",
 	})
 
 }

@@ -1,13 +1,31 @@
-import { IAncestry } from "./General";
+import { IAncestry, IChecklist } from "./General";
 
 export interface IReducerUser {
-    user: IUser;
+    user: IUserInfo;
     isLoggedIn: boolean;
 }
 
-export interface IUser {
-    id?: number;
-    status?: boolean;
-    ancestry?: IAncestry;
+export interface IUserInfo {
+    token?: string;
+    user?: IUser;
+    ancestry?: IAncestry
 }
+
+export interface IUser {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    status: boolean;
+    ancestry: IAncestry;
+    checklist: IChecklist[];
+    areParents: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IEmail {
+    email: string;
+}
+
 
