@@ -65,7 +65,7 @@ export default function Home() {
         isNotPossible && <Return text="No es posible" func={handleContinue} />
       }
       {
-        isEmail && <Register dispatch={dispatch} router={router} />
+        isEmail && <Register dispatch={dispatch} router={router} setIsEmail={setIsEmail} />
       }
       <Main handleSurveyData={handleSurveyData} />
       <Main handleSurveyData={handleSurveyData} />

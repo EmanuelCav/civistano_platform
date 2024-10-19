@@ -13,6 +13,8 @@ export const getEmail = createAsyncThunk("users/getUser", async (emailData: GetE
 
         dispatch(userReducer.authUser(data))
 
+        emailData.setIsEmail(false)
+
         emailData.router.push('/panel')
 
     } catch (error) {

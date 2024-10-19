@@ -16,4 +16,5 @@ export type ReturnPropsType = {
 export type RegisterPropsType = {
     dispatch: Dispatch<any>;
     router: AppRouterInstance;
+    setIsEmail: (isEmail: boolean) => void;
 }

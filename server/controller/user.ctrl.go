@@ -51,6 +51,7 @@ func Users(c *fiber.Ctx) error {
 
 func CreateUser(c *fiber.Ctx) error {
 
+	var userCreated models.UserModel
 	var user models.CreateUserModel
 	var roleUser models.RoleModel
 	var ancestry models.AncestryModel
@@ -136,10 +137,33 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
+	checklist := helper.ChecklistAncestry(newUser.Id, ancestry.AreParents)
+
+	update := bson.M{
+		"$set": bson.M{
+			"checklist":  checklist,
+			"updated_at": primitive.NewDateTimeFromTime(time.Now()),
+		},
+	}
+
+	_, err5 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, update)
+
+	if err5 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err5.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": newUser.Id}).Decode(&userCreated); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
 	token := helper.GenerateToken(newUser.Id)
 
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
-		"user":  newUser,
+		"user":  userCreated,
 		"token": token,
 	})
 

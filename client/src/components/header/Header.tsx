@@ -67,7 +67,7 @@ const Header = () => {
                 isNotPossible && <Return text="No es posible" func={handleContinue} />
             }
             {
-                isEmail && <Register dispatch={dispatch} router={router} />
+                isEmail && <Register dispatch={dispatch} router={router} setIsEmail={setIsEmail} />
             }
             <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
                 <Icon />

@@ -15,7 +15,7 @@ import { RegisterPropsType } from '@/types/home.types';
 
 import { emailSchema } from '@/schema/user.schema';
 
-const Register = ({ dispatch, router }: RegisterPropsType) => {
+const Register = ({ dispatch, router, setIsEmail }: RegisterPropsType) => {
 
     const user = useSelector((state: IReducer) => selector(state).user)
 
@@ -27,7 +27,8 @@ const Register = ({ dispatch, router }: RegisterPropsType) => {
         dispatch(getEmail({
             data,
             id: user.user.ancestry?._id!,
-            router
+            router,
+            setIsEmail
         }))
     }
 

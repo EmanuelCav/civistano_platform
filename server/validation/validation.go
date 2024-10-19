@@ -76,3 +76,49 @@ func AncestryValid(ancestry models.CreateAncestryModel) string {
 	return ""
 
 }
+
+func ProvinceValid(province models.CreateProvinceModel) string {
+
+	var provinceValid models.ProvinceModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	err := connections.ConnectionProvince().FindOne(ctx, bson.M{"province": province.Province}).Decode(&provinceValid)
+
+	if err == nil {
+		if provinceValid.Province == province.Province {
+			return "Province already exists"
+		}
+	}
+
+	if !helper.ValidateString(province.Province) {
+		return "Province only accepts letters"
+	}
+
+	return ""
+
+}
+
+func LinkValid(link models.CreateLinkModel) string {
+
+	var linkValid models.LinkModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	err := connections.ConnectionLink().FindOne(ctx, bson.M{"link": link.Link}).Decode(&linkValid)
+
+	if err == nil {
+		if linkValid.Link == link.Link {
+			return "Link already exists"
+		}
+	}
+
+	if !helper.ValidateString(link.Link) {
+		return "Link only accepts letters"
+	}
+
+	return ""
+
+}

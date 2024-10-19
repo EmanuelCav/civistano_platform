@@ -21,3 +21,15 @@ func ConnectionAncestry() *mongo.Collection {
 func ConnectionUserAncestry() *mongo.Collection {
 	return utils.GetCollection(config.Config()["ancestryUserCollection"])
 }
+
+func ConnectionProvince() *mongo.Collection {
+	return utils.GetCollection(config.Config()["provinceCollection"])
+}
+
+func ConnectionLink() *mongo.Collection {
+	return utils.GetCollection(config.Config()["linkCollection"])
+}
+
+func ConnectionChecklist() *mongo.Collection {
+	return utils.GetCollection(config.Config()["checklistCollection"])
+}

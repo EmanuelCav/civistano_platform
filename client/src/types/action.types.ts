@@ -5,4 +5,5 @@ export type GetEmailActionPropsType = {
     data: IEmail;
     id: string;
     router: AppRouterInstance;
+    setIsEmail: (isEmail: boolean) => void;
 }
