@@ -13,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func Users(c *fiber.Ctx) error {
@@ -65,7 +66,37 @@ func User(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+	pipeline := mongo.Pipeline{
+		{
+			{"$match", bson.D{{"_id", userId}}},
+		},
+		{
+			{"$lookup", bson.D{
+				{"from", config.Config()["ancestryUserCollection"]},
+				{"localField", "ancestry"},
+				{"foreignField", "_id"},
+				{"as", "ancestry"},
+			}},
+		},
+	}
+
+	cursor, err := connections.ConnectionUser().Aggregate(ctx, pipeline)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "User not found",
+		})
+	}
+
+	defer cursor.Close(ctx)
+
+	if cursor.Next(ctx) {
+		if err := cursor.Decode(&user); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+	} else {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": "User not found",
 		})
@@ -130,11 +161,38 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
+	newAncestryYou := models.AncestryUserModel{
+		Id:        primitive.NewObjectID(),
+		Ancestry:  ancestry.Id,
+		Checklist: []primitive.ObjectID{},
+		Firstname: "",
+		Lastname:  "",
+		Weddings:  0,
+		Divorces:  0,
+		Children:  0,
+		Death:     false,
+		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	}
+
+	_, err1 := connections.ConnectionUserAncestry().InsertOne(ctx, newAncestryYou)
+
+	if err1 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err1.Error(),
+		})
+	}
+
 	newAncestryUser := models.AncestryUserModel{
 		Id:        primitive.NewObjectID(),
 		Ancestry:  ancestry.Id,
+		Checklist: []primitive.ObjectID{},
 		Firstname: "",
 		Lastname:  "",
+		Weddings:  0,
+		Divorces:  0,
+		Children:  0,
+		Death:     false,
 		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
 		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
 	}
@@ -153,8 +211,7 @@ func CreateUser(c *fiber.Ctx) error {
 		Lastname:  "",
 		Email:     user.Email,
 		Role:      roleUser.Id,
-		Checklist: []primitive.ObjectID{},
-		Ancestry:  []primitive.ObjectID{},
+		Ancestry:  []models.AncestryUserModel{},
 		Status:    false,
 		IsMarried: false,
 		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
@@ -169,22 +226,28 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
+	updateYou := bson.M{
+		"$push": bson.M{
+			"ancestry": newAncestryYou.Id,
+		},
+	}
+
 	updateAncestry := bson.M{
 		"$push": bson.M{
 			"ancestry": newAncestryUser.Id,
 		},
 	}
 
-	checklist := helper.ChecklistAncestry(newUser.Id, ancestry.AreParents)
+	// checklist := helper.ChecklistAncestry(newUser.Id, ancestry.AreParents)
 
-	updateChecklist := bson.M{
-		"$set": bson.M{
-			"checklist":  checklist,
-			"updated_at": primitive.NewDateTimeFromTime(time.Now()),
-		},
-	}
+	// updateChecklist := bson.M{
+	// 	"$set": bson.M{
+	// 		"checklist":  checklist,
+	// 		"updated_at": primitive.NewDateTimeFromTime(time.Now()),
+	// 	},
+	// }
 
-	_, err5 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, updateAncestry)
+	_, err5 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, updateYou)
 
 	if err5 != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
@@ -192,7 +255,7 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	_, err6 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, updateChecklist)
+	_, err6 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, updateAncestry)
 
 	if err6 != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{

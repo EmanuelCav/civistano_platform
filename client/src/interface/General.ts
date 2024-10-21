@@ -12,12 +12,21 @@ export interface ITab {
     url: string;
 }
 
+export interface IProvince {
+    _id: string;
+    province: string;
+    country: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface IAncestry {
     _id: string;
     ancestry: string,
     hierarchy: number;
     isFemale: boolean;
     areParents: boolean;
+    isHidden: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -28,6 +37,15 @@ export interface IChecklist {
     areParents: boolean;
     link: string;
     isChecked: boolean;
+}
+
+export interface ILink {
+    _id: string;
+    Link: string;
+    province: IProvince;
+    checklist: IChecklist;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IResponse {

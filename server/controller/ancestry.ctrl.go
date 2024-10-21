@@ -79,6 +79,7 @@ func CreateAncestry(c *fiber.Ctx) error {
 		Hierarchy:  ancestry.Hierarchy,
 		IsFemale:   ancestry.IsFemale,
 		AreParents: ancestry.AreParents,
+		IsHidden:   ancestry.IsHidden,
 		CreatedAt:  primitive.NewDateTimeFromTime(time.Now()),
 		UpdatedAt:  primitive.NewDateTimeFromTime(time.Now()),
 	}

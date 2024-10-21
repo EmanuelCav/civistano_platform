@@ -27,9 +27,6 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
 
     try {
 
-        console.log(userData.token);
-        
-
         const data = await userApi.getUserApi(userData.id, userData.token)
 
         dispatch(userReducer.authUser(data))

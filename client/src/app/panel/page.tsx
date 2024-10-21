@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/navigation'
 
-import Step from "@/components/panel/step";
+import Step from "@/components/panel/Step";
+import CompleteWarming from "@/components/panel/CompleteWarming";
 
 import { getUser } from "@/server/actions/user.action";
 import { selector } from "@/server/reducer/selector";
@@ -29,7 +30,8 @@ const Panel = () => {
     }, [])
 
     return (
-        <div className="max-w-7xl mx-auto mt-32">
+        <div className="max-w-7xl mx-auto mt-32 p-2">
+            <CompleteWarming />
             <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-xl">
                 <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Roadmap</h1>
                 <div className="space-y-8">

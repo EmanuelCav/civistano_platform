@@ -5,8 +5,10 @@ import { thunk } from 'redux-thunk'
 
 import reducers from './reducer/reducers'
 
+import { key_storage } from '@/config/config'
+
 const persistedReducer = persistReducer({
-    key: `civistano_data`,
+    key: `${key_storage}`,
     version: 1,
     storage
 }, reducers)

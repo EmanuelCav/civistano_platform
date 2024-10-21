@@ -17,9 +17,32 @@ export interface IUser {
     lastname: string;
     email: string;
     status: boolean;
-    ancestry: IAncestry;
+    ancestry: IAncestryUser[];
     checklist: IChecklist[];
     areParents: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IAncestryUser {
+    _id: string;
+    Ancestry: IAncestry;
+    Checklist: IChecklistUser[];
+    Firstname: string;
+    Lastname: string;
+    Weddings: number;
+    Divorces: number;
+    Children: number;
+    Death: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IChecklistUser {
+    _id: string;
+    user: IUser;
+    isChecked: boolean;
+    checkList: IChecklist;
     createdAt: string;
     updatedAt: string;
 }

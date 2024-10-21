@@ -53,13 +53,13 @@ const Header = () => {
         setIsEmail(true)
     }
 
-    useEffect(() => {
-        if(!user.isLoggedIn) {
-            router.push('/')
-        } else {
-            router.push('/panel')
-        }
-    }, [user.isLoggedIn])
+    // useEffect(() => {
+    //     if(!user.isLoggedIn) {
+    //         router.push('/')
+    //     } else {
+    //         router.push('/panel')
+    //     }
+    // }, [user.isLoggedIn])
 
     return (
         <div className="bg-white border-gray-200 z-20 px-4 border-b border-solid fixed top-0 w-full">
