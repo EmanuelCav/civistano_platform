@@ -12,7 +12,7 @@ export interface IUserInfo {
 }
 
 export interface IUser {
-    id: number;
+    _id: string;
     firstname: string;
     lastname: string;
     email: string;

@@ -7,6 +7,7 @@ import (
 	"github.com/EmanuelCav/civistano_platform/connections"
 	"github.com/EmanuelCav/civistano_platform/context"
 	"github.com/EmanuelCav/civistano_platform/helper"
+	"github.com/EmanuelCav/civistano_platform/middleware"
 	"github.com/EmanuelCav/civistano_platform/models"
 	"github.com/EmanuelCav/civistano_platform/validation"
 	"github.com/gofiber/fiber/v2"
@@ -45,6 +46,36 @@ func Users(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"users": users,
+	})
+
+}
+
+func User(c *fiber.Ctx) error {
+
+	var user models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	userId, err := middleware.UserId(c)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "User not found",
+		})
+	}
+
+	token := helper.GenerateToken(userId)
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"user":  user,
+		"token": token,
 	})
 
 }
@@ -122,9 +153,10 @@ func CreateUser(c *fiber.Ctx) error {
 		Lastname:  "",
 		Email:     user.Email,
 		Role:      roleUser.Id,
+		Checklist: []primitive.ObjectID{},
+		Ancestry:  []primitive.ObjectID{},
 		Status:    false,
 		IsMarried: false,
-		Ancestry:  newAncestryUser.Id,
 		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
 		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
 	}
@@ -137,20 +169,34 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
+	updateAncestry := bson.M{
+		"$push": bson.M{
+			"ancestry": newAncestryUser.Id,
+		},
+	}
+
 	checklist := helper.ChecklistAncestry(newUser.Id, ancestry.AreParents)
 
-	update := bson.M{
+	updateChecklist := bson.M{
 		"$set": bson.M{
 			"checklist":  checklist,
 			"updated_at": primitive.NewDateTimeFromTime(time.Now()),
 		},
 	}
 
-	_, err5 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, update)
+	_, err5 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, updateAncestry)
 
 	if err5 != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err5.Error(),
+		})
+	}
+
+	_, err6 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": newUser.Id}, updateChecklist)
+
+	if err6 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err6.Error(),
 		})
 	}
 
@@ -164,6 +210,47 @@ func CreateUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"user":  userCreated,
+		"token": token,
+	})
+
+}
+
+func LoginUser(c *fiber.Ctx) error {
+
+	var user models.CreateUserModel
+	var userLoggedIn models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := helper.Validate().Struct(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Por favor, escribe un correo electrónico",
+		})
+	}
+
+	if err := validation.LoginValid(user); err != "" {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err,
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"email": user.Email}).Decode(&userLoggedIn); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Dirección de correo electrónico no encontrado",
+		})
+	}
+
+	token := helper.GenerateToken(userLoggedIn.Id)
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"user":  userLoggedIn,
 		"token": token,
 	})
 

@@ -1,4 +1,3 @@
-import { Dispatch } from 'react';
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -41,7 +40,7 @@ const Register = ({ dispatch, router, setIsEmail }: RegisterPropsType) => {
                         errors.email && <p className="text-red-500 text-xs italic my-2">{errors.email!.message}</p>
                     }
                     <div className="relative">
-                        <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <div className="absolute inset-y-0 start-0 z-10 flex items-center ps-3.5 pointer-events-none">
                             <MdOutlineAlternateEmail size={20} color='#000000' />
                         </div>
                         <input type="text" {...register("email", { required: true })} id="email" className={

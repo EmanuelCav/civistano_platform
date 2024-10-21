@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { getEmail } from '../actions/user.action';
+import * as userAction from '../actions/user.action';
 import { getAncestors } from '../actions/ancestry.action';
 
 import { IResponse } from '../../interface/General';
@@ -18,13 +18,13 @@ const counterResponseSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder.addCase(getEmail.pending, (state) => {
+        builder.addCase(userAction.getEmail.pending, (state) => {
             state.loading = true
         })
-        builder.addCase(getEmail.fulfilled, (state) => {
+        builder.addCase(userAction.getEmail.fulfilled, (state) => {
             state.loading = false
         })
-        builder.addCase(getEmail.rejected, (state) => {
+        builder.addCase(userAction.getEmail.rejected, (state) => {
             state.loading = false
         })
 
@@ -35,6 +35,16 @@ const counterResponseSlice = createSlice({
             state.loading = false
         })
         builder.addCase(getAncestors.rejected, (state) => {
+            state.loading = false
+        })
+
+        builder.addCase(userAction.getUser.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(userAction.getUser.fulfilled, (state) => {
+            state.loading = false
+        })
+        builder.addCase(userAction.getUser.rejected, (state) => {
             state.loading = false
         })
     }

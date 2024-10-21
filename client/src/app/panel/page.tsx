@@ -1,6 +1,33 @@
+'use client'
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/navigation'
+
 import Step from "@/components/panel/step";
 
+import { getUser } from "@/server/actions/user.action";
+import { selector } from "@/server/reducer/selector";
+
+import { IReducer } from "@/interface/General";
+
 const Panel = () => {
+
+    const user = useSelector((state: IReducer) => selector(state).user)
+
+    const dispatch = useDispatch()
+    const router = useRouter()
+
+    useEffect(() => {
+        if(user.user.token) {
+            dispatch(getUser({
+                id: user.user.user?._id!,
+                router,
+                token: user.user.token
+            }) as any)
+        }
+    }, [])
+
     return (
         <div className="max-w-7xl mx-auto mt-32">
             <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-xl">

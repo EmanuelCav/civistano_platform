@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useRouter, usePathname } from 'next/navigation'
 
 import Icon from "./components/Icon"
 import Navigation from "./components/Navigation"
@@ -12,10 +12,17 @@ import Question from "../general/Question"
 import Return from "../general/Return"
 import Register from "../general/Register"
 
+import { IReducer } from "@/interface/General"
+
+import { selector } from "@/server/reducer/selector"
+
 const Header = () => {
+
+    const user = useSelector((state: IReducer) => selector(state).user)
 
     const dispatch = useDispatch()
     const router = useRouter()
+    const pathname = usePathname()
 
     const [isSurveyData, setIsSurveyData] = useState<boolean>(false)
     const [isQuestion, setIsQuestion] = useState<boolean>(false)
@@ -46,8 +53,16 @@ const Header = () => {
         setIsEmail(true)
     }
 
+    useEffect(() => {
+        if(!user.isLoggedIn) {
+            router.push('/')
+        } else {
+            router.push('/panel')
+        }
+    }, [user.isLoggedIn])
+
     return (
-        <div className="bg-white border-gray-200 px-4 border-b border-solid fixed top-0 w-full">
+        <div className="bg-white border-gray-200 z-20 px-4 border-b border-solid fixed top-0 w-full">
             {
                 isSurveyData && <SurveyData handleClose={handleClose} handleShowQuestion={handleShowQuestion} />
             }
@@ -63,7 +78,7 @@ const Header = () => {
             {
                 isJudicial && <Return text="Es judicial" func={handleContinue} />
             }
-            {
+            { 
                 isNotPossible && <Return text="No es posible" func={handleContinue} />
             }
             {
@@ -72,7 +87,7 @@ const Header = () => {
             <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
                 <Icon />
                 <Navigation />
-                <StartHeader handleSurveyData={handleSurveyData} />
+                <StartHeader handleSurveyData={handleSurveyData} user={user} pathname={pathname} />
             </div>
         </div>
     )

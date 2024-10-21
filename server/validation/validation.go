@@ -54,6 +54,27 @@ func RegisterValid(user models.CreateUserModel) string {
 
 }
 
+func LoginValid(user models.CreateUserModel) string {
+
+	var userValid models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	err := connections.ConnectionUser().FindOne(ctx, bson.M{"email": user.Email}).Decode(&userValid)
+
+	if err != nil {
+		return "Dirrección de correo electrónico no encontrado"
+	}
+
+	if !helper.ValidateEmail(user.Email) {
+		return "Correo electrónico no valido"
+	}
+
+	return ""
+
+}
+
 func AncestryValid(ancestry models.CreateAncestryModel) string {
 
 	var ancestryValid models.AncestryModel

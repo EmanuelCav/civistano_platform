@@ -1,4 +1,5 @@
 import { IQuestion } from "@/interface/Survey";
+import { IReducerUser } from "@/interface/User";
 
 export type NavItemPropsType = {
     text: string;
@@ -22,4 +23,10 @@ export type QuestionPropsType = {
     setIsJudicial: (isJudicial: boolean) => void;
     setIsNotPossible: (isPossible: boolean) => void;
     setIsQuestion: (setIsQuestion: boolean) => void;
+}
+
+export type StartHeaderPropsType = {
+    handleSurveyData: () => void;
+    user: IReducerUser;
+    pathname: string;
 }

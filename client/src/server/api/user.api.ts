@@ -21,3 +21,20 @@ export const getEmailApi = async (emailData: IEmail, id: string): Promise<IUserI
 
     return data
 }
+
+export const getUserApi = async (id: string, token: string): Promise<IUserInfo> => {
+
+    const response = await fetch(api + "/users/" + id, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data)
+    }    
+
+    return data
+}

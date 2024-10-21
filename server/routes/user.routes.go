@@ -9,7 +9,8 @@ import (
 func UserRoute(app *fiber.App) {
 
 	app.Get("/users", controller.Users)
+	app.Get("/users/:id", middleware.Auth(), controller.User)
 	app.Post("/users/ancestors/:id", controller.CreateUser)
-	app.Delete("/users/:id", middleware.Auth(), middleware.Admin(), controller.CreateUser)
+	app.Post("/users", controller.LoginUser)
 
 }
