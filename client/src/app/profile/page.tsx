@@ -19,7 +19,7 @@ const Profile = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if(user.user.token) {
+        if (user.user.token) {
             dispatch(getUser({
                 id: user.user.user?._id!,
                 router,
@@ -30,11 +30,14 @@ const Profile = () => {
 
     return (
         <div className="max-w-7xl mx-auto mt-32">
-            {
-                user.user.user?.ancestry.map((ancestor, index) => {
-                    return <ProfileAncestry key={index} />
-                })
-            }
+            <div className="flex flex-col items-center space-y-6">
+                <h1 className="text-2xl font-bold mb-6">Árbol Genealógico</h1>
+                {
+                    user.user.user?.ancestry.map((ancestor, index) => {
+                        return <ProfileAncestry key={index} />
+                    })
+                }
+            </div>
         </div>
     )
 }

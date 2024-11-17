@@ -1,3 +1,4 @@
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import * as ActionPropsTypes from "@/types/action.types";
@@ -32,7 +33,24 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
         dispatch(userReducer.authUser(data))
 
     } catch (error) {
-        userData.router.push('/')
+        // dispatch(userReducer.logoutUser())
+        // userData.router.push('/')
+        console.log(error);
+        
+    }
+
+})
+
+export const logout = createAsyncThunk("users/logout", async (router: AppRouterInstance, { dispatch }) => {
+
+    try {
+
+        dispatch(userReducer.logoutUser())
+
+        router.push('/')
+
+    } catch (error) {
+        console.log(error);
     }
 
 })

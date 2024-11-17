@@ -28,6 +28,7 @@ func Config() map[string]string {
 	variables["checklistCollection"] = envFile["CHECKLIST_COLLECTION"]
 	variables["defaultRole"] = envFile["DEFAULT_ROLE"]
 	variables["privilegedRole"] = envFile["PRIVILEGED_ROLE"]
+	variables["ancestryYou"] = envFile["ANCESTRY_YOU"]
 	variables["jwt"] = envFile["JWT"]
 
 	return variables

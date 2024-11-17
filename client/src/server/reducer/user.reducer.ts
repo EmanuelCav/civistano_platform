@@ -19,10 +19,14 @@ const userSlice = createSlice({
         authUser: (state, action: PayloadAction<IUserInfo>) => {
             state.isLoggedIn = true,
             state.user = action.payload
+        },
+        logoutUser: (state) => {
+            state.isLoggedIn = false,
+            state.user = {}
         }
     }
 })
 
-export const { updateAncestry, authUser } = userSlice.actions
+export const { updateAncestry, authUser, logoutUser } = userSlice.actions
 
 export default userSlice.reducer

@@ -6,7 +6,7 @@ type AncestryUserModel struct {
 	Id        primitive.ObjectID   `json:"_id,omitempty" bson:"_id,omitempty"`
 	Firstname string               `json:"firstname,omitempty" bson:"firstname,omitempty"`
 	Lastname  string               `json:"lastname,omitempty" bson:"lastname,omitempty"`
-	Ancestry  primitive.ObjectID   `json:"ancestry" bson:"ancestry" mson:"collection=AncestryModel"`
+	Ancestry  AncestryModel        `json:"ancestry" bson:"ancestry" mson:"collection=AncestryModel"`
 	Checklist []primitive.ObjectID `json:"checklist" bson:"checklist" mson:"collection=ChecklistUserModel"`
 	Weddings  int                  `json:"weddings,omitempty" bson:"weddings,omitempty"`
 	Divorces  int                  `json:"divorces,omitempty" bson:"divorces,omitempty"`

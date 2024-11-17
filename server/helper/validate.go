@@ -13,7 +13,7 @@ func ValidateEmail(email string) bool {
 }
 
 func ValidateUppercaseString(text string) bool {
-	isString := regexp.MustCompile(`^[A-ZÑ]+$`).MatchString
+	isString := regexp.MustCompile(`^[A-ZÑ/]+$`).MatchString
 	return isString(text)
 }
 
