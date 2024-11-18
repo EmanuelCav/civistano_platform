@@ -14,3 +14,9 @@ export type GetUserActionPropsType = {
     id: string;
     token: string;
 }
+
+export type CreateAncestryUserPropsType = {
+    id: string;
+    token: string;
+    setIsCompleteAncestry: (isCompleteAncestry: boolean) => void;
+}

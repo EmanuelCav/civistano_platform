@@ -190,8 +190,8 @@ func CreateUser(c *fiber.Ctx) error {
 		Email:     user.Email,
 		Role:      roleUser.Id,
 		Ancestry: []models.AncestryUserModel{
-			newAncestryYou,
 			newAncestryUser,
+			newAncestryYou,
 		},
 		Status:    false,
 		IsMarried: false,
@@ -259,6 +259,98 @@ func LoginUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"user":  userLoggedIn,
 		"token": token,
+	})
+
+}
+
+func CreateAncestryUser(c *fiber.Ctx) error {
+
+	var ancestry models.AncestryModel
+	var user models.UserModel
+	var userUpdated models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	id := c.Params("id")
+
+	ancestryId, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	userId, err := middleware.UserId(c)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionAncestry().FindOne(ctx, bson.M{"_id": ancestryId}).Decode(&ancestry); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	newAncestryUser := models.AncestryUserModel{
+		Id: primitive.NewObjectID(),
+		Ancestry: models.AncestryModel{
+			Id:         ancestry.Id,
+			Ancestry:   ancestry.Ancestry,
+			Hierarchy:  ancestry.Hierarchy,
+			IsFemale:   ancestry.IsFemale,
+			AreParents: ancestry.AreParents,
+			IsHidden:   ancestry.IsHidden,
+			CreatedAt:  ancestry.CreatedAt,
+			UpdatedAt:  ancestry.UpdatedAt,
+		},
+		Checklist: []primitive.ObjectID{},
+		Firstname: "",
+		Lastname:  "",
+		Weddings:  0,
+		Divorces:  0,
+		Children:  0,
+		Death:     false,
+		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	}
+
+	pos := len(user.Ancestry) - ancestry.Hierarchy
+
+	user.Ancestry = append(user.Ancestry[:pos], append([]models.AncestryUserModel{newAncestryUser}, user.Ancestry[pos:]...)...)
+
+	update := bson.M{
+		"$set": bson.M{
+			"ancestry": user.Ancestry,
+		},
+	}
+
+	_, err2 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": userId}, update)
+
+	if err2 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err2.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&userUpdated); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"user": userUpdated,
 	})
 
 }

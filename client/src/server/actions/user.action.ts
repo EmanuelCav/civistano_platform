@@ -54,3 +54,19 @@ export const logout = createAsyncThunk("users/logout", async (router: AppRouterI
     }
 
 })
+
+export const createAncestryUser = createAsyncThunk("users/createAncestry", async (userData: ActionPropsTypes.CreateAncestryUserPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.createAncestryUserApi(userData.id, userData.token)
+
+        dispatch(userReducer.actionUser(data))
+
+        userData.setIsCompleteAncestry(false)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})

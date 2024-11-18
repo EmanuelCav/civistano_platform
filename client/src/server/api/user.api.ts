@@ -1,6 +1,6 @@
 import { api } from "./api"
 
-import { IEmail, IUserInfo } from "@/interface/User"
+import { IEmail, IUser, IUserInfo } from "@/interface/User"
 
 export const getEmailApi = async (emailData: IEmail, id: string): Promise<IUserInfo> => {
     
@@ -37,4 +37,22 @@ export const getUserApi = async (id: string, token: string): Promise<IUserInfo> 
     }    
 
     return data
+}
+
+export const createAncestryUserApi = async (id: string, token: string): Promise<IUser> => {
+
+    const response = await fetch(api + "/users/ancestors/" + id, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data)
+    }    
+
+    return data.user
 }

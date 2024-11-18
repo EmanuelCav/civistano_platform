@@ -41,6 +41,10 @@ const Header = () => {
         setIsSurveyData(!isSurveyData)
     }
 
+    const redirectProfile = () => {
+        router.push('/profile')
+    }
+
     const handleShowQuestion = () => {
         setIsSurveyData(false)
         setIsQuestion(!isQuestion)
@@ -87,7 +91,7 @@ const Header = () => {
             <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
                 <Icon />
                 <Navigation />
-                <StartHeader handleSurveyData={handleSurveyData} user={user} pathname={pathname} />
+                <StartHeader redirectProfile={redirectProfile} handleSurveyData={handleSurveyData} user={user} pathname={pathname} />
             </div>
         </div>
     )

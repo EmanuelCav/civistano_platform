@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { IReducerUser, IUserInfo } from "@/interface/User";
+import { IReducerUser, IUser, IUserInfo } from "@/interface/User";
 import { IAncestry } from "@/interface/General";
 
 const initialState: IReducerUser = {
@@ -20,6 +20,9 @@ const userSlice = createSlice({
             state.isLoggedIn = true,
             state.user = action.payload
         },
+        actionUser: (state, action: PayloadAction<IUser>) => {
+            state.user.user = action.payload
+        },
         logoutUser: (state) => {
             state.isLoggedIn = false,
             state.user = {}
@@ -27,6 +30,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { updateAncestry, authUser, logoutUser } = userSlice.actions
+export const { updateAncestry, authUser, logoutUser, actionUser } = userSlice.actions
 
 export default userSlice.reducer

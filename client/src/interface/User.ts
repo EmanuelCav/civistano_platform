@@ -26,14 +26,14 @@ export interface IUser {
 
 export interface IAncestryUser {
     _id: string;
-    Ancestry: IAncestry;
-    Checklist: IChecklistUser[];
-    Firstname: string;
-    Lastname: string;
-    Weddings: number;
-    Divorces: number;
-    Children: number;
-    Death: boolean;
+    ancestry: IAncestry;
+    checklist: IChecklistUser[];
+    firstname: string;
+    lastname: string;
+    weddings: number;
+    divorces: number;
+    children: number;
+    death: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -49,6 +49,16 @@ export interface IChecklistUser {
 
 export interface IEmail {
     email: string;
+}
+
+export interface IUpdateAncestry {
+    weddings?: number;
+    divorces?: number;
+    children?: number;
+    death?: boolean;
+    isWeddings?: boolean;
+    isDivorces?: boolean;
+    isChildren?: boolean;
 }
 
 
