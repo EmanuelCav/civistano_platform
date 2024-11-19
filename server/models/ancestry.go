@@ -27,6 +27,13 @@ type AncestryModel struct {
 	UpdatedAt  primitive.DateTime `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
 
+type UpdateAncestryUserModel struct {
+	Weddings int  `json:"weddings,omitempty" bson:"weddings,omitempty"`
+	Divorces int  `json:"divorces,omitempty" bson:"divorces,omitempty"`
+	Children int  `json:"children,omitempty" bson:"children,omitempty"`
+	Death    bool `json:"death,omitempty" bson:"death,omitempty"`
+}
+
 type CreateAncestryModel struct {
 	Ancestry   string `json:"ancestry" bson:"ancestry" validate:"required" mson:"cunique"`
 	Hierarchy  int    `json:"hierarchy" bson:"hierarchy"`

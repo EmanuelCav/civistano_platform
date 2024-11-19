@@ -354,3 +354,98 @@ func CreateAncestryUser(c *fiber.Ctx) error {
 	})
 
 }
+
+func UpdateAncestryUser(c *fiber.Ctx) error {
+
+	var ancestry models.AncestryModel
+	var user models.UserModel
+	var userUpdated models.UserModel
+	var ancestryUpdate models.UpdateAncestryUserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	id := c.Params("id")
+
+	ancestryId, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	userId, err := middleware.UserId(c)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := c.BodyParser(&ancestryUpdate); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionAncestry().FindOne(ctx, bson.M{"_id": ancestryId}).Decode(&ancestry); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	var ancestryUserIndex int
+
+	for i, ancestor := range user.Ancestry {
+		if ancestor.Ancestry.Id == ancestry.Id {
+			ancestryUserIndex = i
+			break
+		}
+	}
+
+	user.Ancestry[ancestryUserIndex] = models.AncestryUserModel{
+		Id:        user.Ancestry[ancestryUserIndex].Id,
+		Firstname: user.Ancestry[ancestryUserIndex].Firstname,
+		Lastname:  user.Ancestry[ancestryUserIndex].Lastname,
+		Ancestry:  user.Ancestry[ancestryUserIndex].Ancestry,
+		Checklist: user.Ancestry[ancestryUserIndex].Checklist,
+		Weddings:  ancestryUpdate.Weddings,
+		Children:  ancestryUpdate.Children,
+		Divorces:  ancestryUpdate.Divorces,
+		Death:     ancestryUpdate.Death,
+		CreatedAt: user.Ancestry[ancestryUserIndex].CreatedAt,
+		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"ancestry": user.Ancestry,
+		},
+	}
+
+	_, err2 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": userId}, update)
+
+	if err2 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err2.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&userUpdated); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"user": userUpdated,
+	})
+
+}

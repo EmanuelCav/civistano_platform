@@ -52,13 +52,16 @@ export interface IEmail {
 }
 
 export interface IUpdateAncestry {
-    weddings?: number;
-    divorces?: number;
-    children?: number;
-    death?: boolean;
-    isWeddings?: boolean;
-    isDivorces?: boolean;
-    isChildren?: boolean;
+    weddings?: number | null;
+    divorces?: number| null;
+    children?: number| null;
+}
+
+export interface IAncestryData {
+    weddings: number;
+    divorces: number;
+    children: number;
+    death: boolean;
 }
 
 

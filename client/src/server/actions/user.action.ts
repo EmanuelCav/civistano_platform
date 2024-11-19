@@ -70,3 +70,19 @@ export const createAncestryUser = createAsyncThunk("users/createAncestry", async
     }
 
 })
+
+export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async (userData: ActionPropsTypes.UpdateAncestryUserPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.updateAncestryUserApi(userData.userData, userData.id, userData.token)
+
+        dispatch(userReducer.actionUser(data))
+
+        userData.setIsUpdateProfile(false)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})

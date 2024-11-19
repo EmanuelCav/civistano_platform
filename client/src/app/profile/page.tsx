@@ -49,13 +49,12 @@ const Profile = () => {
                 token: user.user.token
             }) as any)
         }
-        
     }, [])
 
     return (
         <div className="max-w-7xl mx-auto mt-32">
             {
-                isUpdateAncestry && <UpdateProfile dispatch={dispatch} user={user.user.user!} ancestry={ancestry} />
+                isUpdateAncestry && <UpdateProfile dispatch={dispatch} user={user.user} ancestry={ancestry} setIsUpdateProfile={setIsUpdateAncestry} />
             }
             {
                 isCompleteAncestry && <CompleteAncestry ancestry={ancestry} ancestryMale={ancestryMale} setIsCompleteAncestry={setIsCompleteAncestry}

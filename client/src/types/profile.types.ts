@@ -1,7 +1,8 @@
 import { Dispatch } from "react";
 
 import { IAncestry } from "@/interface/General";
-import { IAncestryUser, IUser, IUserInfo } from "@/interface/User";
+import { IAncestryUser, IUpdateAncestry, IUserInfo } from "@/interface/User";
+import { FieldError, UseFormRegister } from "react-hook-form";
 
 export type ProfileIncompletePropsType = {
     ancestryNumber: number;
@@ -16,8 +17,9 @@ export type ProfileAncestryPropsType = {
 
 export type UpdateProfilePropsType = {
     dispatch: Dispatch<any>;
-    user: IUser;
+    user: IUserInfo;
     ancestry?: IAncestry;
+    setIsUpdateProfile: (isUpdateProfile: boolean) => void;
 }
 
 export type ButtonsAncestryPropsType = {
@@ -35,4 +37,17 @@ export type CompleteAncestryPropsType = {
     dispatch: Dispatch<any>;
     user: IUserInfo;
     setIsCompleteAncestry: (isCompleteAncestry: boolean) => void;
+}
+
+export type ButtonsUpdatePropsType = {
+    isBoolean: boolean;
+    func: (isFunc: boolean) => void;
+    question: string;
+}
+
+export type InputUpdatePropsType = {
+    error?: FieldError
+    register: UseFormRegister<IUpdateAncestry | any>;
+    text: string;
+    question: string;
 }
