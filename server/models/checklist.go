@@ -23,5 +23,5 @@ type ChecklistUserModel struct {
 type CreateChecklistModel struct {
 	Title       string `json:"title,omitempty" bson:"title,omitempty" validate:"required"`
 	Description string `json:"description,omitempty" bson:"description,omitempty" validate:"required"`
-	AreParents  bool   `json:"areParents,omitempty" bson:"areParents,omitempty" validate:"required"`
+	AreParents  bool   `json:"areParents,omitempty" bson:"areParents,omitempty"`
 }

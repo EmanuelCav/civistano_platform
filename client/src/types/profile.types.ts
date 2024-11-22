@@ -19,6 +19,7 @@ export type UpdateProfilePropsType = {
     dispatch: Dispatch<any>;
     user: IUserInfo;
     ancestry?: IAncestry;
+    index: number;
     setIsUpdateProfile: (isUpdateProfile: boolean) => void;
 }
 
@@ -50,4 +51,5 @@ export type InputUpdatePropsType = {
     register: UseFormRegister<IUpdateAncestry | any>;
     text: string;
     question: string;
+    value: number;
 }

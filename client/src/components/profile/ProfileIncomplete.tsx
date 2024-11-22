@@ -1,6 +1,7 @@
 import { ProfileIncompletePropsType } from "@/types/profile.types"
 
 const ProfileIncomplete = ({ ancestors, ancestryNumber, completeAncestry }: ProfileIncompletePropsType) => {
+  
   return (
     <div className="flex flex-col items-center">
       <div className="bg-white shadow-lg p-4 m-2 rounded-lg w-48 text-center">

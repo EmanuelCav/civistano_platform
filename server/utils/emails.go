@@ -1,29 +1,29 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 	"net/smtp"
+
+	"github.com/EmanuelCav/civistano_platform/config"
 )
 
-func SendMail() {
-	from := ""
-	password := ""
+func SendMail(email string, subject string) {
+	from := config.Config()["myMail"]
+	password := config.Config()["myPass"]
 
-	to := []string{"destinatario@example.com"}
-	smtpHost := ""
-	smtpPort := ""
+	to := []string{email}
+	smtpHost := config.Config()["myHost"]
+	smtpPort := config.Config()["myPort"]
 
-	message := []byte("Subject: Prueba de correo\n" +
+	message := []byte("Subject: " + subject + " \n" +
 		"\n" +
 		"Este es un mensaje de prueba enviado desde un programa en Go!")
 
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-	if err != nil {
-		fmt.Println("Error al enviar el correo:", err)
-		return
-	}
 
-	fmt.Println("Correo enviado exitosamente!")
+	if err != nil {
+		log.Fatal(err)
+	}
 }

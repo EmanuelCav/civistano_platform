@@ -1,10 +1,11 @@
 import Image from "next/image"
+import Link from "next/link"
 
-const Icon = () => {
+const Icon = ({ href }: { href: string }) => {
     return (
-        <a href="/" className="flex items-center cursor-pointer">
+        <Link href={href} className="flex items-center cursor-pointer">
             <Image src="/logo.png" className="h-full" width={96} height={0} alt="Civistano Logo" />
-        </a>
+        </Link>
     )
 }
 

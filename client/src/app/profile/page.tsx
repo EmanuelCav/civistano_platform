@@ -54,7 +54,9 @@ const Profile = () => {
     return (
         <div className="max-w-7xl mx-auto mt-32">
             {
-                isUpdateAncestry && <UpdateProfile dispatch={dispatch} user={user.user} ancestry={ancestry} setIsUpdateProfile={setIsUpdateAncestry} />
+                isUpdateAncestry && <UpdateProfile dispatch={dispatch} user={user.user} 
+                index={user.user.user?.ancestry.findIndex((a) => a.ancestry.ancestry === ancestry?.ancestry)!} 
+                ancestry={ancestry} setIsUpdateProfile={setIsUpdateAncestry} />
             }
             {
                 isCompleteAncestry && <CompleteAncestry ancestry={ancestry} ancestryMale={ancestryMale} setIsCompleteAncestry={setIsCompleteAncestry}
@@ -64,13 +66,14 @@ const Profile = () => {
                 <h1 className="text-2xl font-bold mb-6">Árbol Genealógico</h1>
                 {
                     user.user.user?.ancestry.map((ancestor) => {
-                        return <ProfileAncestry updateProfile={updateProfile} ancestor={ancestor} key={ancestor._id} />
+                        return <ProfileAncestry updateProfile={() => updateProfile(ancestor.ancestry)} ancestor={ancestor} key={ancestor._id} />
                     })
                 }
                 {
-                    new Array((user.user.user?.ancestry.length! - user.user.user?.ancestry[user.user.user?.ancestry.length - 1].ancestry.hierarchy! - 1)).fill(0)
+                    ancestors.length > 0 &&
+                    new Array((user.user.user?.ancestry.length! - 1)).fill(0)
                     .map((_, index) => {
-                        return <ProfileIncomplete ancestryNumber={user.user.user?.ancestry[user.user.user?.ancestry.length - 1].ancestry.hierarchy! - index - 1} 
+                        return <ProfileIncomplete ancestryNumber={user.user.user?.ancestry[0].ancestry.hierarchy! - index - 1} 
                         ancestors={ancestors} completeAncestry={completeAncestry} key={index} />
                     })
                 }

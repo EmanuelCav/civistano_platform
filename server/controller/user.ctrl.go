@@ -9,6 +9,7 @@ import (
 	"github.com/EmanuelCav/civistano_platform/helper"
 	"github.com/EmanuelCav/civistano_platform/middleware"
 	"github.com/EmanuelCav/civistano_platform/models"
+	"github.com/EmanuelCav/civistano_platform/utils"
 	"github.com/EmanuelCav/civistano_platform/validation"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -212,6 +213,8 @@ func CreateUser(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
+
+	utils.SendMail(userCreated.Email, "¡Bienvenido a Civistano!")
 
 	token := helper.GenerateToken(newUser.Id)
 

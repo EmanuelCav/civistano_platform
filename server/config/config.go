@@ -30,6 +30,10 @@ func Config() map[string]string {
 	variables["privilegedRole"] = envFile["PRIVILEGED_ROLE"]
 	variables["ancestryYou"] = envFile["ANCESTRY_YOU"]
 	variables["jwt"] = envFile["JWT"]
+	variables["myPass"] = envFile["MY_PASS"]
+	variables["myHost"] = envFile["MY_HOST"]
+	variables["myMail"] = envFile["MY_MAIL"]
+	variables["myPort"] = envFile["MY_PORT"]
 
 	return variables
 

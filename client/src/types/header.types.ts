@@ -27,7 +27,13 @@ export type QuestionPropsType = {
 
 export type StartHeaderPropsType = {
     handleSurveyData: () => void;
-    redirectProfile: () => void;
     user: IReducerUser;
     pathname: string;
+}
+
+export type ButtonHeaderPropsType = {
+    href: string;
+    Icon: any;
+    text: string;
+    color: string;
 }

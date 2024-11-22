@@ -2,7 +2,7 @@ import { ITab } from "@/interface/General";
 
 export const resourceTab: ITab[] = [
     { tab: "Contacto", url: "/contacto" },
-    { tab: "Contacto", url: "/contacto" }
+    { tab: "Nosotros", url: "/about" }
 ]
 
 export const policiesTab: ITab[] = [

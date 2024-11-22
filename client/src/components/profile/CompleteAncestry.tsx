@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { IoMdClose } from 'react-icons/io'
 
 import ContainerFixed from "../general/ContainerFixed"
 import ButtonsAncestry from "./components/profileAncestry/ButtonsAncestry"
@@ -27,6 +28,8 @@ const CompleteAncestry = ({ ancestry, ancestryMale, mainAncestry, dispatch, user
 
     return (
         <ContainerFixed>
+            <IoMdClose className="absolute top-5 right-10 cursor-pointer hover:bg-red-100 active:bg-white" 
+            color="#ff4444" size={28} onClick={() => setIsCompleteAncestry(false)} />
             <p className="text-gray-900 text-xl my-2 text-center">Selecciona la persona descendiente de tu {mainAncestry}</p>
             <ButtonsAncestry isFemale={isFemale} isDisabled={isDisabled} ancestry={ancestry} ancestryMale={ancestryMale} handleFemale={handleFemale} />
             <button className={isDisabled ? "text-white w-full bg-sky-100 font-medium rounded-lg text-lg px-4 py-2 mt-4"

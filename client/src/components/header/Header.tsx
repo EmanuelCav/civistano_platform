@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter, usePathname } from 'next/navigation'
 
@@ -39,10 +39,6 @@ const Header = () => {
 
     const handleSurveyData = () => {
         setIsSurveyData(!isSurveyData)
-    }
-
-    const redirectProfile = () => {
-        router.push('/profile')
     }
 
     const handleShowQuestion = () => {
@@ -89,9 +85,9 @@ const Header = () => {
                 isEmail && <Register dispatch={dispatch} router={router} setIsEmail={setIsEmail} />
             }
             <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
-                <Icon />
+                <Icon href={user.isLoggedIn ? "/panel" : "/"} />
                 <Navigation />
-                <StartHeader redirectProfile={redirectProfile} handleSurveyData={handleSurveyData} user={user} pathname={pathname} />
+                <StartHeader handleSurveyData={handleSurveyData} user={user} pathname={pathname} />
             </div>
         </div>
     )
