@@ -452,3 +452,36 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 	})
 
 }
+
+func RemoveUser(c *fiber.Ctx) error {
+
+	var user models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	userId, err := middleware.UserId(c)
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOneAndDelete(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"message": "El usuario fue removido correctamente",
+	})
+
+}

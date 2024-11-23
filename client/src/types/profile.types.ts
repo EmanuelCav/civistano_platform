@@ -1,8 +1,9 @@
 import { Dispatch } from "react";
+import { FieldError, UseFormRegister } from "react-hook-form";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import { IAncestry } from "@/interface/General";
 import { IAncestryUser, IUpdateAncestry, IUserInfo } from "@/interface/User";
-import { FieldError, UseFormRegister } from "react-hook-form";
 
 export type ProfileIncompletePropsType = {
     ancestryNumber: number;
@@ -24,7 +25,7 @@ export type UpdateProfilePropsType = {
 }
 
 export type ButtonsAncestryPropsType = {
-    isFemale: boolean; 
+    isFemale: boolean;
     isDisabled: boolean;
     ancestry?: IAncestry;
     ancestryMale?: IAncestry;
@@ -52,4 +53,23 @@ export type InputUpdatePropsType = {
     text: string;
     question: string;
     value: number;
+}
+
+export type ButtonDangerPropsType = {
+    text: string;
+    textButton: string;
+    func: () => void;
+    Icon: any;
+}
+
+export type DangerZonePropsType = {
+    handleIsLogout: () => void;
+    handleIsRestart: () => void;
+    handleIsRemove: () => void;
+}
+
+export type SurePropsType = {
+    text: string;
+    func: () => void;
+    handleClose: () => void;
 }

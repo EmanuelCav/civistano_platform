@@ -15,15 +15,21 @@ export type GetUserActionPropsType = {
     token: string;
 }
 
-export type CreateAncestryUserPropsType = {
+export type CreateAncestryUserActionPropsType = {
     id: string;
     token: string;
     setIsCompleteAncestry: (isCompleteAncestry: boolean) => void;
 }
 
-export type UpdateAncestryUserPropsType = {
+export type UpdateAncestryUserActionPropsType = {
     id: string;
     userData: IAncestryData;
     token: string;
     setIsUpdateProfile: (isUpdateProfile: boolean) => void;
+}
+
+export type RemoveUserActionPropsType = {
+    id: string;
+    token: string;
+    router: AppRouterInstance;
 }

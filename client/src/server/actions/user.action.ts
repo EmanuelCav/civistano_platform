@@ -41,13 +41,13 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
 
 })
 
-export const logout = createAsyncThunk("users/logout", async (router: AppRouterInstance, { dispatch }) => {
+export const logoutAction = createAsyncThunk("users/logout", async (router: AppRouterInstance, { dispatch }) => {
 
     try {
 
-        dispatch(userReducer.logoutUser())
+        router.push('/auth')
 
-        router.push('/')
+        dispatch(userReducer.logoutUser())
 
     } catch (error) {
         console.log(error);
@@ -55,7 +55,7 @@ export const logout = createAsyncThunk("users/logout", async (router: AppRouterI
 
 })
 
-export const createAncestryUser = createAsyncThunk("users/createAncestry", async (userData: ActionPropsTypes.CreateAncestryUserPropsType, { dispatch }) => {
+export const createAncestryUser = createAsyncThunk("users/createAncestry", async (userData: ActionPropsTypes.CreateAncestryUserActionPropsType, { dispatch }) => {
 
     try {
 
@@ -71,7 +71,7 @@ export const createAncestryUser = createAsyncThunk("users/createAncestry", async
 
 })
 
-export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async (userData: ActionPropsTypes.UpdateAncestryUserPropsType, { dispatch }) => {
+export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async (userData: ActionPropsTypes.UpdateAncestryUserActionPropsType, { dispatch }) => {
 
     try {
 
@@ -80,6 +80,22 @@ export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async
         dispatch(userReducer.actionUser(data))
 
         userData.setIsUpdateProfile(false)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
+export const removeUser = createAsyncThunk("users/remove", async (userData: ActionPropsTypes.RemoveUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        await userApi.removeUserApi(userData.id, userData.token)
+
+        dispatch(userReducer.logoutUser())
+
+        userData.router.push("/")
 
     } catch (error) {
         console.log(error);

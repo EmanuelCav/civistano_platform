@@ -67,6 +67,16 @@ const counterResponseSlice = createSlice({
         builder.addCase(userAction.updateAncestryUser.rejected, (state) => {
             state.loading = false
         })
+
+        builder.addCase(userAction.logoutAction.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(userAction.logoutAction.fulfilled, (state) => {
+            state.loading = false
+        })
+        builder.addCase(userAction.logoutAction.rejected, (state) => {
+            state.loading = false
+        })
     }
 })
 
