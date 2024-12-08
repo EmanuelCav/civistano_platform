@@ -58,6 +58,16 @@ const counterResponseSlice = createSlice({
             state.loading = false
         })
 
+        builder.addCase(userAction.removeUser.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(userAction.removeUser.fulfilled, (state) => {
+            state.loading = false
+        })
+        builder.addCase(userAction.removeUser.rejected, (state) => {
+            state.loading = false
+        })
+
         builder.addCase(userAction.updateAncestryUser.pending, (state) => {
             state.loading = true
         })
@@ -95,6 +105,16 @@ const counterResponseSlice = createSlice({
             state.loading = false
         })
         builder.addCase(userAction.codeUser.rejected, (state) => {
+            state.loading = false
+        })
+
+        builder.addCase(userAction.removeAncestryUser.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(userAction.removeAncestryUser.fulfilled, (state) => {
+            state.loading = false
+        })
+        builder.addCase(userAction.removeAncestryUser.rejected, (state) => {
             state.loading = false
         })
     }

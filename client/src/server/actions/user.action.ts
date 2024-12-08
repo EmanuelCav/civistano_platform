@@ -36,7 +36,7 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
         // dispatch(userReducer.logoutUser())
         // userData.router.push('/')
         console.log(error);
-        
+
     }
 
 })
@@ -87,15 +87,48 @@ export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async
 
 })
 
+export const addAncestryUser = createAsyncThunk("users/addAncestry", async (userData: ActionPropsTypes.AddAncestryUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.createAncestryUserApi(userData.id, userData.token)
+
+        dispatch(userReducer.actionUser(data))
+
+        userData.setIsRestart(false)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
+export const removeAncestryUser = createAsyncThunk("users/removeAncestry", async (userData: ActionPropsTypes.RemoveAncestryUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.removeAncestryUserApi(userData.token)
+
+        dispatch(userReducer.actionUser(data.user))
+
+        userData.setIsRemoveAncestry(false)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
 export const removeUser = createAsyncThunk("users/remove", async (userData: ActionPropsTypes.RemoveUserActionPropsType, { dispatch }) => {
 
     try {
+
+        userData.router.push("/")
 
         await userApi.removeUserApi(userData.id, userData.token)
 
         dispatch(userReducer.logoutUser())
 
-        userData.router.push("/")
 
     } catch (error) {
         console.log(error);

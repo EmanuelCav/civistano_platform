@@ -524,13 +524,13 @@ func RemoveUser(c *fiber.Ctx) error {
 
 	userId, err := middleware.UserId(c)
 
-	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	if err != nil {
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err.Error(),
 		})
@@ -544,6 +544,83 @@ func RemoveUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"message": "El usuario fue removido correctamente",
+	})
+
+}
+
+func RestartUser(c *fiber.Ctx) error {
+
+	var user models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	userId, err := middleware.UserId(c)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"message": "Se ha restaurado exitosamente",
+	})
+
+}
+
+func RemoveLastAncestry(c *fiber.Ctx) error {
+
+	var user models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	userId, err := middleware.UserId(c)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	user.Ancestry = user.Ancestry[1:]
+
+	update := bson.M{
+		"$set": bson.M{
+			"ancestry": user.Ancestry,
+		},
+	}
+
+	_, err2 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": userId}, update)
+
+	if err2 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err2.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"message": "El ancestro se ha eliminado exitosamente",
+		"user":    user,
 	})
 
 }

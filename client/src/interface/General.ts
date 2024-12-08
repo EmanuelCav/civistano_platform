@@ -1,5 +1,5 @@
 import { IReducerSurvey } from "./Survey";
-import { IReducerUser } from "./User";
+import { IReducerUser, IUser } from "./User";
 
 export interface IReducer {
     survey: IReducerSurvey;
@@ -50,4 +50,9 @@ export interface ILink {
 
 export interface IResponse {
     loading: boolean;
+}
+
+export interface IMessageUser {
+    user: IUser;
+    message: string;
 }

@@ -1,6 +1,7 @@
 import { api } from "./api"
 
 import { ICode, IEmail, IUpdateAncestry, IUser, IUserInfo } from "@/interface/User"
+import { IMessageUser } from "@/interface/General"
 
 export const getEmailApi = async (emailData: IEmail, id: string): Promise<IUserInfo> => {
 
@@ -76,6 +77,24 @@ export const updateAncestryUserApi = async (userData: IUpdateAncestry, id: strin
     }
 
     return data.user
+}
+
+export const removeAncestryUserApi = async (token: string): Promise<IMessageUser> => {
+
+    const response = await fetch(api + "/users", {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data)
+    }
+
+    return data
 }
 
 export const removeUserApi = async (id: string, token: string): Promise<string> => {

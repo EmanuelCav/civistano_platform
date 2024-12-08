@@ -8,7 +8,7 @@ import { createAncestryUser } from "@/server/actions/user.action"
 
 import { CompleteAncestryPropsType } from "@/types/profile.types"
 
-const CompleteAncestry = ({ ancestry, ancestryMale, mainAncestry, dispatch, user, setIsCompleteAncestry }: CompleteAncestryPropsType) => {
+const CompleteAncestry = ({ ancestry, ancestryMale, mainAncestry, dispatch, user, setIsCompleteAncestry, upward }: CompleteAncestryPropsType) => {
 
     const [isFemale, setIsFemale] = useState<boolean>(false)
     const [isDisabled, setIsDisabled] = useState<boolean>(true)
@@ -28,9 +28,11 @@ const CompleteAncestry = ({ ancestry, ancestryMale, mainAncestry, dispatch, user
 
     return (
         <ContainerFixed>
-            <IoMdClose className="absolute top-5 right-10 cursor-pointer hover:bg-red-100 active:bg-white" 
-            color="#ff4444" size={28} onClick={() => setIsCompleteAncestry(false)} />
-            <p className="text-gray-900 text-xl my-2 text-center">Selecciona la persona descendiente de tu {mainAncestry}</p>
+            <IoMdClose className="absolute top-3 right-5 cursor-pointer hover:bg-red-100 active:bg-white"
+                color="#ff4444" size={28} onClick={() => setIsCompleteAncestry(false)} />
+            <p className="text-gray-900 text-xl my-8 text-center">
+                {upward ? `Selecciona la persona ascendente de tu ${mainAncestry}` : `Selecciona la persona descendiente de tu ${mainAncestry}`}
+            </p>
             <ButtonsAncestry isFemale={isFemale} isDisabled={isDisabled} ancestry={ancestry} ancestryMale={ancestryMale} handleFemale={handleFemale} />
             <button className={isDisabled ? "text-white w-full bg-sky-100 font-medium rounded-lg text-lg px-4 py-2 mt-4"
                 : "text-white w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-lg px-4 py-2 mt-4"}

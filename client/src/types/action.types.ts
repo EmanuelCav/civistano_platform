@@ -28,6 +28,17 @@ export type UpdateAncestryUserActionPropsType = {
     setIsUpdateProfile: (isUpdateProfile: boolean) => void;
 }
 
+export type AddAncestryUserActionPropsType = {
+    id: string;
+    token: string;
+    setIsRestart: (isRestart: boolean) => void;
+}
+
+export type RemoveAncestryUserActionPropsType = {
+    token: string;
+    setIsRemoveAncestry: (isRemoveAncestry: boolean) => void;
+}
+
 export type RemoveUserActionPropsType = {
     id: string;
     token: string;

@@ -14,6 +14,7 @@ func UserRoute(app *fiber.App) {
 	app.Post("/users", controller.LoginUser)
 	app.Post("/users/code", middleware.Code(), controller.CodeUser)
 	app.Patch("/users/ancestors/:id", middleware.Auth(), controller.CreateAncestryUser)
+	app.Patch("/users", middleware.Auth(), controller.RemoveLastAncestry)
 	app.Put("/users/ancestors/:id", middleware.Auth(), controller.UpdateAncestryUser)
 	app.Delete("/users/:id", middleware.Auth(), controller.RemoveUser)
 
