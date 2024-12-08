@@ -51,6 +51,10 @@ export interface IEmail {
     email: string;
 }
 
+export interface ICode {
+    code: string;
+}
+
 export interface IUpdateAncestry {
     weddings?: number | null;
     divorces?: number| null;

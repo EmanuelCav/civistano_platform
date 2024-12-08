@@ -1,6 +1,6 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import { IAncestryData, IEmail } from "@/interface/User"
+import { IAncestryData, ICode, IEmail } from "@/interface/User"
 
 export type GetEmailActionPropsType = {
     data: IEmail;
@@ -32,4 +32,15 @@ export type RemoveUserActionPropsType = {
     id: string;
     token: string;
     router: AppRouterInstance;
+}
+
+export type LoginUserActionPropsType = {
+    emailData: IEmail
+    setIsLoggedIn: (isLoggedIn: boolean) => void;
+}
+
+export type CodeUserActionPropsType = {
+    codeData: ICode
+    router: AppRouterInstance;
+    token: string;
 }

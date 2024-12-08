@@ -41,3 +41,21 @@ func GenerateToken(id primitive.ObjectID) string {
 
 	return tokenString
 }
+
+func GenerateTokenLogin(code int, id primitive.ObjectID) string {
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":        id,
+		"code":      code,
+		"ExpiresAt": time.Now().Add(2 * time.Hour).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(config.Config()["jwt_login"]))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return tokenString
+
+}

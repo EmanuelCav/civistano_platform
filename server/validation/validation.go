@@ -75,6 +75,20 @@ func LoginValid(user models.CreateUserModel) string {
 
 }
 
+func CodeValid(code models.CodeUserModel) string {
+
+	if len(code.Code) != 6 {
+		return "El Código de verificación se encuentra incompleto"
+	}
+
+	if !helper.ValidateNumber(code.Code) {
+		return "El código de verificación debe contener unicamente números"
+	}
+
+	return ""
+
+}
+
 func AncestryValid(ancestry models.CreateAncestryModel) string {
 
 	var ancestryValid models.AncestryModel

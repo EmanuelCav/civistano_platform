@@ -102,3 +102,35 @@ export const removeUser = createAsyncThunk("users/remove", async (userData: Acti
     }
 
 })
+
+export const loginUser = createAsyncThunk("users/login", async (userData: ActionPropsTypes.LoginUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        const token = await userApi.loginApi(userData.emailData)
+
+        dispatch(userReducer.tokenUser(token))
+
+        userData.setIsLoggedIn(true)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
+export const codeUser = createAsyncThunk("users/code", async (userData: ActionPropsTypes.CodeUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.codeApi(userData.codeData, userData.token)
+
+        dispatch(userReducer.authUser(data))
+
+        userData.router.push("/panel")
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})

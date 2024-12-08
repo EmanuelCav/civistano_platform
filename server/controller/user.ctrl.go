@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/EmanuelCav/civistano_platform/config"
@@ -214,7 +216,7 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	utils.SendMail(userCreated.Email, "¡Bienvenido a Civistano!")
+	utils.SendMail(userCreated.Email)
 
 	token := helper.GenerateToken(newUser.Id)
 
@@ -241,7 +243,7 @@ func LoginUser(c *fiber.Ctx) error {
 
 	if err := helper.Validate().Struct(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"message": "Por favor, escribe un correo electrónico",
+			"message": "Por favor, escribe tu dirrección de correo electrónico",
 		})
 	}
 
@@ -257,11 +259,71 @@ func LoginUser(c *fiber.Ctx) error {
 		})
 	}
 
-	token := helper.GenerateToken(userLoggedIn.Id)
+	code := helper.GenerateRandomCode()
+
+	token := helper.GenerateTokenLogin(code, userLoggedIn.Id)
+
+	utils.SendMailCode(userLoggedIn.Email, strconv.Itoa(code))
 
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
-		"user":  userLoggedIn,
 		"token": token,
+	})
+
+}
+
+func CodeUser(c *fiber.Ctx) error {
+
+	var userCode models.CodeUserModel
+	var userLoggedIn models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	if err := c.BodyParser(&userCode); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := helper.Validate().Struct(&userCode); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Por favor, escribe tu dirrección de correo electrónico",
+		})
+	}
+
+	if err := validation.CodeValid(userCode); err != "" {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err,
+		})
+	}
+
+	code, userId, err := middleware.CodeId(c)
+
+	fmt.Println(code)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if userCode.Code != code {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Código de verificación incorrecto. Intenta otro",
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&userLoggedIn); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Dirección de correo electrónico no encontrado",
+		})
+	}
+
+	token := helper.GenerateToken(userId)
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"token": token,
+		"user":  userLoggedIn,
 	})
 
 }

@@ -1,6 +1,9 @@
 package middleware
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/EmanuelCav/civistano_platform/config"
 	"github.com/EmanuelCav/civistano_platform/connections"
 	"github.com/EmanuelCav/civistano_platform/context"
@@ -23,6 +26,17 @@ func Auth() func(c *fiber.Ctx) error {
 	})
 }
 
+func Code() func(c *fiber.Ctx) error {
+	return jwtware.New(jwtware.Config{
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Token malformed",
+			})
+		},
+		SigningKey: jwtware.SigningKey{Key: []byte(config.Config()["jwt_login"])},
+	})
+}
+
 func UserId(c *fiber.Ctx) (primitive.ObjectID, error) {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
@@ -31,6 +45,18 @@ func UserId(c *fiber.Ctx) (primitive.ObjectID, error) {
 	id, err := primitive.ObjectIDFromHex(userId)
 
 	return id, err
+}
+
+func CodeId(c *fiber.Ctx) (string, primitive.ObjectID, error) {
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	fmt.Println(claims)
+	userId := claims["id"].(string)
+	codeId := claims["code"].(float64)
+
+	id, err := primitive.ObjectIDFromHex(userId)
+
+	return strconv.Itoa(int(codeId)), id, err
 }
 
 func Admin() func(c *fiber.Ctx) error {

@@ -77,6 +77,26 @@ const counterResponseSlice = createSlice({
         builder.addCase(userAction.logoutAction.rejected, (state) => {
             state.loading = false
         })
+
+        builder.addCase(userAction.loginUser.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(userAction.loginUser.fulfilled, (state) => {
+            state.loading = false
+        })
+        builder.addCase(userAction.loginUser.rejected, (state) => {
+            state.loading = false
+        })
+
+        builder.addCase(userAction.codeUser.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(userAction.codeUser.fulfilled, (state) => {
+            state.loading = false
+        })
+        builder.addCase(userAction.codeUser.rejected, (state) => {
+            state.loading = false
+        })
     }
 })
 

@@ -21,6 +21,10 @@ type CreateUserModel struct {
 	Email string `json:"email,omitempty" bson:"email,omitempty" validate:"required"`
 }
 
+type CodeUserModel struct {
+	Code string `json:"code,omitempty" bson:"code,omitempty" validate:"required"`
+}
+
 type UpdateUserModel struct {
 	Firstname string `json:"firstname,omitempty" bson:"firstname,omitempty"`
 	Lastname  string `json:"lastname,omitempty" bson:"lastname,omitempty"`

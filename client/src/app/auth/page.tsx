@@ -1,32 +1,51 @@
 'use client'
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { MdOutlineAlternateEmail } from "react-icons/md";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { emailSchema } from "@/schema/user.schema";
+import HeaderLogin from "@/components/auth/HeaderLogin";
+import CodeForm from "@/components/auth/CodeForm";
 
 import { IEmail } from "@/interface/User";
-import HeaderLogin from "@/components/auth/HeaderLogin";
+import { IReducer } from "@/interface/General";
+
+import { loginUser } from "@/server/actions/user.action";
+import { selector } from "@/server/reducer/selector";
+
+import { emailSchema } from "@/schema/user.schema";
 
 const Auth = () => {
 
     const dispatch = useDispatch()
+    const router = useRouter()
+
+    const user = useSelector((state: IReducer) => selector(state).user)
+
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(emailSchema),
     })
 
-    const handleSumbitRegister = (data: IEmail) => {
-
+    const handleSumbitLogin = (data: IEmail) => {
+        dispatch(loginUser({
+            emailData: data,
+            setIsLoggedIn
+        }) as any)
     }
 
     return (
         <div className="max-w-7xl mt-48 mx-auto w-full px-4">
+            {
+                isLoggedIn && <CodeForm dispatch={dispatch} router={router} token={user.user.token!} />
+            }
             <form className="max-w-xl p-4 mx-auto border border-gray-300 border-solid rounded-md shadow-md"
-                onReset={reset as any} onSubmit={handleSubmit((data) => handleSumbitRegister(data))}>
+                onReset={reset as any} onSubmit={handleSubmit((data) => handleSumbitLogin(data))}>
                 <p className="text-sky-700 font-semibold text-3xl">Iniciar sesión</p>
                 <HeaderLogin />
                 <div className="mt-4">
