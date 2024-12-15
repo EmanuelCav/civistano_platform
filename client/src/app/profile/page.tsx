@@ -12,7 +12,7 @@ import DangerZone from "@/components/profile/DangerZone"
 import Sure from "@/components/profile/components/dangerZone/Sure"
 
 import { selector } from "@/server/reducer/selector"
-import { getUser, logoutAction, removeAncestryUser, removeUser } from "@/server/actions/user.action"
+import { getUser, logoutAction, removeAncestryUser, removeUser, restartAncestryUser } from "@/server/actions/user.action"
 import { getAncestors } from "@/server/actions/ancestry.action"
 
 import { IAncestry, IReducer } from "@/interface/General"
@@ -74,7 +74,10 @@ const Profile = () => {
     }
 
     const handleRestartUser = () => {
-
+        dispatch(restartAncestryUser({
+            token: user.user.token!,
+            setIsRestart
+        }) as any)
     }
 
     useEffect(() => {
@@ -129,8 +132,9 @@ const Profile = () => {
                     ))}
                 </div>
                 <div className="space-y-4">
-                    {ancestors.length > 0 &&
-                        new Array(user.user.user?.ancestry.length! - 1).fill(0).map((_, index) => (
+                    {ancestors.length > 0 && user.user.user?.ancestry.length! > 1 &&
+                        new Array(user.user.user?.ancestry[0].ancestry.hierarchy! - (user.user.user?.ancestry[1].ancestry.hierarchy ? user.user.user?.ancestry[1].ancestry.hierarchy : 0) - 1)
+                        .fill(0).map((_, index) => (
                             <ProfileIncomplete
                                 ancestryNumber={
                                     user.user.user?.ancestry[0].ancestry.hierarchy! - index - 1
@@ -144,7 +148,7 @@ const Profile = () => {
             </div>
             <DangerZone handleIsLogout={() => setIsLogout(true)} handleIsRemove={() => setIsRemove(true)}
                 handleIsRestart={() => setIsRestart(true)} completeAncestry={addAncestry} ancestors={ancestors}
-                ancestryNumber={user.user.user?.ancestry[0].ancestry.hierarchy! + 1} />
+                ancestryNumber={user.user.user?.ancestry[0].ancestry.hierarchy ? user.user.user?.ancestry[0].ancestry.hierarchy + 1 : 1} />
         </div>
     )
 }

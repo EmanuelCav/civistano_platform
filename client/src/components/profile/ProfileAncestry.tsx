@@ -15,6 +15,10 @@ const ProfileAncestry = ({ ancestor, updateProfile, removeAncestry, index }: Pro
         <p className="text-gray-900 text-lg">Casamientos: {ancestor.weddings ? ancestor.weddings : 0}</p>
         <p className="text-gray-900 text-lg">Divorcios: {ancestor.divorces ? ancestor.divorces : 0}</p>
         {
+          ancestor.ancestry.ancestry !== 'USTED' &&
+          <p className="text-gray-900 text-lg">Difunto: {ancestor.death ? 'Si' : 'No'}</p>
+        }
+        {
           ancestor.ancestry.ancestry === 'USTED' &&
           <p className="text-gray-900 text-lg">Hijos menores de edad: {ancestor.children ? ancestor.children : 0}</p>
         }

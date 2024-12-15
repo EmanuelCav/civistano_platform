@@ -97,6 +97,24 @@ export const removeAncestryUserApi = async (token: string): Promise<IMessageUser
     return data
 }
 
+export const restartAncestryUserApi = async (token: string): Promise<IMessageUser> => {
+
+    const response = await fetch(api + "/users/restart", {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data)
+    }
+
+    return data
+}
+
 export const removeUserApi = async (id: string, token: string): Promise<string> => {
 
     const response = await fetch(api + "/users/" + id, {

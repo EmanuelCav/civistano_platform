@@ -39,6 +39,11 @@ export type RemoveAncestryUserActionPropsType = {
     setIsRemoveAncestry: (isRemoveAncestry: boolean) => void;
 }
 
+export type RestartAncestryUserActionPropsType = {
+    token: string;
+    setIsRestart: (isRestart: boolean) => void;
+}
+
 export type RemoveUserActionPropsType = {
     id: string;
     token: string;

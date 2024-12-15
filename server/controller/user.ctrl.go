@@ -569,8 +569,33 @@ func RestartUser(c *fiber.Ctx) error {
 		})
 	}
 
+	if len(user.Ancestry) > 1 {
+		user.Ancestry = user.Ancestry[len(user.Ancestry)-1:]
+
+		update := bson.M{
+			"$set": bson.M{
+				"ancestry": user.Ancestry,
+			},
+		}
+
+		_, err2 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": userId}, update)
+
+		if err2 != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err2.Error(),
+			})
+		}
+
+		if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+	}
+
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"message": "Se ha restaurado exitosamente",
+		"user":    user,
 	})
 
 }

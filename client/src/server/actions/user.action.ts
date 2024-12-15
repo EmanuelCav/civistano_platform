@@ -119,6 +119,22 @@ export const removeAncestryUser = createAsyncThunk("users/removeAncestry", async
 
 })
 
+export const restartAncestryUser = createAsyncThunk("users/restartAncestry", async (userData: ActionPropsTypes.RestartAncestryUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.restartAncestryUserApi(userData.token)
+
+        dispatch(userReducer.actionUser(data.user))
+
+        userData.setIsRestart(false)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
 export const removeUser = createAsyncThunk("users/remove", async (userData: ActionPropsTypes.RemoveUserActionPropsType, { dispatch }) => {
 
     try {
