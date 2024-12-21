@@ -4,7 +4,7 @@ import { homeStyles } from '../../../../styles/home.styles'
 
 import { ButtonAuthHomePropsType } from '../../../../types/home.types'
 
-const ButtonAuthHome = ({ title, text }: ButtonAuthHomePropsType) => {
+const ButtonAuthHome = ({ title, text, func, route }: ButtonAuthHomePropsType) => {
     return (
         <View style={homeStyles.containerButtonAuth}>
             <Text style={homeStyles.titleButtonAuth}>{title}</Text>
@@ -13,7 +13,7 @@ const ButtonAuthHome = ({ title, text }: ButtonAuthHomePropsType) => {
                     backgroundColor: pressed ? '#6b8cf2' : '#597EEE'
                 },
                 homeStyles.buttonAuth
-            ]}>
+            ]} onPress={() => func(route)}>
                 <Text style={homeStyles.textButtonAuth}>{text}</Text>
             </Pressable>
         </View>

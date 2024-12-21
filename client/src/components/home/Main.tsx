@@ -3,9 +3,11 @@ import TextMain from "./components/main/TextMain"
 
 const Main = ({ handleSurveyData }: { handleSurveyData: () => void }) => {
     return (
-        <div className="max-w-7xl mt-32 flex justify-center items-center w-full flex-wrap bg-red-200 p-5">
-            <ImageMain />
-            <TextMain handleSurveyData={handleSurveyData} />
+        <div className="bg-process-background bg-cover h-auto xl:h-screen mt-24 xl:mt-0">
+            <div className="max-w-7xl mx-auto h-full flex justify-center items-center w-full flex-wrap p-5">
+                <ImageMain />
+                <TextMain handleSurveyData={handleSurveyData} />
+            </div>
         </div>
     )
 }

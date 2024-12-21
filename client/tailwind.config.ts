@@ -11,6 +11,11 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        home: "#50C878"
+      },
+      backgroundImage: {
+        'process-background': "url('/back.png')",
+        'choose-background': "url('/back_2.png')"
       },
     },
   },

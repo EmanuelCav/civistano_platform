@@ -56,3 +56,14 @@ export interface IMessageUser {
     user: IUser;
     message: string;
 }
+
+export interface IStep {
+    title: string;
+    description: string;
+}
+
+export interface IPosibility {
+    title: string;
+    description: string;
+    image: string;
+}

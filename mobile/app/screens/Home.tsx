@@ -5,11 +5,13 @@ import AuthHome from '../components/home/AuthHome'
 
 import { generalStyles } from '../styles/general.styles'
 
-const Home = () => {
+import { StackNavigation } from '../types/props.types'
+
+const Home = ({ navigation }: { navigation: StackNavigation }) => {
     return (
         <View style={generalStyles.containerGeneral}>
             <HeaderHome />
-            <AuthHome />
+            <AuthHome navigation={navigation} />
         </View>
     )
 }

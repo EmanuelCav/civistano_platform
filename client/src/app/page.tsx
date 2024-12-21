@@ -9,6 +9,9 @@ import Main from "@/components/home/Main";
 import Question from "@/components/general/Question";
 import Return from "@/components/general/Return";
 import Register from "@/components/general/Register";
+import Process from "@/components/home/Process";
+import Posibilities from "@/components/home/Posibilities";
+import Choose from "@/components/home/Choose";
 
 export default function Home() {
 
@@ -45,7 +48,7 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full">
       {
         isSurveyData && <SurveyData handleClose={handleClose} handleShowQuestion={handleShowQuestion} />
       }
@@ -68,9 +71,9 @@ export default function Home() {
         isEmail && <Register dispatch={dispatch} router={router} setIsEmail={setIsEmail} />
       }
       <Main handleSurveyData={handleSurveyData} />
-      <Main handleSurveyData={handleSurveyData} />
-      <Main handleSurveyData={handleSurveyData} />
-      <Main handleSurveyData={handleSurveyData} />
+      <Process />
+      <Posibilities />
+      <Choose />
     </div>
   );
 }

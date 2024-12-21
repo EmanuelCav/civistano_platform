@@ -9,6 +9,8 @@ import { persistStore } from 'redux-persist'
 import Container from './Container';
 
 import Home from './app/screens/Home';
+import Auth from './app/screens/Auth';
+import Questionnaire from './app/screens/Questionnaire';
 
 import { store } from "./app/server/store";
 
@@ -35,6 +37,12 @@ export default function App() {
               headerShown: false
             }}>
               <Stack.Screen name="Home" component={Home} options={{
+                animation: 'flip'
+              }} />
+              <Stack.Screen name="Auth" component={Auth} options={{
+                animation: 'flip'
+              }} />
+              <Stack.Screen name="Questionnaire" component={Questionnaire} options={{
                 animation: 'flip'
               }} />
             </Stack.Navigator>

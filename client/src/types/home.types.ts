@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import { ITab } from "@/interface/General";
+import { IStep, ITab } from "@/interface/General";
 
 export type SectionPropsType = {
     title: string;
@@ -17,4 +17,9 @@ export type RegisterPropsType = {
     dispatch: Dispatch<any>;
     router: AppRouterInstance;
     setIsEmail: (isEmail: boolean) => void;
+}
+
+export type StepProccessPropsType = {
+    step: IStep;
+    index: number;
 }
