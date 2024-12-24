@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { IReducerUser, IUser, IUserInfo } from "@/interface/User";
-import { IAncestry } from "@/interface/General";
+import { IReducerUser, IUser, IUserInfo } from "../../interface/User";
+import { IAncestry } from "../../interface/General";
 
 const initialState: IReducerUser = {
     isLoggedIn: false,

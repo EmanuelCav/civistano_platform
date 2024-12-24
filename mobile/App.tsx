@@ -11,6 +11,8 @@ import Container from './Container';
 import Home from './app/screens/Home';
 import Auth from './app/screens/Auth';
 import Questionnaire from './app/screens/Questionnaire';
+import Panel from './app/screens/Panel';
+import Profile from './app/screens/Profile';
 
 import { store } from "./app/server/store";
 
@@ -43,6 +45,12 @@ export default function App() {
                 animation: 'flip'
               }} />
               <Stack.Screen name="Questionnaire" component={Questionnaire} options={{
+                animation: 'flip'
+              }} />
+              <Stack.Screen name="Profile" component={Profile} options={{
+                animation: 'flip'
+              }} />
+              <Stack.Screen name="Panel" component={Panel} options={{
                 animation: 'flip'
               }} />
             </Stack.Navigator>

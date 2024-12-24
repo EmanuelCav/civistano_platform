@@ -3,17 +3,30 @@ import { Dimensions, StyleSheet } from 'react-native';
 export const homeStyles = StyleSheet.create({
 
     containerHeaderHome: {
-        height: '40%'
+        height: '30%'
+    },
+
+    containerInfoHome: {
+        flex: 1
     },
 
     containerAuthHome: {
-        flex: 1
+        height: '20%'
     },
 
     containerButtonAuth: {
         justifyContent: 'space-evenly',
         flex: 1,
         alignItems: 'center'
+    },
+
+    textHeaderHome: {
+        fontSize: Dimensions.get("window").height / 47,
+        fontWeight: '500'
+    },
+
+    colourTitleHeaderHome: {
+        color: '#ff0000'
     },
 
     titleButtonAuth: {

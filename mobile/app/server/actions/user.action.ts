@@ -1,7 +1,7 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import * as ActionPropsTypes from "@/types/action.types";
+import * as ActionPropsTypes from "../../types/action.types";
+import { StackNavigation } from "../../types/props.types";
 
 import * as userApi from "../api/user.api";
 import * as userReducer from "../reducer/user.reducer";
@@ -14,7 +14,7 @@ export const getEmail = createAsyncThunk("users/getEmail", async (emailData: Act
 
         dispatch(userReducer.authUser(data))
 
-        emailData.router.push('/panel')
+        emailData.navigate.navigate('Panel')
 
         emailData.setIsEmail(false)
 
@@ -41,11 +41,11 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
 
 })
 
-export const logoutAction = createAsyncThunk("users/logout", async (router: AppRouterInstance, { dispatch }) => {
+export const logoutAction = createAsyncThunk("users/logout", async (navigate: StackNavigation, { dispatch }) => {
 
     try {
 
-        router.push('/auth')
+        navigate.navigate('Auth')
 
         dispatch(userReducer.logoutUser())
 
@@ -139,7 +139,7 @@ export const removeUser = createAsyncThunk("users/remove", async (userData: Acti
 
     try {
 
-        userData.router.push("/")
+        userData.navigate.navigate("Auth")
 
         await userApi.removeUserApi(userData.id, userData.token)
 
@@ -176,7 +176,7 @@ export const codeUser = createAsyncThunk("users/code", async (userData: ActionPr
 
         dispatch(userReducer.authUser(data))
 
-        userData.router.push("/panel")
+        userData.navigate.navigate("Panel")
 
     } catch (error) {
         console.log(error);

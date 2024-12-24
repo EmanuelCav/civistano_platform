@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
-import { StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native'
+import { StyleSheet, StatusBar, Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Container = ({ children }: { children: ReactNode }) => {
   return (

@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import * as ancestryApi from "../api/ancestry.api";
+import { IAncestry } from "../../interface/General";
 
-import { IAncestry } from "@/interface/General";
+import * as ancestryApi from "../api/ancestry.api";
 
 export const getAncestors = createAsyncThunk("ancestry/get", async (setAncestors: Dispatch<SetStateAction<IAncestry[]>>) => {
 

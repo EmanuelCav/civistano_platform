@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { IQuestion, IReducerSurvey } from "@/interface/Survey";
+import { IQuestion, IReducerSurvey } from "../../interface/Survey";
 
 const initialState: IReducerSurvey = {
     question: {}
