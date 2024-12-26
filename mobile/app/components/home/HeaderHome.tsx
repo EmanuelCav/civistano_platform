@@ -6,7 +6,7 @@ const HeaderHome = () => {
     return (
         <View style={homeStyles.containerHeaderHome}>
             <Text style={homeStyles.textHeaderHome}>¡Bienvenido a
-                <Text style={homeStyles.colourTitleHeaderHome}>Civistano</Text>
+                <Text style={homeStyles.colourTitleHeaderHome}> Civistano</Text>
                 !</Text>
         </View>
     )

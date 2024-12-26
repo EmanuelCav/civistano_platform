@@ -22,14 +22,3 @@ export const profileSchema = object().shape({
     isDivorces: boolean().oneOf([true, false], 'Error de validación'),
     isChildren: boolean().oneOf([true, false], 'Error de validación')
 })
-
-export const contactSchema = object().shape({
-    email: string().trim()
-    .email("Escriba una dirrección de correo electrónico válida")
-    .min(1, "Por favor, escribe una dirección de correo electrónico")
-    .required("Por favor, escribe una dirección de correo electrónico"),
-    name: string().trim().min(1, "Por favor, escribe tu nombre")
-    .required("Por favor, escribe tu nombre"),
-    message: string().trim().min(1, "Por favor, escribe un mensaje")
-    .required("Por favor, escribe un mensaje")
-})

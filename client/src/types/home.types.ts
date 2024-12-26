@@ -11,6 +11,7 @@ export type SectionPropsType = {
 export type ReturnPropsType = {
     text: string;
     func: () => void;
+    title: string;
 }
 
 export type RegisterPropsType = {

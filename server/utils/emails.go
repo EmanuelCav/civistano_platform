@@ -48,3 +48,27 @@ func SendMailCode(email string, code string) {
 		log.Fatal(err)
 	}
 }
+
+func SendMessage(name string, email string, messageMail string) {
+	from := config.Config()["myMail"]
+	password := config.Config()["myPass"]
+
+	to := []string{"cavallinema@gmail.com"}
+	smtpHost := config.Config()["myHost"]
+	smtpPort := config.Config()["myPort"]
+
+	message := []byte("Subject: Nuevo Mensaje" + " \n" +
+		"\n" +
+		"De: " + name +
+		"\n" +
+		"Correo electróniico: " + email +
+		"\n" + messageMail)
+
+	auth := smtp.PlainAuth("", from, password, smtpHost)
+
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}

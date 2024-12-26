@@ -35,3 +35,9 @@ type LoginModel struct {
 	Email    string `json:"email,omitempty" bson:"email,omitempty" validate:"required" mson:"cunique"`
 	Password string `json:"password,omitempty" bson:"password,omitempty" validate:"required"`
 }
+
+type ContactModel struct {
+	Name    string `json:"name,omitempty" bson:"name,omitempty" validate:"required"`
+	Email   string `json:"email,omitempty" bson:"email,omitempty" validate:"required"`
+	Message string `json:"message,omitempty" bson:"message,omitempty" validate:"required"`
+}

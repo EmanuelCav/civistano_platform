@@ -28,7 +28,7 @@ export const posibilieties: IPosibility[] = [
     },
     {
         title: "Falta de Requisitos",
-        description: " ciertos casos, no es posible obtener la ciudadanía italiana. Esto puede ocurrir cuando no hay vínculo de ascendencia italiano válido o por renuncia a la ciudadania italiana.",
+        description: "En ciertos casos, no es posible obtener la ciudadanía italiana. Esto puede ocurrir cuando no hay vínculo de ascendencia italiano válido o por renuncia a la ciudadania italiana.",
         image: "/home/file.png"
     },
 ]

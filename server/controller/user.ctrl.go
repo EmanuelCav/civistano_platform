@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 
@@ -112,7 +111,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 	if err := helper.Validate().Struct(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"message": "There are empty fields. Please complete",
+			"message": "Hay campos vacios. Por favor completa",
 		})
 	}
 
@@ -298,8 +297,6 @@ func CodeUser(c *fiber.Ctx) error {
 	}
 
 	code, userId, err := middleware.CodeId(c)
-
-	fmt.Println(code)
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
@@ -646,6 +643,30 @@ func RemoveLastAncestry(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"message": "El ancestro se ha eliminado exitosamente",
 		"user":    user,
+	})
+
+}
+
+func Contact(c *fiber.Ctx) error {
+
+	var contact models.ContactModel
+
+	if err := c.BodyParser(&contact); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := helper.Validate().Struct(&contact); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Hay campos vacios. Por favor completa",
+		})
+	}
+
+	utils.SendMessage(contact.Name, contact.Email, contact.Email)
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"message": "Mensaje enviado correctamente. Nos contactaremos en breve.",
 	})
 
 }

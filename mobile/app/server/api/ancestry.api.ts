@@ -1,6 +1,6 @@
 import { api } from "./api"
 
-import { IAncestry } from "@/interface/General"
+import { IAncestry } from "../../interface/General"
 
 export const getAncestorsApi = async (): Promise<IAncestry[]> => {
 

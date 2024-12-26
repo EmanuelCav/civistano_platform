@@ -1,7 +1,7 @@
 import { api } from "./api"
 
-import { ICode, IEmail, IUpdateAncestry, IUser, IUserInfo } from "@/interface/User"
-import { IMessageUser } from "@/interface/General"
+import { ICode, IEmail, IUpdateAncestry, IUser, IUserInfo } from "../../interface/User"
+import { IMessageUser } from "../../interface/General"
 
 export const getEmailApi = async (emailData: IEmail, id: string): Promise<IUserInfo> => {
 

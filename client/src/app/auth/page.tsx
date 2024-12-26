@@ -40,7 +40,7 @@ const Auth = () => {
     }
 
     return (
-        <div className="max-w-7xl mt-48 mx-auto w-full px-4">
+        <div className="max-w-7xl my-48 mx-auto w-full px-4">
             {
                 isLoggedIn && <CodeForm dispatch={dispatch} router={router} token={user.user.token!} />
             }

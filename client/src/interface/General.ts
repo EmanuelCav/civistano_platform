@@ -57,6 +57,10 @@ export interface IMessageUser {
     message: string;
 }
 
+export interface IMessage {
+    message: string;
+}
+
 export interface IStep {
     title: string;
     description: string;
@@ -66,4 +70,10 @@ export interface IPosibility {
     title: string;
     description: string;
     image: string;
+}
+
+export interface IContact {
+    name: string;
+    email: string;
+    message: string;
 }

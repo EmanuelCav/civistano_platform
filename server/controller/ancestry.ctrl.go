@@ -42,6 +42,8 @@ func Ancestors(c *fiber.Ctx) error {
 		ancestors = append(ancestors, ancestry)
 	}
 
+	ancestors = ancestors[1:]
+
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"ancestors": ancestors,
 	})

@@ -10,7 +10,7 @@ const ButtonAuthHome = ({ title, text, func, route }: ButtonAuthHomePropsType) =
             <Text style={homeStyles.titleButtonAuth}>{title}</Text>
             <Pressable style={({ pressed }) => [
                 {
-                    backgroundColor: pressed ? '#6b8cf2' : '#597EEE'
+                    backgroundColor: pressed ? '#007fff' : '#007bff'
                 },
                 homeStyles.buttonAuth
             ]} onPress={() => func(route)}>

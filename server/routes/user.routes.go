@@ -13,6 +13,7 @@ func UserRoute(app *fiber.App) {
 	app.Post("/users/ancestors/:id", controller.CreateUser)
 	app.Post("/users", controller.LoginUser)
 	app.Post("/users/code", middleware.Code(), controller.CodeUser)
+	app.Post("/users/contact", middleware.Auth(), controller.Contact)
 	app.Patch("/users/ancestors/:id", middleware.Auth(), controller.CreateAncestryUser)
 	app.Patch("/users", middleware.Auth(), controller.RemoveLastAncestry)
 	app.Patch("/users/restart", middleware.Auth(), controller.RestartUser)

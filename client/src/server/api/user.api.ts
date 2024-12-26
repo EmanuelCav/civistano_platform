@@ -1,7 +1,7 @@
 import { api } from "./api"
 
 import { ICode, IEmail, IUpdateAncestry, IUser, IUserInfo } from "@/interface/User"
-import { IMessageUser } from "@/interface/General"
+import { IContact, IMessage, IMessageUser } from "@/interface/General"
 
 export const getEmailApi = async (emailData: IEmail, id: string): Promise<IUserInfo> => {
 
@@ -159,6 +159,27 @@ export const codeApi = async (codeData: ICode, token: string): Promise<IUserInfo
     const response = await fetch(api + "/users/code", {
         method: 'POST',
         body: JSON.stringify(codeData),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data)
+    }
+
+    return data
+}
+
+export const contactApi = async (contactData: IContact, token: string): Promise<IMessage> => {
+
+    const response = await fetch(api + "/users/contact", {
+        method: 'POST',
+        body: JSON.stringify(contactData),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

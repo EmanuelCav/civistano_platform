@@ -183,3 +183,18 @@ export const codeUser = createAsyncThunk("users/code", async (userData: ActionPr
     }
 
 })
+
+export const contactUser = createAsyncThunk("users/contact", async (userData: ActionPropsTypes.ContactUserActionPropsType, { dispatch }) => {
+
+    try {
+
+        const data = await userApi.contactApi(userData.contactData, userData.token)
+
+        console.log(data.message);
+        
+
+    } catch (error) {
+        console.log(error);
+    }
+
+})

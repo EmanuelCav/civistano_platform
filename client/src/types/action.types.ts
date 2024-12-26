@@ -1,6 +1,7 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import { IAncestryData, ICode, IEmail } from "@/interface/User"
+import { IContact } from "@/interface/General";
 
 export type GetEmailActionPropsType = {
     data: IEmail;
@@ -58,5 +59,10 @@ export type LoginUserActionPropsType = {
 export type CodeUserActionPropsType = {
     codeData: ICode
     router: AppRouterInstance;
+    token: string;
+}
+
+export type ContactUserActionPropsType = {
+    contactData: IContact;
     token: string;
 }

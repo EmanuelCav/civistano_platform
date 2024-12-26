@@ -18,7 +18,7 @@ func ValidateNumber(text string) bool {
 }
 
 func ValidateUppercaseString(text string) bool {
-	isString := regexp.MustCompile(`^[A-ZÑ/]+$`).MatchString
+	isString := regexp.MustCompile(`^[A-ZÑÁÉÍÓÚ]*$`).MatchString
 	return isString(text)
 }
 
