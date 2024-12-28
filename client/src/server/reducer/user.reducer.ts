@@ -17,14 +17,14 @@ const userSlice = createSlice({
             state.user.ancestry = action.payload
         },
         authUser: (state, action: PayloadAction<IUserInfo>) => {
-            state.isLoggedIn = true,
+            state.isLoggedIn = true
             state.user = action.payload
         },
         actionUser: (state, action: PayloadAction<IUser>) => {
             state.user.user = action.payload
         },
         logoutUser: (state) => {
-            state.isLoggedIn = false,
+            state.isLoggedIn = false
             state.user = {}
         },
         tokenUser: (state, action: PayloadAction<string>) => {

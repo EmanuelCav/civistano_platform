@@ -1,9 +1,10 @@
 import { Dispatch } from "react";
 
-import { StackNavigation } from "./props.types";
+export type FormAuthPropsType = {
+    dispatch: Dispatch<any>;
+    setIsLoggedIn: (isLoggedIn: boolean) => void
+}
 
 export type CodeFormPropsType = {
-    router: StackNavigation;
-    dispatch: Dispatch<any>;
-    token: string;
+    setIsLoggedIn: (isLoggedIn: boolean) => void
 }

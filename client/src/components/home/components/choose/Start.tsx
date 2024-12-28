@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 const Start = () => {
     return (
         <div className="max-w-5xl bg-white shadow-lg rounded-lg p-8 flex flex-col items-center">

@@ -14,7 +14,7 @@ const Process = () => {
                 </p>
                 <div className="flex items-start justify-evenly w-full flex-wrap">
                     {steps.map((step, index) => (
-                        <StepProccess step={step} index={index} />
+                        <StepProccess step={step} index={index} key={index} />
                     ))}
                 </div>
             </div>

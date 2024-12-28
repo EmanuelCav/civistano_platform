@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 
 import ButtonAuthHome from './components/authHome/ButtonAuthHome'
-import TextLoginHome from './components/authHome/TextLoginHome'
+import Outcome from '../general/Outcome'
 
 import { homeStyles } from '../../styles/home.styles'
 
@@ -16,7 +16,7 @@ const AuthHome = ({ navigation }: { navigation: StackNavigation }) => {
     return (
         <View style={homeStyles.containerAuthHome}>
             <ButtonAuthHome text='Empezar Ahora' title='Iniciar cuestionario' func={handleNavigate} route='Questionnaire' />
-            <TextLoginHome navigation={navigation} />
+            <Outcome func={() => navigation.navigate('Auth')} question='¿Ya tienes un usuario?' text='Iniciar sesión' />
         </View>
     )
 }

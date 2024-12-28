@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 export const homeStyles = StyleSheet.create({
 
     containerHeaderHome: {
-        height: '12%',
+        height: '8%',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -17,11 +17,13 @@ export const homeStyles = StyleSheet.create({
     containTabHome: {
         flexDirection: 'row',
         width: '100%',
+        flex: 1,
         alignItems: 'center',
-        backgroundColor: '#fff',
+        justifyContent: 'center',
+        backgroundColor: '#ffffff',
         borderRadius: 8,
-        padding: 16,
-        marginVertical: 8,
+        padding: Dimensions.get("window").height / 47,
+        marginVertical: Dimensions.get("window").height / 92,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,
@@ -33,10 +35,9 @@ export const homeStyles = StyleSheet.create({
     },
 
     logoHome: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        marginRight: 16,
+        width: Dimensions.get("window").width / 7,
+        height: Dimensions.get("window").height / 50,
+        borderRadius: 25
     },
 
     textContainerHome: {
@@ -56,7 +57,7 @@ export const homeStyles = StyleSheet.create({
     },
 
     containerAuthHome: {
-        height: '30%',
+        height: '28%',
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'column'
@@ -89,7 +90,8 @@ export const homeStyles = StyleSheet.create({
 
     titleButtonAuth: {
         fontSize: Dimensions.get("window").height / 37,
-        fontWeight: '500'
+        fontWeight: '500',
+        color: '#333333'
     },
 
     linkHome: {
@@ -97,29 +99,6 @@ export const homeStyles = StyleSheet.create({
         fontWeight: '500',
         marginTop: Dimensions.get("window").height / 106,
         fontSize: Dimensions.get("window").height / 41
-    },
-
-    buttonAuth: {
-        marginTop: Dimensions.get("window").height / 106,
-        padding: Dimensions.get("window").height / 74,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        borderRadius: 8,
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
-    },
-
-    textButtonAuth: {
-        fontSize: Dimensions.get("window").height / 39,
-        fontWeight: '500',
-        color: '#ffffff'
     }
 
 })

@@ -184,7 +184,7 @@ export const codeUser = createAsyncThunk("users/code", async (userData: ActionPr
 
 })
 
-export const contactUser = createAsyncThunk("users/contact", async (userData: ActionPropsTypes.ContactUserActionPropsType, { dispatch }) => {
+export const contactUser = createAsyncThunk("users/contact", async (userData: ActionPropsTypes.ContactUserActionPropsType) => {
 
     try {
 

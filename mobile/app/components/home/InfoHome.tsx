@@ -8,19 +8,19 @@ import { homeStyles } from "../../styles/home.styles"
 
 const FEATURES: IFeature[] = [
   {
-    title: 'Profile Management',
-    description: 'Easily update and manage your personal information, settings, and preferences',
-    icon: 'account-circle-outline',
+    title: 'Completa el cuestionario inicial',
+    description: 'Responde un cuestionario corto y conciso para analizar si puedes obtener la ciudadanía italiana.',
+    icon: 'edit',
   },
   {
-    title: 'Secure Messaging',
-    description: 'Chat securely with friends and family in real-time.',
-    icon: 'message-processing',
+    title: 'Observa tu resultado',
+    description: 'Revisa tu estado y, a continuación, se generará una lista detallada con los pasos a seguir.',
+    icon: 'visibility',
   },
   {
-    title: 'Activity Tracking',
-    description: 'Monitor your daily activities and track your progress over time.',
-    icon: 'chart-timeline-variant',
+    title: 'Completa tu perfil',
+    description: 'Proporciona información adicional para personalizar los requisitos y recibir una guía completa.',
+    icon: 'person',
   },
 ]
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter, usePathname } from 'next/navigation'
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -17,6 +16,7 @@ import Register from "../general/Register"
 import { IReducer } from "@/interface/General"
 
 import { selector } from "@/server/reducer/selector"
+import Open from "./components/Open";
 
 const Header = () => {
 
@@ -77,22 +77,8 @@ const Header = () => {
 
     return (
         <div className="bg-white border-gray-200 z-20 px-4 border-b border-solid fixed top-0 w-full">
-            {isOpen && <nav className="md:hidden bg-white border-t border-gray-200">
-                <div className="flex flex-col items-center space-y-4 py-4">
-                    <Link href="/about">
-                        <p className="text-gray-600 hover:text-gray-800">Nosotros</p>
-                    </Link>
-                    <Link href="/contact">
-                        <p className="text-gray-600 hover:text-gray-800">Contacto</p>
-                    </Link>
-                    <button className="text-white bg-sky-700 hover:bg-sky-800 w-2/3 active:bg-sky-700 font-medium rounded-lg text-sm px-4 py-2 mx-2" onClick={handleSurveyData}>
-                        Empezar ahora
-                    </button>
-                    <button className="text-white bg-sky-700 hover:bg-sky-800 w-2/3 active:bg-sky-700 font-medium rounded-lg text-sm px-4 py-2 mx-2" onClick={() => router.push('/auth')}>
-                        Iniciar sesión
-                    </button>
-                </div>
-            </nav>
+            {
+                isOpen && <Open router={router} handleSurveyData={handleSurveyData} />
             }
             {
                 isSurveyData && <SurveyData handleClose={handleClose} handleShowQuestion={handleShowQuestion} />

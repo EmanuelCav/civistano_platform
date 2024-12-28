@@ -1,3 +1,5 @@
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
 import { IQuestion } from "@/interface/Survey";
 import { IReducerUser } from "@/interface/User";
 
@@ -36,4 +38,9 @@ export type ButtonHeaderPropsType = {
     Icon: any;
     text: string;
     color: string;
+}
+
+export type OpenPropsType = {
+    handleSurveyData: () => void;
+    router: AppRouterInstance;
 }
