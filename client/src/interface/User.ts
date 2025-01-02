@@ -42,7 +42,7 @@ export interface IChecklistUser {
     _id: string;
     user: IUser;
     isChecked: boolean;
-    checkList: IChecklist;
+    checklist: IChecklist;
     createdAt: string;
     updatedAt: string;
 }

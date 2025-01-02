@@ -2,29 +2,33 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export const questionnaireStyles = StyleSheet.create({
 
-    buttonQuestionnaire: {
-        padding: Dimensions.get("window").height / 74,
+    containerTitleQuestionnaire: {
+        height: '15%',
         justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#597EEE',
-        borderStyle: 'solid',
-        borderWidth: 2,
-        width: '100%',
-        borderRadius: 12,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        alignItems: 'center'
     },
 
-    textButtonQuestionnaire: {
-        fontSize: Dimensions.get("window").width * 0.05,
-        fontWeight: '500',
-        marginBottom: Dimensions.get("window").height / 106
+    containerStart: {
+        height: '28%'
+    },
+
+    containerOdds: {
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+
+    titleOdds: {
+        color: "#0369A1",
+        fontWeight: '600',
+        fontSize: Dimensions.get("window").height / 33
+    },
+
+    titleQuestionnaire: {
+        fontSize: Dimensions.get("window").height / 47,
+        fontWeight: '600',
+        textAlign: 'center',
+        color: '#333333'
     }
 
 })

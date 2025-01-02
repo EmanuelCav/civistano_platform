@@ -32,16 +32,16 @@ const Contact = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen mt-12 flex items-center justify-center p-6">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Contáctanos</h1>
         <p className="text-gray-600 mb-2">
           Completa el formulario a continuación para contactarnos.
-          <div className="flex justify-start items-center mt-1">
-            <MdOutlineEmail size={20} color='#000000' />
-            <p className="text-gray-600 ml-1">civistano@gmail.com</p>
-          </div>
         </p>
+        <div className="flex justify-start items-center mt-1">
+          <MdOutlineEmail size={20} color='#000000' />
+          <p className="text-gray-600 ml-1">civistano@gmail.com</p>
+        </div>
         <form className="space-y-4" onSubmit={handleSubmit((data) => handleSumbitLogin(data))} onReset={reset as any}>
           <div className="mt-4">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>

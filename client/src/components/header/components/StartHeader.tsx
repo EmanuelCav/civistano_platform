@@ -14,7 +14,7 @@ const StartHeader = ({ handleSurveyData, user, pathname }: StartHeaderPropsType)
             {
                 user.isLoggedIn ? (
                     <>
-                        <ButtonHeader href="/panel" Icon={FaRegCalendarCheck} text="Panel" color="green" />
+                        <ButtonHeader href="/panel" Icon={FaRegCalendarCheck} text="Panel" color="sky" />
                         <ButtonHeader href="/profile" Icon={IoPerson} text="Perfil" color="sky" />
                     </>
                 ) : (

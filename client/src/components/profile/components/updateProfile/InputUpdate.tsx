@@ -6,7 +6,7 @@ const InputUpdate = ({ question, error, register, text, value }: InputUpdateProp
             {error && <p className="text-red-500 text-xs italic my-2">{error.message}</p>}
                 <label
                     htmlFor={text}
-                    className="block mb-1 text-md font-medium text-gray-900"
+                    className="text-center block mb-1 text-md font-medium text-gray-900"
                 >
                     {question}
                 </label>

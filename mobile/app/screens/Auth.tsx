@@ -30,7 +30,7 @@ const Auth = ({ navigation }: { navigation: StackNavigation }) => {
       }
       <View style={authStyles.containAuth}>
         <FormAuth dispatch={dispatch} setIsLoggedIn={setIsLoggedIn} />
-        <Outcome func={() => navigation.navigate('Home')} question="¿Desea regresar" text="Regresar" />
+        <Outcome func={() => navigation.navigate('Home')} question="¿Desea regresar?" text="Regresar" />
       </View>
     </View>
   )

@@ -87,8 +87,13 @@ func CreateUser(c *fiber.Ctx) error {
 	var userCreated models.UserModel
 	var user models.CreateUserModel
 	var roleUser models.RoleModel
+
 	var ancestryYou models.AncestryModel
 	var ancestry models.AncestryModel
+
+	var photocopies models.ChecklistModel
+	var birthCertificate models.ChecklistModel
+	var services models.ChecklistModel
 
 	ctx, cancel := context.Context()
 	defer cancel()
@@ -139,6 +144,27 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
+	userId := primitive.NewObjectID()
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "DOS COPIAS DEL DNI"}).Decode(&photocopies); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO"}).Decode(&birthCertificate); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx,
+		bson.M{"title": "FACTURA DE SERVICIO QUE DEMUESTRE QUE EL USUARIO VIVE HACE, MINIMO, 6 MESES EN LA CIRCUNCRISPCION CONSULAR CORRESPONDIENTE"}).Decode(&services); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
 	newAncestryYou := models.AncestryUserModel{
 		Id: primitive.NewObjectID(),
 		Ancestry: models.AncestryModel{
@@ -151,7 +177,32 @@ func CreateUser(c *fiber.Ctx) error {
 			CreatedAt:  ancestryYou.CreatedAt,
 			UpdatedAt:  ancestryYou.UpdatedAt,
 		},
-		Checklist: []primitive.ObjectID{},
+		Checklist: []models.ChecklistUserModel{
+			{
+				Id:        primitive.NewObjectID(),
+				User:      userId,
+				IsChecked: false,
+				Checklist: photocopies,
+				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			},
+			{
+				Id:        primitive.NewObjectID(),
+				User:      userId,
+				IsChecked: false,
+				Checklist: birthCertificate,
+				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			},
+			{
+				Id:        primitive.NewObjectID(),
+				User:      userId,
+				IsChecked: false,
+				Checklist: services,
+				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			},
+		},
 		Firstname: "",
 		Lastname:  "",
 		Weddings:  0,
@@ -174,7 +225,7 @@ func CreateUser(c *fiber.Ctx) error {
 			CreatedAt:  ancestry.CreatedAt,
 			UpdatedAt:  ancestry.UpdatedAt,
 		},
-		Checklist: []primitive.ObjectID{},
+		Checklist: []models.ChecklistUserModel{},
 		Firstname: "",
 		Lastname:  "",
 		Weddings:  0,
@@ -186,7 +237,7 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	newUser := models.UserModel{
-		Id:        primitive.NewObjectID(),
+		Id:        userId,
 		Firstname: "",
 		Lastname:  "",
 		Email:     user.Email,
@@ -376,7 +427,7 @@ func CreateAncestryUser(c *fiber.Ctx) error {
 			CreatedAt:  ancestry.CreatedAt,
 			UpdatedAt:  ancestry.UpdatedAt,
 		},
-		Checklist: []primitive.ObjectID{},
+		Checklist: []models.ChecklistUserModel{},
 		Firstname: "",
 		Lastname:  "",
 		Weddings:  0,
@@ -423,6 +474,11 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 	var user models.UserModel
 	var userUpdated models.UserModel
 	var ancestryUpdate models.UpdateAncestryUserModel
+
+	var children models.ChecklistModel
+	// var divorces models.ChecklistModel
+	var weddings models.ChecklistModel
+	var diffusion models.ChecklistModel
 
 	ctx, cancel := context.Context()
 	defer cancel()
@@ -472,12 +528,92 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 		}
 	}
 
+	var checklistUser []models.ChecklistUserModel
+
+	if user.Ancestry[ancestryUserIndex].Ancestry.Ancestry == config.Config()["ancestryYou"] {
+		for i := 0; i < 3; i++ {
+			checklistUser = append(checklistUser, user.Ancestry[ancestryUserIndex].Checklist[i])
+		}
+	}
+
+	for i := 0; i < ancestryUpdate.Children; i++ {
+
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO DE HIJOS MENORES DE EDAD (SI APLICA)"}).Decode(&children); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+
+		checklistUser = append(checklistUser, models.ChecklistUserModel{
+			Id:        primitive.NewObjectID(),
+			User:      userId,
+			IsChecked: false,
+			Checklist: children,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		})
+	}
+
+	// for i := 0; i < ancestryUpdate.Divorces; i++ {
+
+	// 	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": ""}).Decode(&divorces); err != nil {
+	// 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+	// 			"message": err.Error(),
+	// 		})
+	// 	}
+
+	// 	checklistUser = append(checklistUser, models.ChecklistUserModel{
+	// 		Id:        primitive.NewObjectID(),
+	// 		User:      userId,
+	// 		IsChecked: false,
+	// 		Checklist: divorces,
+	// 		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	// 		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	// 	})
+	// }
+
+	for i := 0; i < ancestryUpdate.Weddings; i++ {
+
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE MATRIMONIO (SI APLICA)"}).Decode(&weddings); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+
+		checklistUser = append(checklistUser, models.ChecklistUserModel{
+			Id:        primitive.NewObjectID(),
+			User:      userId,
+			IsChecked: false,
+			Checklist: weddings,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		})
+	}
+
+	if ancestryUpdate.Death {
+
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE DEFUCIÓN (SI APLICA)"}).Decode(&diffusion); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+
+		checklistUser = append(checklistUser, models.ChecklistUserModel{
+			Id:        primitive.NewObjectID(),
+			User:      userId,
+			IsChecked: false,
+			Checklist: diffusion,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		})
+	}
+
 	user.Ancestry[ancestryUserIndex] = models.AncestryUserModel{
 		Id:        user.Ancestry[ancestryUserIndex].Id,
 		Firstname: user.Ancestry[ancestryUserIndex].Firstname,
 		Lastname:  user.Ancestry[ancestryUserIndex].Lastname,
 		Ancestry:  user.Ancestry[ancestryUserIndex].Ancestry,
-		Checklist: user.Ancestry[ancestryUserIndex].Checklist,
+		Checklist: checklistUser,
 		Weddings:  ancestryUpdate.Weddings,
 		Children:  ancestryUpdate.Children,
 		Divorces:  ancestryUpdate.Divorces,
@@ -667,6 +803,99 @@ func Contact(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
 		"message": "Mensaje enviado correctamente. Nos contactaremos en breve.",
+	})
+
+}
+
+func CheckAncestryUser(c *fiber.Ctx) error {
+
+	var ancestry models.AncestryModel
+	var checklist models.ChecklistModel
+	var user models.UserModel
+	var userUpdated models.UserModel
+
+	ctx, cancel := context.Context()
+	defer cancel()
+
+	aid := c.Params("aid")
+	cid := c.Params("cid")
+
+	ancestryId, err := primitive.ObjectIDFromHex(aid)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	checklistId, err2 := primitive.ObjectIDFromHex(cid)
+
+	if err2 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err2.Error(),
+		})
+	}
+
+	userId, err3 := middleware.UserId(c)
+
+	if err3 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err3.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionAncestry().FindOne(ctx, bson.M{"_id": ancestryId}).Decode(&ancestry); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"_id": checklistId}).Decode(&checklist); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	for i := 0; i < len(user.Ancestry); i++ {
+		if user.Ancestry[i].Ancestry.Ancestry == ancestry.Ancestry {
+			for j := 0; j < len(user.Ancestry[i].Checklist); j++ {
+				if user.Ancestry[i].Checklist[j].Checklist.Title == checklist.Title {
+					user.Ancestry[i].Checklist[j].IsChecked = !user.Ancestry[i].Checklist[j].IsChecked
+					break
+				}
+			}
+			break
+		}
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"ancestry": user.Ancestry,
+		},
+	}
+
+	_, err4 := connections.ConnectionUser().UpdateOne(ctx, bson.M{"_id": userId}, update)
+
+	if err4 != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err4.Error(),
+		})
+	}
+
+	if err := connections.ConnectionUser().FindOne(ctx, bson.M{"_id": userId}).Decode(&userUpdated); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(&fiber.Map{
+		"user": userUpdated,
 	})
 
 }

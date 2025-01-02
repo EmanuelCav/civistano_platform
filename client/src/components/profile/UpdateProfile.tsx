@@ -65,13 +65,13 @@ const UpdateProfile = ({ dispatch, user, ancestry, setIsUpdateProfile, index }: 
         color="#ff4444" size={28} onClick={() => setIsUpdateProfile(false)} />
       <form className="w-full" onReset={reset as any} onSubmit={handleSubmit((data) => handleSumbitUpdateProfile(data))}>
         <ButtonsUpdate func={handleIsMarried} isBoolean={isMarried}
-          question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ¿${ancestry?.ancestry} se ha casado?`} />
+          question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} se ha casado?`} />
         {
           isMarried && <InputUpdate register={register} value={user.user!.ancestry[index].weddings ? user.user!.ancestry[index].weddings : 0}
-            error={errors.weddings} question={`¿Cuantas veces se ha casado su ${ancestry?.ancestry}?`} text="weddings" />
+            error={errors.weddings} question={`¿Cuantas veces se ha casado ${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : 'su'} ${ancestry?.ancestry}?`} text="weddings" />
         }
         <ButtonsUpdate func={handleIsDivorced} isBoolean={isDivorced}
-          question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ¿${ancestry?.ancestry} se ha divorciado?`} />
+          question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} se ha divorciado?`} />
         {
           isDivorced && <InputUpdate register={register}
             value={user.user!.ancestry[index].divorces ? user.user!.ancestry[index].divorces : 0} error={errors.divorces}
@@ -81,7 +81,7 @@ const UpdateProfile = ({ dispatch, user, ancestry, setIsUpdateProfile, index }: 
           user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? (
             <>
               <ButtonsUpdate func={handleIsChildren} isBoolean={isChildren}
-                question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ¿${ancestry?.ancestry} tiene hijos menor de edad?`} />
+                question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} tiene hijos menor de edad?`} />
               {
                 isChildren && <InputUpdate register={register}
                   value={user.user!.ancestry[index].children ? user.user!.ancestry[index].children : 0} error={errors.children}

@@ -2,13 +2,11 @@ package helper
 
 import (
 	"log"
-	"time"
 
 	"github.com/EmanuelCav/civistano_platform/connections"
 	"github.com/EmanuelCav/civistano_platform/context"
 	"github.com/EmanuelCav/civistano_platform/models"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func ShowChecklists(areUserParents bool) []models.ChecklistModel {
@@ -46,23 +44,4 @@ func ShowChecklists(areUserParents bool) []models.ChecklistModel {
 	}
 
 	return checklists
-}
-
-func ChecklistAncestry(id primitive.ObjectID, areParents bool) []models.ChecklistUserModel {
-
-	var userChecklist []models.ChecklistUserModel
-	checklists := ShowChecklists(areParents)
-
-	for i := 0; i < len(checklists); i++ {
-		userChecklist = append(userChecklist, models.ChecklistUserModel{
-			Id:        primitive.NewObjectID(),
-			User:      id,
-			Checklist: checklists[i].Id,
-			IsChecked: false,
-			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
-		})
-	}
-
-	return userChecklist
 }

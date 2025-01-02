@@ -32,10 +32,12 @@ export interface IAncestry {
 }
 
 export interface IChecklist {
+    _id: string;
     title: string;
     description: string;
     areParents: boolean;
     link: string;
+    list: string[];
     isChecked: boolean;
 }
 

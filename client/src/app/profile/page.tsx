@@ -12,10 +12,11 @@ import DangerZone from "@/components/profile/DangerZone"
 import Sure from "@/components/profile/components/dangerZone/Sure"
 
 import { selector } from "@/server/reducer/selector"
-import { getUser, logoutAction, removeAncestryUser, removeUser, restartAncestryUser } from "@/server/actions/user.action"
+import { logoutAction, removeAncestryUser, removeUser, restartAncestryUser } from "@/server/actions/user.action"
 import { getAncestors } from "@/server/actions/ancestry.action"
 
 import { IAncestry, IReducer } from "@/interface/General"
+import { authUser } from "@/server/reducer/user.reducer"
 
 const Profile = () => {
 
@@ -83,13 +84,11 @@ const Profile = () => {
     useEffect(() => {
         if (user.user.token) {
             dispatch(getAncestors(setAncestors) as any)
-            dispatch(getUser({
-                id: user.user.user?._id!,
-                router,
-                token: user.user.token
-            }) as any)
+            dispatch(authUser(user.user))
+        } else {
+            router.push("/")
         }
-    }, [])
+    }, [user.user.token])
 
     return (
         <div className="max-w-7xl mx-auto mt-32">
@@ -134,16 +133,16 @@ const Profile = () => {
                 <div className="space-y-4">
                     {ancestors.length > 0 && user.user.user?.ancestry.length! > 1 &&
                         new Array(user.user.user?.ancestry[0].ancestry.hierarchy! - (user.user.user?.ancestry[1].ancestry.hierarchy ? user.user.user?.ancestry[1].ancestry.hierarchy : 0) - 1)
-                        .fill(0).map((_, index) => (
-                            <ProfileIncomplete
-                                ancestryNumber={
-                                    user.user.user?.ancestry[0].ancestry.hierarchy! - index - 1
-                                }
-                                ancestors={ancestors}
-                                completeAncestry={completeAncestry}
-                                key={index}
-                            />
-                        ))}
+                            .fill(0).map((_, index) => (
+                                <ProfileIncomplete
+                                    ancestryNumber={
+                                        user.user.user?.ancestry[0].ancestry.hierarchy! - index - 1
+                                    }
+                                    ancestors={ancestors}
+                                    completeAncestry={completeAncestry}
+                                    key={index}
+                                />
+                            ))}
                 </div>
             </div>
             <DangerZone handleIsLogout={() => setIsLogout(true)} handleIsRemove={() => setIsRemove(true)}

@@ -79,6 +79,24 @@ export const updateAncestryUserApi = async (userData: IUpdateAncestry, id: strin
     return data.user
 }
 
+export const checkAncestryApi = async (aid: string, cid: string, token: string): Promise<IUser> => {
+    
+    const response = await fetch(api + `/users/ancestors/${aid}/checklist/${cid}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data)
+    }
+
+    return data.user
+}
+
 export const removeAncestryUserApi = async (token: string): Promise<IMessageUser> => {
 
     const response = await fetch(api + "/users", {

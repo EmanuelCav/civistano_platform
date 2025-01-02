@@ -17,7 +17,7 @@ func SendMail(email string) {
 
 	message := []byte("Subject: ¡Bienvenido a Civistano!" + " \n" +
 		"\n" +
-		"Este es un mensaje de prueba enviado desde un programa en Go!")
+		"¡Te damos la bienvenida a Civistano!")
 
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 

@@ -71,6 +71,7 @@ func CreateChecklist(c *fiber.Ctx) error {
 		Title:       checklist.Title,
 		Description: checklist.Description,
 		AreParents:  checklist.AreParents,
+		List:        []string{""},
 		CreatedAt:   primitive.NewDateTimeFromTime(time.Now()),
 		UpdatedAt:   primitive.NewDateTimeFromTime(time.Now()),
 	}

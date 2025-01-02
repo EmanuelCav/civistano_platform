@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { MdOutlineAlternateEmail } from "react-icons/md";
@@ -38,6 +38,12 @@ const Auth = () => {
             setIsLoggedIn
         }) as any)
     }
+
+    useEffect(() => {
+        if(user.user.token) {
+            router.push('/panel')    
+        }
+    }, [user.user.token])
 
     return (
         <div className="max-w-7xl my-48 mx-auto w-full px-4">

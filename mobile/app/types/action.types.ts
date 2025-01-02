@@ -27,6 +27,12 @@ export type UpdateAncestryUserActionPropsType = {
     setIsUpdateProfile: (isUpdateProfile: boolean) => void;
 }
 
+export type CheckAncestryUserActionPropsType = {
+    aid: string;
+    cid: string;
+    token: string;
+}
+
 export type AddAncestryUserActionPropsType = {
     id: string;
     token: string;

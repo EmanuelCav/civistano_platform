@@ -43,4 +43,5 @@ export type ButtonHeaderPropsType = {
 export type OpenPropsType = {
     handleSurveyData: () => void;
     router: AppRouterInstance;
+    token: string;
 }

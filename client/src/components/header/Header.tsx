@@ -12,11 +12,11 @@ import SurveyData from "../general/SurveyData"
 import Question from "../general/Question"
 import Return from "../general/Return"
 import Register from "../general/Register"
+import Open from "./components/Open";
 
 import { IReducer } from "@/interface/General"
 
 import { selector } from "@/server/reducer/selector"
-import Open from "./components/Open";
 
 const Header = () => {
 
@@ -67,18 +67,10 @@ const Header = () => {
         setIsNotPossible(false)
     }
 
-    // useEffect(() => {
-    //     if(!user.isLoggedIn) {
-    //         router.push('/')
-    //     } else {
-    //         router.push('/panel')
-    //     }
-    // }, [user.isLoggedIn])
-
     return (
         <div className="bg-white border-gray-200 z-20 px-4 border-b border-solid fixed top-0 w-full">
             {
-                isOpen && <Open router={router} handleSurveyData={handleSurveyData} />
+                isOpen && <Open router={router} handleSurveyData={handleSurveyData} token={user.user.token!} />
             }
             {
                 isSurveyData && <SurveyData handleClose={handleClose} handleShowQuestion={handleShowQuestion} />
@@ -90,26 +82,32 @@ const Header = () => {
                     setIsJudicial={setIsJudicial} />
             }
             {
-                isAdministrative && <Return title="Vía Administrativa" text="Si tienes ascendencia italiana, es el camino más común para obtener la ciudadanía. Puede brindarse en casos de descendencia, matrimonio o naturalización." func={handleContinue} />
+                isAdministrative && <Return title="Vía Administrativa" 
+                text="Si tienes ascendencia italiana, es el camino más común para obtener la ciudadanía. Puede brindarse en casos de descendencia, matrimonio o naturalización." 
+                func={handleContinue} />
             }
             {
-                isJudicial && <Return title="Vía Judicial" text="Situaciones donde hay complicaciones con los documentos o si el solicitante no puede demostrar claramente su derecho a la ciudadanía." func={handleContinue} />
+                isJudicial && <Return title="Vía Judicial" 
+                text="Situaciones donde hay complicaciones con los documentos o si el solicitante no puede demostrar claramente su derecho a la ciudadanía." 
+                func={handleContinue} />
             }
             {
-                isNotPossible && <Return title="Falta de Requisitos" text="En ciertos casos, no es posible obtener la ciudadanía italiana. Esto puede ocurrir cuando no hay vínculo de ascendencia italiano válido o por renuncia a la ciudadania italiana." func={handleCancel} />
+                isNotPossible && <Return title="Falta de Requisitos" 
+                text="En ciertos casos, no es posible obtener la ciudadanía italiana. Esto puede ocurrir cuando no hay vínculo de ascendencia italiano válido o por renuncia a la ciudadania italiana." 
+                func={handleCancel} />
             }
             {
                 isEmail && <Register dispatch={dispatch} router={router} setIsEmail={setIsEmail} />
             }
             <div className="hidden md:block w-full">
                 <div className="flex justify-between items-center mx-auto max-w-screen-xl px-2">
-                    <Icon href={user.isLoggedIn ? "/panel" : "/"} />
+                    <Icon href={user.user.token ? "/panel" : "/"} />
                     <Navigation />
                     <StartHeader handleSurveyData={handleSurveyData} user={user} pathname={pathname} />
                 </div>
             </div>
             <div className="md:hidden w-full flex justify-between items-center">
-                <Icon href={user.isLoggedIn ? "/panel" : "/"} />
+                <Icon href={user.user.token ? "/panel" : "/"} />
                 <GiHamburgerMenu size={24} className="text-gray-600 cursor-pointer" onClick={toggleMenu} />
             </div>
         </div>

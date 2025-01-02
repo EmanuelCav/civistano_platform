@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/navigation'
 
 import SurveyData from "@/components/general/SurveyData";
@@ -13,7 +13,13 @@ import Process from "@/components/home/Process";
 import Posibilities from "@/components/home/Posibilities";
 import Choose from "@/components/home/Choose";
 
+import { selector } from "@/server/reducer/selector";
+
+import { IReducer } from "@/interface/General";
+
 export default function Home() {
+
+  const user = useSelector((state: IReducer) => selector(state).user)
 
   const dispatch = useDispatch()
   const router = useRouter()
@@ -52,6 +58,12 @@ export default function Home() {
     setIsJudicial(false)
     setIsNotPossible(false)
   }
+
+  useEffect(() => {
+    if (user.user.token) {
+      router.push('/panel')
+    }
+  }, [user.user.token])
 
   return (
     <div className="w-full">
