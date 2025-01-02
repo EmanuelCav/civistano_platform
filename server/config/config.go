@@ -1,40 +1,38 @@
 package config
 
 import (
-	"log"
-
-	"github.com/joho/godotenv"
+	"os"
 )
 
 func Config() map[string]string {
 
-	envFile, err := godotenv.Read(".env")
+	// envFile, err := godotenv.Read(".env")
 
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	variables := make(map[string]string)
 
-	variables["port"] = envFile["PORT"]
-	variables["database"] = envFile["DATABASE"]
-	variables["uri"] = envFile["MONGO_URI"]
-	variables["userCollection"] = envFile["USER_COLLECTION"]
-	variables["roleCollection"] = envFile["ROLE_COLLECTION"]
-	variables["ancestryCollection"] = envFile["ANCESTRY_COLLECTION"]
-	variables["ancestryUserCollection"] = envFile["ANCESTRY_USER_COLLECTION"]
-	variables["provinceCollection"] = envFile["PROVINCE_COLLECTION"]
-	variables["linkCollection"] = envFile["LINK_COLLECTION"]
-	variables["checklistCollection"] = envFile["CHECKLIST_COLLECTION"]
-	variables["defaultRole"] = envFile["DEFAULT_ROLE"]
-	variables["privilegedRole"] = envFile["PRIVILEGED_ROLE"]
-	variables["ancestryYou"] = envFile["ANCESTRY_YOU"]
-	variables["jwt"] = envFile["JWT"]
-	variables["jwt_login"] = envFile["JWT_LOGIN"]
-	variables["myPass"] = envFile["MY_PASS"]
-	variables["myHost"] = envFile["MY_HOST"]
-	variables["myMail"] = envFile["MY_MAIL"]
-	variables["myPort"] = envFile["MY_PORT"]
+	variables["port"] = os.Getenv("PORT")
+	variables["database"] = os.Getenv("DATABASE")
+	variables["uri"] = os.Getenv("MONGO_URI")
+	variables["userCollection"] = os.Getenv("USER_COLLECTION")
+	variables["roleCollection"] = os.Getenv("ROLE_COLLECTION")
+	variables["ancestryCollection"] = os.Getenv("ANCESTRY_COLLECTION")
+	variables["ancestryUserCollection"] = os.Getenv("ANCESTRY_USER_COLLECTION")
+	variables["provinceCollection"] = os.Getenv("PROVINCE_COLLECTION")
+	variables["linkCollection"] = os.Getenv("LINK_COLLECTION")
+	variables["checklistCollection"] = os.Getenv("CHECKLIST_COLLECTION")
+	variables["defaultRole"] = os.Getenv("DEFAULT_ROLE")
+	variables["privilegedRole"] = os.Getenv("PRIVILEGED_ROLE")
+	variables["ancestryYou"] = os.Getenv("ANCESTRY_YOU")
+	variables["jwt"] = os.Getenv("JWT")
+	variables["jwt_login"] = os.Getenv("JWT_LOGIN")
+	variables["myPass"] = os.Getenv("MY_PASS")
+	variables["myHost"] = os.Getenv("MY_HOST")
+	variables["myMail"] = os.Getenv("MY_MAIL")
+	variables["myPort"] = os.Getenv("MY_PORT")
 
 	return variables
 
