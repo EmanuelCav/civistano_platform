@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { IoMdClose } from 'react-icons/io'
 
-import ContainerFixed from "../general/ContainerFixed"
+import ContainerFormFixed from "../general/ContainerFormFixed"
 import ButtonsUpdate from "./components/updateProfile/ButtonsUpdate"
 import InputUpdate from "./components/updateProfile/InputUpdate"
 
@@ -60,7 +60,7 @@ const UpdateProfile = ({ dispatch, user, ancestry, setIsUpdateProfile, index }: 
   }
 
   return (
-    <ContainerFixed>
+    <ContainerFormFixed>
       <IoMdClose className="absolute top-5 right-10 cursor-pointer hover:bg-red-100 active:bg-white"
         color="#ff4444" size={28} onClick={() => setIsUpdateProfile(false)} />
       <form className="w-full" onReset={reset as any} onSubmit={handleSubmit((data) => handleSumbitUpdateProfile(data))}>
@@ -92,13 +92,13 @@ const UpdateProfile = ({ dispatch, user, ancestry, setIsUpdateProfile, index }: 
             <ButtonsUpdate func={handleIsDead} isBoolean={isDead} question={`¿Su ${ancestry?.ancestry} ha fallecido?`} />
           )
         }
-        <div className="mt-4">
+        <div className="mt-4 w-full">
           <button className="text-white w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-lg px-4 py-2 mt-4">
             ACEPTAR
           </button>
         </div>
       </form>
-    </ContainerFixed>
+    </ContainerFormFixed>
   )
 }
 

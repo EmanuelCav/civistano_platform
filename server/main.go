@@ -8,22 +8,20 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 
 	app := fiber.New()
 
-	// err := godotenv.Load()
-
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
+	godotenv.Load()
 
 	app.Use(logger.New())
+
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
-		AllowHeaders: "Origin, Content-Type, Accept",
+		// AllowOrigins: config.Config()["originProd"],
 	}))
 
 	routes.UserRoute(app)
@@ -33,12 +31,6 @@ func main() {
 	routes.LinkRoute(app)
 	routes.ChecklistRoute(app)
 
-	err2 := app.Listen(":" + config.Config()["port"])
-
-	if err2 != nil {
-		log.Fatal("Error to connect server")
-	}
-
-	log.Println("Server o port " + config.Config()["port"])
+	log.Fatal(app.Listen(":" + config.Config()["port"]))
 
 }

@@ -24,7 +24,7 @@ func DatabaseConnection() *mongo.Client {
 	err2 := client.Ping(ctx, readpref.Primary())
 
 	if err2 != nil {
-		log.Fatal(err)
+		log.Fatal(err2)
 	}
 
 	log.Println("Database is running")

@@ -6,10 +6,15 @@ import (
 
 func Config() map[string]string {
 
-	// envFile, err := godotenv.Read(".env")
-
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
+	// if _, err := os.Stat(".env"); err == nil {
+	// 	err := godotenv.Load(".env")
+	// 	if err != nil {
+	// 		log.Println("Error loading .env file:", err)
+	// 	} else {
+	// 		log.Println(".env file loaded successfully")
+	// 	}
+	// } else {
+	// 	log.Println(".env file not found, using system environment variables")
 	// }
 
 	variables := make(map[string]string)
@@ -33,6 +38,7 @@ func Config() map[string]string {
 	variables["myHost"] = os.Getenv("MY_HOST")
 	variables["myMail"] = os.Getenv("MY_MAIL")
 	variables["myPort"] = os.Getenv("MY_PORT")
+	variables["originProd"] = os.Getenv("ORIGIN_PROD")
 
 	return variables
 

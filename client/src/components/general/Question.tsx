@@ -82,7 +82,7 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
 
         dispatch(updateAncestry(ancestors.find((a) => a.ancestry === personAncestry)!))
     }
-    
+
     useEffect(() => {
         dispatch(getAncestors(setAncestors as any))
     }, [])
@@ -90,36 +90,40 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
     return (
         <ContainerFixed>
             {
-                isSelect ? <>
-                    <p className="text-gray-900 text-xl my-2 text-center">Selecciona tu ascendiente italiano</p>
-                    <form className="w-full" onSubmit={handleSumbit}>
-                        <select defaultValue="" name="ancestry" id="ancestry" onChange={handleSelectAncestry}
-                            className="bg-gray-50 my-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-orange-500 block w-full p-2.5">
-                            <option disabled value="">Ascendiente italiano</option>
-                            {
-                                ancestors.map((value, index) => {
-                                    return <option value={value.ancestry} key={index}>{value.ancestry}</option>
-                                })
-                            }
-                        </select>
+                isSelect ?
+                    <form className="flex h-full items-center justify-between flex-col w-full" onSubmit={handleSumbit}>
+                        <div className="items-center justify-start flex-col flex flex-1 w-full">
+                            <p className="text-gray-900 text-xl my-2 text-center">Selecciona tu ascendiente italiano</p>
+                            <select defaultValue="" name="ancestry" id="ancestry" onChange={handleSelectAncestry}
+                                className="bg-gray-50 my-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-orange-500 block w-full p-2.5">
+                                <option disabled value="">Ascendiente italiano</option>
+                                {
+                                    ancestors.map((value, index) => {
+                                        return <option value={value.ancestry} key={index}>{value.ancestry}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
                         <button className={personAncestry.length === 0 ? "text-white w-full bg-sky-100 font-medium rounded-lg text-lg px-4 py-2 mt-4"
                             : "text-white w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-lg px-4 py-2 mt-4"}
                             disabled={personAncestry.length === 0}>
                             CONTINUAR
                         </button>
                     </form>
-                </> : <>
-                    <p className="text-gray-900 text-xl my-2 text-center">{survey.question.question}</p>
-                    <ButtonsSurvey handleSelect={handleSelect} isYes={isYes} isDisabled={isDisabled}
-                        question={questions.find((question => question.question === survey.question.question))!} />
-                    <button className={isDisabled ? "text-white w-full bg-sky-100 font-medium rounded-lg text-lg px-4 py-2 mt-4"
-                        : "text-white w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-lg px-4 py-2 mt-4"}
-                        disabled={isDisabled} onClick={handleContinue}>
-                        CONTINUAR
-                    </button>
-                </>
+                    : <div className="flex h-full items-center justify-between flex-col w-full">
+                        <div className="items-center justify-start flex-col flex flex-1 w-full">
+                            <p className="text-gray-900 text-xl my-2 text-center">{survey.question.question}</p>
+                            <ButtonsSurvey handleSelect={handleSelect} isYes={isYes} isDisabled={isDisabled}
+                                question={questions.find((question => question.question === survey.question.question))!} />
+                        </div>
+                        <button className={isDisabled ? "text-white w-full bg-sky-100 font-medium rounded-lg text-lg px-4 py-2 mt-4"
+                            : "text-white w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-700 font-medium rounded-lg text-lg px-4 py-2 mt-4"}
+                            disabled={isDisabled} onClick={handleContinue}>
+                            CONTINUAR
+                        </button>
+                    </div>
             }
-        </ContainerFixed >
+        </ContainerFixed>
     )
 }
 

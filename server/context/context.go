@@ -7,7 +7,7 @@ import (
 
 func Context() (context.Context, context.CancelFunc) {
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 
 	return ctx, cancel
 
