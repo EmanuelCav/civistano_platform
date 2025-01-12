@@ -60,10 +60,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (user.user.token) {
+    if (user.isLoggedIn) {
       router.push('/panel')
     }
-  }, [user.user.token])
+  }, [user.isLoggedIn])
 
   return (
     <div className="w-full">

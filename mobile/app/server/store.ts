@@ -2,11 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { thunk } from 'redux-thunk'
+import { EXPO_STORAGE, NODE_ENV } from '@env'
 
 import reducers from './reducer/reducers'
 
 const persistedReducer = persistReducer({
-    key: `civistano_key_storage`,
+    key: `${EXPO_STORAGE}`,
     version: 1,
     storage: AsyncStorage
 }, reducers)
@@ -22,7 +23,7 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false,
     }).concat(thunk),
-    devTools: false
+    devTools: NODE_ENV !== 'production',
 })
 
 export type AppStore = ReturnType<typeof makeStore>

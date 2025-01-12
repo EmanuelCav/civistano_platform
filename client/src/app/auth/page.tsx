@@ -40,10 +40,10 @@ const Auth = () => {
     }
 
     useEffect(() => {
-        if(user.user.token) {
+        if(user.isLoggedIn) {
             router.push('/panel')    
         }
-    }, [user.user.token])
+    }, [user.isLoggedIn])
 
     return (
         <div className="max-w-7xl my-48 mx-auto w-full px-4">

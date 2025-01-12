@@ -13,6 +13,7 @@ import Auth from './app/screens/Auth';
 import Questionnaire from './app/screens/Questionnaire';
 import Panel from './app/screens/Panel';
 import Profile from './app/screens/Profile';
+import Loading from './app/components/response/Loading';
 
 import { store } from "./app/server/store";
 
@@ -34,6 +35,7 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Container>
+            <Loading />
             <StatusBar backgroundColor='#5cc197' style='light' />
             <Stack.Navigator initialRouteName="Home" screenOptions={{
               headerShown: false

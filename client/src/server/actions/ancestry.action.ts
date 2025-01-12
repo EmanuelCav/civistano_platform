@@ -5,6 +5,8 @@ import * as ancestryApi from "../api/ancestry.api";
 
 import { IAncestry } from "@/interface/General";
 
+import { dangerMessage } from "@/helper/message";
+
 export const getAncestors = createAsyncThunk("ancestry/get", async (setAncestors: Dispatch<SetStateAction<IAncestry[]>>) => {
 
     try {
@@ -14,7 +16,7 @@ export const getAncestors = createAsyncThunk("ancestry/get", async (setAncestors
         setAncestors(data)
 
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al obtener los ancestros")
     }
 
 })

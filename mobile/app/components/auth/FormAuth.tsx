@@ -19,20 +19,20 @@ const FormAuth = ({ dispatch, setIsLoggedIn }: FormAuthPropsType) => {
         resolver: yupResolver(emailSchema),
     })
 
-    const handleSumbitLogin = () => {
+    const handleSumbitLogin = (data: IEmail) => {
         reset()
         setIsLoggedIn(true)
-        // dispatch(loginUser({
-        //     emailData: data,
-        //     setIsLoggedIn
-        // }) as any)
+        dispatch(loginUser({
+            emailData: data,
+            setIsLoggedIn
+        }) as any)
     }
 
     return (
         <>
             <Text style={authStyles.titleAuth}>Iniciar Sesión</Text>
             {
-                errors.email && <Text></Text>
+                errors.email && <Text style={generalStyles.errorMessage}>{errors.email.message}</Text>
             }
             <TextInput
                 {...register("email")}
@@ -47,7 +47,7 @@ const FormAuth = ({ dispatch, setIsLoggedIn }: FormAuthPropsType) => {
                     backgroundColor: pressed ? '#1f8eff' : '#007bff'
                 },
                 generalStyles.buttonContinue
-            ]} onPress={handleSumbitLogin}>
+            ]} onPress={handleSubmit((data) => handleSumbitLogin(data))}>
                 <Text style={generalStyles.textButtonContinue}>Ingresar</Text>
             </Pressable>
         </>

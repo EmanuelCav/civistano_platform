@@ -68,7 +68,7 @@ const Questionnaire = ({ navigation }: { navigation: StackNavigation }) => {
             }
             <TitleQuestionnaire />
             <Odds />
-            <Start navigation={navigation} />
+            <Start setIsQuestion={setIsQuestion} navigation={navigation} />
         </View>
     )
 }

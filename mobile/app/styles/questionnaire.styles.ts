@@ -8,8 +8,59 @@ export const questionnaireStyles = StyleSheet.create({
         alignItems: 'center'
     },
 
+    containFormQuestionnaire: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    titleFormQuestionnaire: {
+        fontSize: Dimensions.get("window").height / 41,
+        fontWeight: 'bold',
+        marginBottom: Dimensions.get("window").height / 37,
+        color: '#333333',
+        textAlign: 'center'
+    },
+
+    textFormQuestionnaire: {
+        fontSize: Dimensions.get("window").height / 37,
+        marginBottom: Dimensions.get("window").height / 37,
+        color: '#333333',
+        textAlign: 'center'
+    },
+
     containerStart: {
-        height: '28%'
+        height: '20%'
+    },
+
+    containButtonsSurvey: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        marginBottom: Dimensions.get("window").height / 50
+    },
+
+    buttonSurvey: {
+        borderRadius: 8,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+        width: '37.33%',
+        padding: Dimensions.get("window").height / 74,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    textButtonSurvey: {
+        fontSize: Dimensions.get("window").height / 39,
+        fontWeight: '500',
+        color: '#ffffff'
     },
 
     containerOdds: {

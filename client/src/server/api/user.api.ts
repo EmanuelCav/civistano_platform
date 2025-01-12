@@ -17,7 +17,7 @@ export const getEmailApi = async (emailData: IEmail, id: string): Promise<IUserI
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data
@@ -34,7 +34,7 @@ export const getUserApi = async (id: string, token: string): Promise<IUserInfo> 
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data
@@ -52,7 +52,7 @@ export const createAncestryUserApi = async (id: string, token: string): Promise<
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data.user
@@ -73,7 +73,7 @@ export const updateAncestryUserApi = async (userData: IUpdateAncestry, id: strin
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data.user
@@ -91,7 +91,7 @@ export const checkAncestryApi = async (aid: string, cid: string, token: string):
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data.user
@@ -109,7 +109,7 @@ export const removeAncestryUserApi = async (token: string): Promise<IMessageUser
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data
@@ -127,7 +127,7 @@ export const restartAncestryUserApi = async (token: string): Promise<IMessageUse
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data
@@ -145,7 +145,7 @@ export const removeUserApi = async (id: string, token: string): Promise<string> 
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data.message
@@ -166,7 +166,7 @@ export const loginApi = async (emailData: IEmail): Promise<string> => {
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data.token
@@ -187,7 +187,7 @@ export const codeApi = async (codeData: ICode, token: string): Promise<IUserInfo
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data
@@ -208,7 +208,7 @@ export const contactApi = async (contactData: IContact, token: string): Promise<
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return data

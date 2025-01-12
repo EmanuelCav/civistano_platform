@@ -1,0 +1,31 @@
+{
+  "cli": {
+    "version": ">= 11.0.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "EXPO_URL_PRODUCTION": "https://servercivistano-production.up.railway.app",
+        "EXPO_URL_DEVELOPMENT": "http://127.0.0.1:5400",
+        "EXPO_STORAGE": "civistano_storage"
+      }
+    },
+    "test": {
+      "env": {
+        "EXPO_URL_PRODUCTION": "https://servercivistano-production.up.railway.app",
+        "EXPO_URL_DEVELOPMENT": "http://127.0.0.1:5400",
+        "EXPO_STORAGE": "civistano_storage"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

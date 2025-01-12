@@ -1,9 +1,11 @@
 import { Dispatch } from "react";
 
 import { StackNavigation } from "./props.types"
+import { IQuestion } from "../interface/Survey";
 
 export type StartPropsType = {
     navigation: StackNavigation;
+    setIsQuestion: (isQuestion: boolean) => void;
 }
 
 export type ReturnPropsType = {
@@ -23,4 +25,11 @@ export type QuestionPropsType = {
     setIsJudicial: (isJudicial: boolean) => void;
     setIsNotPossible: (isNotPosible: boolean) => void;
     setIsQuestion: (isQuestion: boolean) => void;
+}
+
+export type ButtonsSurveyPropsType = {
+    isDisabled: boolean;
+    isYes: boolean;
+    handleSelect: (value: boolean, id: number | undefined) => void;
+    question: IQuestion;
 }

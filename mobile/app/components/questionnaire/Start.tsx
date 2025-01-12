@@ -7,7 +7,7 @@ import { generalStyles } from "../../styles/general.styles"
 
 import { StartPropsType } from "../../types/questionnnaire.types"
 
-const Start = ({ navigation }: StartPropsType) => {
+const Start = ({ navigation, setIsQuestion }: StartPropsType) => {
   return (
     <View style={questionnaireStyles.containerStart}>
       <Pressable style={({ pressed }) => [
@@ -15,7 +15,7 @@ const Start = ({ navigation }: StartPropsType) => {
           backgroundColor: pressed ? '#1f8eff' : '#007bff'
         },
         generalStyles.buttonContinue
-      ]} onPress={() => navigation.navigate("Panel")}>
+      ]} onPress={() => setIsQuestion(true)}>
         <Text style={generalStyles.textButtonContinue}>Iniciar</Text>
       </Pressable>
       <Outcome func={() => navigation.navigate("Home")} question="¿Desea regresar?" text="Regresar" />

@@ -9,7 +9,7 @@ export const getAncestorsApi = async (): Promise<IAncestry[]> => {
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }    
 
     return data.ancestors

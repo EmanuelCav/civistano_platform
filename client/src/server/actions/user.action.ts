@@ -6,6 +6,8 @@ import * as ActionPropsTypes from "@/types/action.types";
 import * as userApi from "../api/user.api";
 import * as userReducer from "../reducer/user.reducer";
 
+import { dangerMessage, successMessage } from "@/helper/message";
+
 export const getEmail = createAsyncThunk("users/getEmail", async (emailData: ActionPropsTypes.GetEmailActionPropsType, { dispatch }) => {
 
     try {
@@ -19,7 +21,7 @@ export const getEmail = createAsyncThunk("users/getEmail", async (emailData: Act
         emailData.setIsEmail(false)
 
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al obtener los ancestros. Intenta más tarde")
     }
 
 })
@@ -33,10 +35,9 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
         dispatch(userReducer.authUser(data))
 
     } catch (error) {
-        // dispatch(userReducer.logoutUser())
-        // userData.router.push('/')
-        console.log(error);
-
+        dispatch(userReducer.logoutUser())
+        userData.router.push('/')
+        dangerMessage("Error al obtener los datos. del usuario")
     }
 
 })
@@ -66,7 +67,7 @@ export const createAncestryUser = createAsyncThunk("users/createAncestry", async
         userData.setIsCompleteAncestry(false)
 
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al crear un ancestro")
     }
 
 })
@@ -82,7 +83,7 @@ export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async
         userData.setIsUpdateProfile(false)
 
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al crear un ancestro")
     }
 
 })
@@ -112,7 +113,7 @@ export const addAncestryUser = createAsyncThunk("users/addAncestry", async (user
         userData.setIsRestart(false)
 
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al crear un ancestro")
     }
 
 })
@@ -127,8 +128,10 @@ export const removeAncestryUser = createAsyncThunk("users/removeAncestry", async
 
         userData.setIsRemoveAncestry(false)
 
+        successMessage(data.message)
+
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al eliminar un ancestro")
     }
 
 })
@@ -143,8 +146,10 @@ export const restartAncestryUser = createAsyncThunk("users/restartAncestry", asy
 
         userData.setIsRestart(false)
 
+        successMessage(data.message)
+
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error al momento de restaurar")
     }
 
 })
@@ -155,13 +160,14 @@ export const removeUser = createAsyncThunk("users/remove", async (userData: Acti
 
         userData.router.push("/")
 
-        await userApi.removeUserApi(userData.id, userData.token)
+        const data = await userApi.removeUserApi(userData.id, userData.token)
 
         dispatch(userReducer.logoutUser())
 
+        successMessage(data)
 
     } catch (error) {
-        console.log(error);
+        dangerMessage("Error de eliminar el usuario")
     }
 
 })
@@ -176,8 +182,8 @@ export const loginUser = createAsyncThunk("users/login", async (userData: Action
 
         userData.setIsLoggedIn(true)
 
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        dangerMessage(error)
     }
 
 })
@@ -192,8 +198,8 @@ export const codeUser = createAsyncThunk("users/code", async (userData: ActionPr
 
         userData.router.push("/panel")
 
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        dangerMessage(error)
     }
 
 })
@@ -204,11 +210,10 @@ export const contactUser = createAsyncThunk("users/contact", async (userData: Ac
 
         const data = await userApi.contactApi(userData.contactData, userData.token)
 
-        console.log(data.message);
-        
+        successMessage(data.message)
 
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        dangerMessage(error)
     }
 
 })
