@@ -1,4 +1,4 @@
-<h1 align="center">Surfrage</h1>
+<h1 align="center">Civistano</h1>
 <div align="center">
   <img src="https://res.cloudinary.com/projects-emanuek/image/upload/v1737044520/adaptive-icon_r7gope.png" width="40%" />
 </div>
