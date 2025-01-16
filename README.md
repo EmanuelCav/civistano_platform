@@ -18,3 +18,7 @@
 - Next.js
 - Redux
 - Tailwind CSS
+
+## Diagram ##
+
+<img src="https://res.cloudinary.com/projects-emanuek/image/upload/v1737049214/civistano_jz0iul.png" />
