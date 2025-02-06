@@ -8,12 +8,18 @@ const ProfileAncestry = ({ ancestor, updateProfile, removeAncestry, index }: Pro
       <div>
         <h3 className="text-lg font-semibold flex items-center space-x-2">
           {
-            index === 0 && <FaTrash size={20} color="#ff0000" onClick={removeAncestry} className="cursor-pointer hover:bg-red-200 active:bg-white" />
+            index === 0 && ancestor.ancestry.hierarchy &&
+            <FaTrash size={20} color="#ff0000" onClick={removeAncestry} className="cursor-pointer hover:bg-red-200 active:bg-white" />
           }
-          <p>{ancestor.ancestry.ancestry}</p>
+          <p className="text-gray-900 text-lg">{ancestor.ancestry.ancestry}</p>
         </h3>
-        <p className="text-gray-900 text-lg">Casamientos: {ancestor.weddings ? ancestor.weddings : 0}</p>
-        <p className="text-gray-900 text-lg">Divorcios: {ancestor.divorces ? ancestor.divorces : 0}</p>
+        {
+          ancestor.ancestry.ancestry !== "CÓNYUGE" &&
+          <>
+            <p className="text-gray-900 text-lg">Casamientos: {ancestor.weddings ? ancestor.weddings : 0}</p>
+            <p className="text-gray-900 text-lg">Divorcios: {ancestor.divorces ? ancestor.divorces : 0}</p>
+          </>
+        }
         {
           ancestor.ancestry.ancestry !== 'USTED' &&
           <p className="text-gray-900 text-lg">Difunto: {ancestor.death ? 'Si' : 'No'}</p>

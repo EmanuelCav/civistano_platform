@@ -44,4 +44,5 @@ export type OpenPropsType = {
     handleSurveyData: () => void;
     router: AppRouterInstance;
     token: string;
+    setIsOpen: (isOpen: boolean) => void
 }

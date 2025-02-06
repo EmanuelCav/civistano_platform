@@ -94,6 +94,14 @@ func CreateUser(c *fiber.Ctx) error {
 	var photocopies models.ChecklistModel
 	var birthCertificate models.ChecklistModel
 	var services models.ChecklistModel
+	var test models.ChecklistModel
+	var confirmation models.ChecklistModel
+	var application models.ChecklistModel
+	var statement models.ChecklistModel
+	var shift models.ChecklistModel
+	var pay models.ChecklistModel
+	var naturalization models.ChecklistModel
+	var background models.ChecklistModel
 
 	ctx, cancel := context.Context()
 	defer cancel()
@@ -146,102 +154,342 @@ func CreateUser(c *fiber.Ctx) error {
 
 	userId := primitive.NewObjectID()
 
-	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "DOS COPIAS DEL DNI"}).Decode(&photocopies); err != nil {
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "DOS FOTOCOPIAS DEL DNI DE AMBOS LADOS"}).Decode(&photocopies); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO"}).Decode(&birthCertificate); err != nil {
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO TRADUCIDA AL ITALIANO"}).Decode(&birthCertificate); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "COMPLETAR LA DECLARACIÓN"}).Decode(&statement); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "COMPLETAR EL FORMULARIO DE SOLICITUD"}).Decode(&application); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "TRANSFERENCIA BANCARIA Y COMPROBANTE DE PAGO"}).Decode(&pay); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
 	if err := connections.ConnectionChecklist().FindOne(ctx,
-		bson.M{"title": "FACTURA DE SERVICIO QUE DEMUESTRE QUE EL USUARIO VIVE HACE, MINIMO, 6 MESES EN LA CIRCUNCRISPCION CONSULAR CORRESPONDIENTE"}).Decode(&services); err != nil {
+		bson.M{"title": "FACTURA DE SERVICIO QUE ACREDITE UNA RESIDENCIA MÍNIMA DE 6 MESES EN LA CIRCUNSCRIPCIÓN CONSULAR CORRESPONDIENTE"}).Decode(&services); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	newAncestryYou := models.AncestryUserModel{
-		Id: primitive.NewObjectID(),
-		Ancestry: models.AncestryModel{
-			Id:         ancestryYou.Id,
-			Ancestry:   ancestryYou.Ancestry,
-			Hierarchy:  ancestryYou.Hierarchy,
-			IsFemale:   ancestryYou.IsFemale,
-			AreParents: ancestryYou.AreParents,
-			IsHidden:   ancestryYou.IsHidden,
-			CreatedAt:  ancestryYou.CreatedAt,
-			UpdatedAt:  ancestryYou.UpdatedAt,
-		},
-		Checklist: []models.ChecklistUserModel{
-			{
-				Id:        primitive.NewObjectID(),
-				User:      userId,
-				IsChecked: false,
-				Checklist: photocopies,
-				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
-			},
-			{
-				Id:        primitive.NewObjectID(),
-				User:      userId,
-				IsChecked: false,
-				Checklist: birthCertificate,
-				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
-			},
-			{
-				Id:        primitive.NewObjectID(),
-				User:      userId,
-				IsChecked: false,
-				Checklist: services,
-				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
-			},
-		},
-		Firstname: "",
-		Lastname:  "",
-		Weddings:  0,
-		Divorces:  0,
-		Children:  0,
-		Death:     false,
-		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	if err := connections.ConnectionChecklist().FindOne(ctx,
+		bson.M{"title": "AGENDAR TURNO"}).Decode(&shift); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
 	}
 
-	newAncestryUser := models.AncestryUserModel{
-		Id: primitive.NewObjectID(),
-		Ancestry: models.AncestryModel{
-			Id:         ancestry.Id,
-			Ancestry:   ancestry.Ancestry,
-			Hierarchy:  ancestry.Hierarchy,
-			IsFemale:   ancestry.IsFemale,
-			AreParents: ancestry.AreParents,
-			IsHidden:   ancestry.IsHidden,
-			CreatedAt:  ancestry.CreatedAt,
-			UpdatedAt:  ancestry.UpdatedAt,
-		},
-		Checklist: []models.ChecklistUserModel{},
-		Firstname: "",
-		Lastname:  "",
-		Weddings:  0,
-		Divorces:  0,
-		Children:  0,
-		Death:     false,
-		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	if err := connections.ConnectionChecklist().FindOne(ctx,
+		bson.M{"title": "ME CONFIRMARON EL TURNO"}).Decode(&confirmation); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if ancestry.Ancestry == "CÓNYUGE" {
+		if err := connections.ConnectionChecklist().FindOne(ctx,
+			bson.M{"title": "COMPROBANTE DE IDIOMA ITALIANO (B1 INTERMEDIO)"}).Decode(&test); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+
+		if err := connections.ConnectionChecklist().FindOne(ctx,
+			bson.M{"title": "CERTIFICADO DE ANTECEDENTES PENALES TRADUCIDO AL ITALIANO"}).Decode(&background); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+	}
+
+	if ancestry.Hierarchy > 1 {
+		if err := connections.ConnectionChecklist().FindOne(ctx,
+			bson.M{"title": "CERTIFICADO DE NO NATURALIZACIÓN"}).Decode(&naturalization); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
+	}
+
+	var newAncestryYou models.AncestryUserModel
+
+	if ancestry.Ancestry == "CÓNYUGE" {
+		newAncestryYou = models.AncestryUserModel{
+			Id: primitive.NewObjectID(),
+			Ancestry: models.AncestryModel{
+				Id:         ancestryYou.Id,
+				Ancestry:   ancestryYou.Ancestry,
+				Hierarchy:  ancestryYou.Hierarchy,
+				IsFemale:   ancestryYou.IsFemale,
+				AreParents: ancestryYou.AreParents,
+				IsHidden:   ancestryYou.IsHidden,
+				CreatedAt:  ancestryYou.CreatedAt,
+				UpdatedAt:  ancestryYou.UpdatedAt,
+			},
+			Checklist: []models.ChecklistUserModel{
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: shift,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: confirmation,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: birthCertificate,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: photocopies,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: background,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: statement,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: application,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: services,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: test,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: pay,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+			},
+			Weddings:  0,
+			Divorces:  0,
+			Children:  0,
+			Death:     false,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
+	} else {
+		newAncestryYou = models.AncestryUserModel{
+			Id: primitive.NewObjectID(),
+			Ancestry: models.AncestryModel{
+				Id:         ancestryYou.Id,
+				Ancestry:   ancestryYou.Ancestry,
+				Hierarchy:  ancestryYou.Hierarchy,
+				IsFemale:   ancestryYou.IsFemale,
+				AreParents: ancestryYou.AreParents,
+				IsHidden:   ancestryYou.IsHidden,
+				CreatedAt:  ancestryYou.CreatedAt,
+				UpdatedAt:  ancestryYou.UpdatedAt,
+			},
+			Checklist: []models.ChecklistUserModel{
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: shift,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: confirmation,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: birthCertificate,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: photocopies,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: statement,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: application,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: services,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: pay,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+			},
+			Weddings:  0,
+			Divorces:  0,
+			Children:  0,
+			Death:     false,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
+	}
+
+	var newAncestryUser models.AncestryUserModel
+
+	if ancestry.Hierarchy > 1 {
+		newAncestryUser = models.AncestryUserModel{
+			Id: primitive.NewObjectID(),
+			Ancestry: models.AncestryModel{
+				Id:         ancestry.Id,
+				Ancestry:   ancestry.Ancestry,
+				Hierarchy:  ancestry.Hierarchy,
+				IsFemale:   ancestry.IsFemale,
+				AreParents: ancestry.AreParents,
+				IsHidden:   ancestry.IsHidden,
+				CreatedAt:  ancestry.CreatedAt,
+				UpdatedAt:  ancestry.UpdatedAt,
+			},
+			Checklist: []models.ChecklistUserModel{
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: birthCertificate,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: naturalization,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+			},
+			Weddings:  0,
+			Divorces:  0,
+			Children:  0,
+			Death:     false,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
+	} else {
+		newAncestryUser = models.AncestryUserModel{
+			Id: primitive.NewObjectID(),
+			Ancestry: models.AncestryModel{
+				Id:         ancestry.Id,
+				Ancestry:   ancestry.Ancestry,
+				Hierarchy:  ancestry.Hierarchy,
+				IsFemale:   ancestry.IsFemale,
+				AreParents: ancestry.AreParents,
+				IsHidden:   ancestry.IsHidden,
+				CreatedAt:  ancestry.CreatedAt,
+				UpdatedAt:  ancestry.UpdatedAt,
+			},
+			Checklist: []models.ChecklistUserModel{},
+			Weddings:  0,
+			Divorces:  0,
+			Children:  0,
+			Death:     false,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
 	}
 
 	newUser := models.UserModel{
-		Id:        userId,
-		Firstname: "",
-		Lastname:  "",
-		Email:     user.Email,
-		Role:      roleUser.Id,
+		Id:    userId,
+		Email: user.Email,
+		Role:  roleUser.Id,
+		IsAdd: true,
 		Ancestry: []models.AncestryUserModel{
 			newAncestryUser,
 			newAncestryYou,
@@ -382,6 +630,9 @@ func CreateAncestryUser(c *fiber.Ctx) error {
 	var user models.UserModel
 	var userUpdated models.UserModel
 
+	var birthCertificate models.ChecklistModel
+	var naturalization models.ChecklistModel
+
 	ctx, cancel := context.Context()
 	defer cancel()
 
@@ -415,27 +666,111 @@ func CreateAncestryUser(c *fiber.Ctx) error {
 		})
 	}
 
-	newAncestryUser := models.AncestryUserModel{
-		Id: primitive.NewObjectID(),
-		Ancestry: models.AncestryModel{
-			Id:         ancestry.Id,
-			Ancestry:   ancestry.Ancestry,
-			Hierarchy:  ancestry.Hierarchy,
-			IsFemale:   ancestry.IsFemale,
-			AreParents: ancestry.AreParents,
-			IsHidden:   ancestry.IsHidden,
-			CreatedAt:  ancestry.CreatedAt,
-			UpdatedAt:  ancestry.UpdatedAt,
-		},
-		Checklist: []models.ChecklistUserModel{},
-		Firstname: "",
-		Lastname:  "",
-		Weddings:  0,
-		Divorces:  0,
-		Children:  0,
-		Death:     false,
-		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO TRADUCIDA AL ITALIANO"}).Decode(&birthCertificate); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "CERTIFICADO DE NO NATURALIZACIÓN"}).Decode(&naturalization); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	var newAncestryUser models.AncestryUserModel
+
+	if ancestry.Hierarchy > 1 {
+		newAncestryUser = models.AncestryUserModel{
+			Id: primitive.NewObjectID(),
+			Ancestry: models.AncestryModel{
+				Id:         ancestry.Id,
+				Ancestry:   ancestry.Ancestry,
+				Hierarchy:  ancestry.Hierarchy,
+				IsFemale:   ancestry.IsFemale,
+				AreParents: ancestry.AreParents,
+				IsHidden:   ancestry.IsHidden,
+				CreatedAt:  ancestry.CreatedAt,
+				UpdatedAt:  ancestry.UpdatedAt,
+			},
+			Checklist: []models.ChecklistUserModel{
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: birthCertificate,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+				{
+					Id:        primitive.NewObjectID(),
+					User:      userId,
+					IsChecked: false,
+					Checklist: naturalization,
+					CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				},
+			},
+			Weddings:  0,
+			Divorces:  0,
+			Children:  0,
+			Death:     false,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
+	} else {
+		if user.Ancestry[0].Ancestry.Ancestry == config.Config()["ancestryYou"] {
+			newAncestryUser = models.AncestryUserModel{
+				Id: primitive.NewObjectID(),
+				Ancestry: models.AncestryModel{
+					Id:         ancestry.Id,
+					Ancestry:   ancestry.Ancestry,
+					Hierarchy:  ancestry.Hierarchy,
+					IsFemale:   ancestry.IsFemale,
+					AreParents: ancestry.AreParents,
+					IsHidden:   ancestry.IsHidden,
+					CreatedAt:  ancestry.CreatedAt,
+					UpdatedAt:  ancestry.UpdatedAt,
+				},
+				Checklist: []models.ChecklistUserModel{},
+				Weddings:  0,
+				Divorces:  0,
+				Children:  0,
+				Death:     false,
+				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			}
+		} else {
+			newAncestryUser = models.AncestryUserModel{
+				Id: primitive.NewObjectID(),
+				Ancestry: models.AncestryModel{
+					Id:         ancestry.Id,
+					Ancestry:   ancestry.Ancestry,
+					Hierarchy:  ancestry.Hierarchy,
+					IsFemale:   ancestry.IsFemale,
+					AreParents: ancestry.AreParents,
+					IsHidden:   ancestry.IsHidden,
+					CreatedAt:  ancestry.CreatedAt,
+					UpdatedAt:  ancestry.UpdatedAt,
+				},
+				Checklist: []models.ChecklistUserModel{
+					{
+						Id:        primitive.NewObjectID(),
+						User:      userId,
+						IsChecked: false,
+						Checklist: birthCertificate,
+						CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+						UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+					},
+				},
+				Weddings:  0,
+				Divorces:  0,
+				Children:  0,
+				Death:     false,
+				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+				UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			}
+		}
 	}
 
 	pos := len(user.Ancestry) - ancestry.Hierarchy
@@ -476,7 +811,7 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 	var ancestryUpdate models.UpdateAncestryUserModel
 
 	var children models.ChecklistModel
-	// var divorces models.ChecklistModel
+	var divorces models.ChecklistModel
 	var weddings models.ChecklistModel
 	var diffusion models.ChecklistModel
 
@@ -530,15 +865,33 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 
 	var checklistUser []models.ChecklistUserModel
 
-	if user.Ancestry[ancestryUserIndex].Ancestry.Ancestry == config.Config()["ancestryYou"] {
-		for i := 0; i < 3; i++ {
-			checklistUser = append(checklistUser, user.Ancestry[ancestryUserIndex].Checklist[i])
+	var mainCheck int
+
+	if user.Ancestry[0].Ancestry.Ancestry == "CÓNYUGE" {
+		mainCheck = 10
+	} else {
+		mainCheck = 8
+	}
+
+	if user.Ancestry[ancestryUserIndex].Ancestry.Ancestry != "CÓNYUGE" {
+		if user.Ancestry[ancestryUserIndex].Ancestry.Ancestry == config.Config()["ancestryYou"] {
+			for i := 0; i < mainCheck; i++ {
+				checklistUser = append(checklistUser, user.Ancestry[ancestryUserIndex].Checklist[i])
+			}
+		} else {
+			if ancestryUserIndex == 0 {
+				for i := 0; i < 2; i++ {
+					checklistUser = append(checklistUser, user.Ancestry[ancestryUserIndex].Checklist[i])
+				}
+			} else {
+				checklistUser = append(checklistUser, user.Ancestry[ancestryUserIndex].Checklist[0])
+			}
 		}
 	}
 
 	for i := 0; i < ancestryUpdate.Children; i++ {
 
-		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO DE HIJOS MENORES DE EDAD (SI APLICA)"}).Decode(&children); err != nil {
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE NACIMIENTO DE HIJOS MENORES DE EDAD TRADUCIDA AL ITALIANO"}).Decode(&children); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 				"message": err.Error(),
 			})
@@ -554,27 +907,27 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// for i := 0; i < ancestryUpdate.Divorces; i++ {
+	for i := 0; i < ancestryUpdate.Divorces; i++ {
 
-	// 	if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": ""}).Decode(&divorces); err != nil {
-	// 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-	// 			"message": err.Error(),
-	// 		})
-	// 	}
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "SENTENCIA DE DIVORCIO TRADUCIDA AL ITALIANO"}).Decode(&divorces); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"message": err.Error(),
+			})
+		}
 
-	// 	checklistUser = append(checklistUser, models.ChecklistUserModel{
-	// 		Id:        primitive.NewObjectID(),
-	// 		User:      userId,
-	// 		IsChecked: false,
-	// 		Checklist: divorces,
-	// 		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
-	// 		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
-	// 	})
-	// }
+		checklistUser = append(checklistUser, models.ChecklistUserModel{
+			Id:        primitive.NewObjectID(),
+			User:      userId,
+			IsChecked: false,
+			Checklist: divorces,
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		})
+	}
 
 	for i := 0; i < ancestryUpdate.Weddings; i++ {
 
-		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE MATRIMONIO (SI APLICA)"}).Decode(&weddings); err != nil {
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE MATRIMONIO TRADUCIDA AL ITALIANO"}).Decode(&weddings); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 				"message": err.Error(),
 			})
@@ -592,7 +945,7 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 
 	if ancestryUpdate.Death {
 
-		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE DEFUCIÓN (SI APLICA)"}).Decode(&diffusion); err != nil {
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "ACTA DE DEFUCIÓN TRADUCIDA AL ITALIANO"}).Decode(&diffusion); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 				"message": err.Error(),
 			})
@@ -608,18 +961,30 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 		})
 	}
 
-	user.Ancestry[ancestryUserIndex] = models.AncestryUserModel{
-		Id:        user.Ancestry[ancestryUserIndex].Id,
-		Firstname: user.Ancestry[ancestryUserIndex].Firstname,
-		Lastname:  user.Ancestry[ancestryUserIndex].Lastname,
-		Ancestry:  user.Ancestry[ancestryUserIndex].Ancestry,
-		Checklist: checklistUser,
-		Weddings:  ancestryUpdate.Weddings,
-		Children:  ancestryUpdate.Children,
-		Divorces:  ancestryUpdate.Divorces,
-		Death:     ancestryUpdate.Death,
-		CreatedAt: user.Ancestry[ancestryUserIndex].CreatedAt,
-		UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	if len(checklistUser) == 0 {
+		user.Ancestry[ancestryUserIndex] = models.AncestryUserModel{
+			Id:        user.Ancestry[ancestryUserIndex].Id,
+			Ancestry:  user.Ancestry[ancestryUserIndex].Ancestry,
+			Checklist: []models.ChecklistUserModel{},
+			Weddings:  ancestryUpdate.Weddings,
+			Children:  ancestryUpdate.Children,
+			Divorces:  ancestryUpdate.Divorces,
+			Death:     ancestryUpdate.Death,
+			CreatedAt: user.Ancestry[ancestryUserIndex].CreatedAt,
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
+	} else {
+		user.Ancestry[ancestryUserIndex] = models.AncestryUserModel{
+			Id:        user.Ancestry[ancestryUserIndex].Id,
+			Ancestry:  user.Ancestry[ancestryUserIndex].Ancestry,
+			Checklist: checklistUser,
+			Weddings:  ancestryUpdate.Weddings,
+			Children:  ancestryUpdate.Children,
+			Divorces:  ancestryUpdate.Divorces,
+			Death:     ancestryUpdate.Death,
+			CreatedAt: user.Ancestry[ancestryUserIndex].CreatedAt,
+			UpdatedAt: primitive.NewDateTimeFromTime(time.Now()),
+		}
 	}
 
 	update := bson.M{

@@ -79,3 +79,8 @@ export interface IContact {
     email: string;
     message: string;
 }
+
+export interface IOftenQuestion {
+    question: string;
+    answer: string;
+}

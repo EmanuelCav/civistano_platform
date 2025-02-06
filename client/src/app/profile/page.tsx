@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
+import { Navigate } from 'react-router-dom'
 
 import ProfileAncestry from "@/components/profile/ProfileAncestry"
 import ProfileIncomplete from "@/components/profile/ProfileIncomplete"
@@ -14,9 +15,9 @@ import Sure from "@/components/profile/components/dangerZone/Sure"
 import { selector } from "@/server/reducer/selector"
 import { logoutAction, removeAncestryUser, removeUser, restartAncestryUser } from "@/server/actions/user.action"
 import { getAncestors } from "@/server/actions/ancestry.action"
+import { authUser } from "@/server/reducer/user.reducer"
 
 import { IAncestry, IReducer } from "@/interface/General"
-import { authUser } from "@/server/reducer/user.reducer"
 
 const Profile = () => {
 
@@ -90,6 +91,11 @@ const Profile = () => {
         }
     }, [user.user.token])
 
+    if (!user.user.token || !user.isLoggedIn) {
+        <Navigate to="/" replace />
+        return null
+    }
+
     return (
         <div className="max-w-7xl mx-auto mt-32">
             {
@@ -120,19 +126,31 @@ const Profile = () => {
             <div className="w-full border-t border-gray-300 my-8 p-4 mx-auto max-w-4xl">
                 <p className="text-2xl font-semibold mb-4">Árbol Genealógico</p>
                 <div className="space-y-4">
-                    {user.user.user?.ancestry.map((ancestor, index) => (
-                        <ProfileAncestry
-                            index={index}
-                            updateProfile={() => updateProfile(ancestor.ancestry)}
-                            ancestor={ancestor}
-                            removeAncestry={() => setIsRemoveAncestry(true)}
-                            key={ancestor._id}
-                        />
-                    ))}
+                    {
+                        user.user.user?.ancestry[0].ancestry.hierarchy! !== 1 ?
+                            <>
+                                {
+                                    user.user.user?.ancestry.map((ancestor, index) => (
+                                        <ProfileAncestry
+                                            index={index}
+                                            updateProfile={() => updateProfile(ancestor.ancestry)}
+                                            ancestor={ancestor}
+                                            removeAncestry={() => setIsRemoveAncestry(true)}
+                                            key={ancestor._id}
+                                        />
+                                    ))
+                                }
+                            </> : <ProfileAncestry
+                                index={user.user.user?.ancestry.length! - 1}
+                                updateProfile={() => updateProfile(user.user.user?.ancestry[user.user.user?.ancestry.length - 1].ancestry!)}
+                                ancestor={user.user.user?.ancestry[user.user.user?.ancestry.length - 1]!}
+                                removeAncestry={() => setIsRemoveAncestry(true)}
+                            />
+                    }
                 </div>
                 <div className="space-y-4">
-                    {ancestors.length > 0 && user.user.user?.ancestry.length! > 1 &&
-                        new Array(user.user.user?.ancestry[0].ancestry.hierarchy! - (user.user.user?.ancestry[1].ancestry.hierarchy ? user.user.user?.ancestry[1].ancestry.hierarchy : 0) - 1)
+                    {ancestors.length > 0 && user.user.user?.ancestry.length! > 1 && user.user.user?.ancestry[0].ancestry.hierarchy &&
+                        new Array(user.user.user?.ancestry[0].ancestry.hierarchy - (user.user.user?.ancestry[1].ancestry.hierarchy ? user.user.user?.ancestry[1].ancestry.hierarchy : 0) - 1)
                             .fill(0).map((_, index) => (
                                 <ProfileIncomplete
                                     ancestryNumber={
@@ -146,7 +164,7 @@ const Profile = () => {
                 </div>
             </div>
             <DangerZone handleIsLogout={() => setIsLogout(true)} handleIsRemove={() => setIsRemove(true)}
-                handleIsRestart={() => setIsRestart(true)} completeAncestry={addAncestry} ancestors={ancestors}
+                handleIsRestart={() => setIsRestart(true)} completeAncestry={addAncestry} ancestors={ancestors} ancestor={user.user.user?.ancestry[0].ancestry!}
                 ancestryNumber={user.user.user?.ancestry[0].ancestry.hierarchy ? user.user.user?.ancestry[0].ancestry.hierarchy + 1 : 1} />
         </div>
     )

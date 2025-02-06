@@ -21,7 +21,7 @@ const Panel = () => {
         <View style={generalStyles.containerGeneral}>
             <Button
                 title="Abrir Página Web"
-                onPress={() => openWebsite('https://civistano.vercel.app')}
+                onPress={() => openWebsite('https://civistano.vercel.app/auth')}
                 color="#007BFF"
             />
         </View>

@@ -2,12 +2,13 @@ import NavItem from "./components/NavItem"
 
 const Navigation = () => {
     return (
-        <div>
+        <nav>
             <ul className="flex justify-between items-center">
                 <NavItem link="/contact" text="Contacto" />
                 <NavItem link="/about" text="Nosotros" />
+                <NavItem link="/questions" text="Preguntas Frecuentes" />
             </ul>
-        </div>
+        </nav>
     )
 }
 

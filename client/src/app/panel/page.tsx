@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { Navigate } from 'react-router-dom'
 
 import CompleteWarming from "@/components/panel/CompleteWarming";
 import Checklist from "@/components/panel/Checklist";
@@ -29,13 +30,20 @@ const Panel = () => {
         }
     }, [user.user.token])
 
+    if (!user.user.token || !user.isLoggedIn) {
+        <Navigate to="/" replace />
+        return null
+    }
+
     return (
         <div className="max-w-7xl mx-auto mt-32 p-2">
             <CompleteWarming />
             <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-xl">
                 <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Progreso</h1>
                 <div className="space-y-8">
-                    <p className="text-sky-700 text-xl font-semibold">Pasos completados: ({stepsCompleted(user.user.user?.ancestry!)[0]}/{stepsCompleted(user.user.user?.ancestry!)[1]})</p>
+                    <p className="text-sky-700 text-xl font-semibold">
+                        Pasos completados: ({stepsCompleted(user.user.user?.ancestry!)[0]}/{stepsCompleted(user.user.user?.ancestry!)[1]})
+                    </p>
                     {user.user.user?.ancestry.map((ancestor) => {
                         return <div key={ancestor._id}>
                             {

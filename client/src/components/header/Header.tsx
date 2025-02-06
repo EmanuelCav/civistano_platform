@@ -22,7 +22,7 @@ const Header = () => {
 
     const user = useSelector((state: IReducer) => selector(state).user)
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const dispatch = useDispatch()
     const router = useRouter()
@@ -68,9 +68,9 @@ const Header = () => {
     }
 
     return (
-        <div className="bg-white border-gray-200 z-20 px-4 border-b border-solid fixed top-0 w-full">
+        <header className="bg-white border-gray-200 z-20 px-4 border-b border-solid fixed top-0 w-full">
             {
-                isOpen && <Open router={router} handleSurveyData={handleSurveyData} token={user.user.token!} />
+                isOpen && <Open router={router} handleSurveyData={handleSurveyData} token={user.user.token!} setIsOpen={setIsOpen} />
             }
             {
                 isSurveyData && <SurveyData handleClose={handleClose} handleShowQuestion={handleShowQuestion} />
@@ -89,7 +89,7 @@ const Header = () => {
             {
                 isJudicial && <Return title="Vía Judicial" 
                 text="Situaciones donde hay complicaciones con los documentos o si el solicitante no puede demostrar claramente su derecho a la ciudadanía." 
-                func={handleContinue} />
+                func={handleCancel} />
             }
             {
                 isNotPossible && <Return title="Falta de Requisitos" 
@@ -110,7 +110,7 @@ const Header = () => {
                 <Icon href={user.user.token ? "/panel" : "/"} />
                 <GiHamburgerMenu size={24} className="text-gray-600 cursor-pointer" onClick={toggleMenu} />
             </div>
-        </div>
+        </header>
     )
 }
 

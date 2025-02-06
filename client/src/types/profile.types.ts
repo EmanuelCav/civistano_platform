@@ -71,6 +71,7 @@ export type DangerZonePropsType = {
     completeAncestry: (ancestryUpdateFemale: IAncestry, ancestryUpdateMale: IAncestry) => void;
     ancestors: IAncestry[];
     ancestryNumber: number;
+    ancestor: IAncestry;
 }
 
 export type ButtonAddPropsType = {

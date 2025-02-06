@@ -16,6 +16,7 @@ export const getAncestors = createAsyncThunk("ancestry/get", async (setAncestors
         setAncestors(data)
 
     } catch (error) {
+        console.log(error);
         dangerMessage("Error al obtener los ancestros")
     }
 

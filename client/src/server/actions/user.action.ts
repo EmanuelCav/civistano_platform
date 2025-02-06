@@ -20,8 +20,8 @@ export const getEmail = createAsyncThunk("users/getEmail", async (emailData: Act
 
         emailData.setIsEmail(false)
 
-    } catch (error) {
-        dangerMessage("Error al obtener los ancestros. Intenta más tarde")
+    } catch (error: any) {
+        dangerMessage(error)
     }
 
 })
@@ -37,6 +37,7 @@ export const getUser = createAsyncThunk("users/getUser", async (userData: Action
     } catch (error) {
         dispatch(userReducer.logoutUser())
         userData.router.push('/')
+        console.log(error);
         dangerMessage("Error al obtener los datos. del usuario")
     }
 
@@ -67,6 +68,7 @@ export const createAncestryUser = createAsyncThunk("users/createAncestry", async
         userData.setIsCompleteAncestry(false)
 
     } catch (error) {
+        console.log(error);
         dangerMessage("Error al crear un ancestro")
     }
 
@@ -83,7 +85,8 @@ export const updateAncestryUser = createAsyncThunk("users/updateAncestry", async
         userData.setIsUpdateProfile(false)
 
     } catch (error) {
-        dangerMessage("Error al crear un ancestro")
+        console.log(error);
+        dangerMessage("Error al actualizar un ancestro")
     }
 
 })
@@ -110,10 +113,13 @@ export const addAncestryUser = createAsyncThunk("users/addAncestry", async (user
 
         dispatch(userReducer.actionUser(data))
 
+        successMessage("Se ha creado el ancestro correctamente")
+
         userData.setIsRestart(false)
 
     } catch (error) {
-        dangerMessage("Error al crear un ancestro")
+        console.log(error)
+        dangerMessage("Error al añadir un ancestro")
     }
 
 })
@@ -131,6 +137,7 @@ export const removeAncestryUser = createAsyncThunk("users/removeAncestry", async
         successMessage(data.message)
 
     } catch (error) {
+        console.log(error);
         dangerMessage("Error al eliminar un ancestro")
     }
 
@@ -149,6 +156,7 @@ export const restartAncestryUser = createAsyncThunk("users/restartAncestry", asy
         successMessage(data.message)
 
     } catch (error) {
+        console.log(error);
         dangerMessage("Error al momento de restaurar")
     }
 
@@ -158,15 +166,16 @@ export const removeUser = createAsyncThunk("users/remove", async (userData: Acti
 
     try {
 
-        userData.router.push("/")
-
         const data = await userApi.removeUserApi(userData.id, userData.token)
 
         dispatch(userReducer.logoutUser())
 
         successMessage(data)
 
+        userData.router.push("/")
+
     } catch (error) {
+        console.log(error);
         dangerMessage("Error de eliminar el usuario")
     }
 

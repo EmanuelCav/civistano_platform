@@ -21,7 +21,7 @@ const Checklist = ({ item, dispatch, aid, token }: ChecklistPropsType) => {
             <div className="ml-4 flex-1 p-2 rounded-md">
                 <h2 className="text-xl font-semibold text-sky-700">{item.checklist.title}</h2>
                 <p className="text-gray-800 mt-2">{item.checklist.description}</p>
-                <p className="text-gray-600 mt-6">{item.isChecked ? "Hecho" : "Pendiente"}</p>
+                <p className={`mt-6 ${item.isChecked ? "text-emerald-600" : "text-gray-600"}`}>{item.isChecked ? "Hecho" : "Pendiente"}</p>
             </div>
         </div>
     )

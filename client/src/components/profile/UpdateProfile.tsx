@@ -64,14 +64,20 @@ const UpdateProfile = ({ dispatch, user, ancestry, setIsUpdateProfile, index }: 
       <IoMdClose className="absolute top-5 right-10 cursor-pointer hover:bg-red-100 active:bg-white"
         color="#ff4444" size={28} onClick={() => setIsUpdateProfile(false)} />
       <form className="w-full" onReset={reset as any} onSubmit={handleSubmit((data) => handleSumbitUpdateProfile(data))}>
-        <ButtonsUpdate func={handleIsMarried} isBoolean={isMarried}
-          question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} se ha casado?`} />
+        {
+          ancestry?.ancestry !== "CÓNYUGE" &&
+          <ButtonsUpdate func={handleIsMarried} isBoolean={isMarried}
+            question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} se ha casado?`} />
+        }
         {
           isMarried && <InputUpdate register={register} value={user.user!.ancestry[index].weddings ? user.user!.ancestry[index].weddings : 0}
             error={errors.weddings} question={`¿Cuantas veces se ha casado ${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : 'su'} ${ancestry?.ancestry}?`} text="weddings" />
         }
-        <ButtonsUpdate func={handleIsDivorced} isBoolean={isDivorced}
-          question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} se ha divorciado?`} />
+        {
+          ancestry?.ancestry !== "CÓNYUGE" &&
+          <ButtonsUpdate func={handleIsDivorced} isBoolean={isDivorced}
+            question={`${user.user?.ancestry[index].ancestry.ancestry === 'USTED' ? '' : '¿Su'} ${ancestry?.ancestry} se ha divorciado?`} />
+        }
         {
           isDivorced && <InputUpdate register={register}
             value={user.user!.ancestry[index].divorces ? user.user!.ancestry[index].divorces : 0} error={errors.divorces}

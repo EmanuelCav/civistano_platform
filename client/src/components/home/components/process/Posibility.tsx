@@ -11,6 +11,7 @@ const Posibility = ({ posibility }: { posibility: IPosibility }) => {
                 width={85}
                 height={85}
                 className="rounded-md"
+                loading="lazy"
             />
             <div className="ml-6">
                 <p className="text-lg font-semibold text-sky-700">{posibility.title}</p>

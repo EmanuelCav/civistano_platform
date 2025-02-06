@@ -7,7 +7,7 @@ import { policiesTab, resourceTab } from "@/utils/tabs"
 
 const Footer = () => {
     return (
-        <footer className="bg-slate-950 mt-8">
+        <footer className="bg-slate-950">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                 <div className="flex justify-center items-center">
                     <div className="flex w-full justify-around items-start flex-wrap">

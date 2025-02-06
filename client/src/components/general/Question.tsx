@@ -58,9 +58,24 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
                 return
             }
 
-            setIsJudicial(true)
-            setIsQuestion(false)
-            dispatch(updateQuestion(questions.find((question => question.id === 1))))
+            if (questions.find((question) => question.id === survey.question.id)?.id === 3) {
+                if (isYes) {
+                    setIsAdministrative(true)
+                } else {
+                    setIsNotPossible(true)
+                }
+
+                setIsQuestion(false)
+                return
+            }
+
+            if(isYes) {
+                setIsJudicial(true)
+                setIsQuestion(false)
+            } else {
+                dispatch(updateQuestion(questions.find((question => question.id === 1))))
+            }
+
             return
         }
 
@@ -71,6 +86,14 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
     const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsSelect(false)
+
+        if(personAncestry === "CÓNYUGE") {
+            setQuestionId(3)
+            dispatch(updateQuestion(questions.find((question => question.id === 3))))
+            dispatch(updateAncestry(ancestors.find((a) => a.ancestry === personAncestry)!))
+            return
+        }
+        
 
         if (ancestors.find((a) => a.ancestry === personAncestry)?.isFemale) {
             setQuestionId(1)

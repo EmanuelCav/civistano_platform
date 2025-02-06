@@ -36,7 +36,7 @@ const Contact = () => {
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Contáctanos</h1>
         <p className="text-gray-600 mb-2">
-          Completa el formulario a continuación para contactarnos.
+          Completa el formulario a continuación para contactarnos o mandanos un correo a:
         </p>
         <div className="flex justify-start items-center mt-1">
           <MdOutlineEmail size={20} color='#000000' />
