@@ -55,7 +55,7 @@ const Questionnaire = ({ navigation }: { navigation: StackNavigation }) => {
                 isJudicial && <Return
                     title="Vía Judicial"
                     text="Situaciones donde hay complicaciones con los documentos o si el solicitante no puede demostrar claramente su derecho a la ciudadanía."
-                    func={handleContinue} />
+                    func={handleCancel} />
             }
             {
                 isNotPossible && <Return

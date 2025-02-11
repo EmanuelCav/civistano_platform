@@ -11,13 +11,13 @@ const TermsOfService = () => {
             <p>A los efectos de estos Términos y condiciones:</p>
             <ul>
                 <li>
-                    <p><strong>Afiliado</strong> significa una entidad que controla, es controlada por o está bajo control común con una parte, donde "control" significa la propiedad del 50% o más de las acciones, participación accionaria u otros valores con derecho a voto para la elección de directores u otra autoridad administrativa.</p>
+                    <p><strong>Afiliado</strong> significa una entidad que controla, es controlada por o está bajo control común con una parte, donde control significa la propiedad del 50% o más de las acciones, participación accionaria u otros valores con derecho a voto para la elección de directores u otra autoridad administrativa.</p>
                 </li>
                 <li>
                     <p><strong>País</strong> se refiere a: Argentina</p>
                 </li>
                 <li>
-                    <p><strong>Compañía</strong> (a la que se hace referencia como "la Compañía", "Nosotros", "Nos" o "Nuestro") en este Acuerdo) se refiere a Civistano.</p>
+                    <p><strong>Compañía</strong> a la que se hace referencia como la Compañía, Nosotros, Nos o Nuestro en este Acuerdo se refiere a Civistano.</p>
                 </li>
                 <li>
                     <p><strong>Dispositivo</strong> significa cualquier dispositivo que pueda acceder al Servicio, como una computadora, un teléfono celular o una tableta digital.</p>
@@ -26,10 +26,10 @@ const TermsOfService = () => {
                     <p><strong>Servicio</strong> se refiere al Sitio web.</p>
                 </li>
                 <li>
-                    <p><strong>Términos y condiciones</strong> (también denominados &quot;Términos&quot;) significa estos Términos y condiciones que forman el acuerdo completo entre Usted y la Compañía con respecto al uso del Servicio. Este acuerdo de Términos y Condiciones se ha creado con la ayuda del <a href="https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/" target="_blank">Generador de Términos y Condiciones Gratis</a>.</p>
+                    <p><strong>Términos y condiciones</strong> también denominados Términos significa estos Términos y condiciones que forman el acuerdo completo entre Usted y la Compañía con respecto al uso del Servicio. Este acuerdo de Términos y Condiciones se ha creado con la ayuda del <a href="https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/" target="_blank">Generador de Términos y Condiciones Gratis</a>.</p>
                 </li>
                 <li>
-                    <p><strong>Servicio de Redes Sociales de Terceros</strong> hace referencia a cualquier servicio o contenido (incluidos datos, información, productos o servicios) proporcionado por un tercero que pueda mostrarse, incluirse o ponerse a disposición a través del Servicio.</p>
+                    <p><strong>Servicio de Redes Sociales de Terceros</strong> hace referencia a cualquier servicio o contenido incluidos datos, información, productos o servicios proporcionado por un tercero que pueda mostrarse, incluirse o ponerse a disposición a través del Servicio.</p>
                 </li>
                 <li>
                     <p><strong>Sitio Web</strong> hace referencia a Civistano, accesible desde <a href="https://civistano.com" rel="external nofollow noopener" target="_blank">https://civistano.com</a></p>

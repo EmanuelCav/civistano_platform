@@ -14,14 +14,18 @@
       "env": {
         "EXPO_URL_PRODUCTION": "https://servercivistano-production.up.railway.app",
         "EXPO_URL_DEVELOPMENT": "http://127.0.0.1:5400",
-        "EXPO_STORAGE": "civistano_storage"
+        "EXPO_STORAGE": "civistano_storage",
+        "EXPO_PRIVACY_PUBLIC": "https://www.freeprivacypolicy.com/live/9f3830dc-cf96-4ac7-b926-6b3552f53697",
+        "EXPO_TERMS_CONDITIONS": "https://www.freeprivacypolicy.com/live/b86d375c-0049-401d-8ae7-0776c6ed39d2"
       }
     },
     "test": {
       "env": {
         "EXPO_URL_PRODUCTION": "https://servercivistano-production.up.railway.app",
         "EXPO_URL_DEVELOPMENT": "http://127.0.0.1:5400",
-        "EXPO_STORAGE": "civistano_storage"
+        "EXPO_STORAGE": "civistano_storage",
+        "EXPO_PRIVACY_PUBLIC": "https://www.freeprivacypolicy.com/live/9f3830dc-cf96-4ac7-b926-6b3552f53697",
+        "EXPO_TERMS_CONDITIONS": "https://www.freeprivacypolicy.com/live/b86d375c-0049-401d-8ae7-0776c6ed39d2"
       }
     }
   },

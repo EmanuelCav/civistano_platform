@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { Navigate } from 'react-router-dom'
 
 import CompleteWarming from "@/components/panel/CompleteWarming";
 import Checklist from "@/components/panel/Checklist";
@@ -31,7 +30,6 @@ const Panel = () => {
     }, [user.user.token])
 
     if (!user.user.token || !user.isLoggedIn) {
-        <Navigate to="/" replace />
         return null
     }
 

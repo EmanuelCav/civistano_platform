@@ -58,24 +58,9 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
                 return
             }
 
-            if (questions.find((question) => question.id === survey.question.id)?.id === 3) {
-                if (isYes) {
-                    setIsAdministrative(true)
-                } else {
-                    setIsNotPossible(true)
-                }
-
-                setIsQuestion(false)
-                return
-            }
-
-            if(isYes) {
-                setIsJudicial(true)
-                setIsQuestion(false)
-            } else {
-                dispatch(updateQuestion(questions.find((question => question.id === 1))))
-            }
-
+            setIsJudicial(true)
+            setIsQuestion(false)
+            dispatch(updateQuestion(questions.find((question => question.id === 1))))
             return
         }
 

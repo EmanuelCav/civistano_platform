@@ -14,7 +14,7 @@ export const getEmail = createAsyncThunk("users/getEmail", async (emailData: Act
 
         dispatch(userReducer.authUser(data))
 
-        emailData.navigate.navigate('Panel')
+        emailData.navigate.navigate('PrivateScreen')
 
         emailData.setIsEmail(false)
 
@@ -190,7 +190,7 @@ export const codeUser = createAsyncThunk("users/code", async (userData: ActionPr
 
         dispatch(userReducer.authUser(data))
 
-        userData.navigate.navigate("Panel")
+        userData.navigate.navigate("PrivateScreen")
 
     } catch (error) {
         console.log(error);

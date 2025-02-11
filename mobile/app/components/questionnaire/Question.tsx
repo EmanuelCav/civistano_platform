@@ -68,6 +68,13 @@ const Question = ({ setIsAdministrative, setIsJudicial, setIsNotPossible, setIsQ
     const handleSumbit = () => {
         setIsSelect(false)
 
+        if(personAncestry === "CÓNYUGE") {
+            setQuestionId(3)
+            dispatch(updateQuestion(questions.find((question => question.id === 3))))
+            dispatch(updateAncestry(ancestors.find((a) => a.ancestry === personAncestry)!))
+            return
+        }
+
         if (ancestors.find((a) => a.ancestry === personAncestry)?.isFemale) {
             setQuestionId(1)
             dispatch(updateQuestion(questions.find((question => question.id === 1))))

@@ -19,6 +19,10 @@ const CodeForm = ({ setIsLoggedIn }: CodeFormPropsType) => {
         }
     };
 
+    const showCode = () => {
+        console.log(code);
+    }
+
     return (
         <ContainerBackground>
             <Text style={authStyles.reviewEmail}>Revisa tu correo electrónico</Text>
@@ -32,9 +36,9 @@ const CodeForm = ({ setIsLoggedIn }: CodeFormPropsType) => {
                         maxLength={1}
                         keyboardType="number-pad"
                         onChangeText={(text) => {
-                            const newCode = code.split("");
+                            const newCode = code.split("")
                             newCode[index] = text;
-                            setCode(newCode.join(""));
+                            setCode(newCode.join(""))
                         }}
                     />
                 ))}
@@ -44,7 +48,7 @@ const CodeForm = ({ setIsLoggedIn }: CodeFormPropsType) => {
                     backgroundColor: pressed ? '#1f8eff' : '#007bff'
                 },
                 generalStyles.buttonContinue
-            ]}>
+            ]} onPress={showCode}>
                 <Text style={generalStyles.textButtonContinue}>Aceptar</Text>
             </Pressable>
             <Outcome func={() => setIsLoggedIn(false)} question="¿Desea regresar?" text="Regresar" />

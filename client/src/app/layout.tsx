@@ -22,7 +22,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Civistano - Tu guía para la ciudadanía italian",
+  title: "Civistano - Tu guía para obtener la ciudadanía italiana",
   description: "Facilitamos el proceso para obtener tu ciudadanía italiana de forma rápida y detallada. Tu guía sencilla para gestionar y tramitar la ciudadanía italiana para descendientes, via paterna y materna sin necesitad de viajar a Italia",
   openGraph: {
     title: "Civistano",

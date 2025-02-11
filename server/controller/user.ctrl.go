@@ -909,7 +909,7 @@ func UpdateAncestryUser(c *fiber.Ctx) error {
 
 	for i := 0; i < ancestryUpdate.Divorces; i++ {
 
-		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "SENTENCIA DE DIVORCIO TRADUCIDA AL ITALIANO"}).Decode(&divorces); err != nil {
+		if err := connections.ConnectionChecklist().FindOne(ctx, bson.M{"title": "SENTENCIA JUDICIAL POR DIVORCIO/ADOPCIÓN TRADUCIDA AL ITALIANO"}).Decode(&divorces); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 				"message": err.Error(),
 			})

@@ -15,10 +15,10 @@ const PrivacyPolicy = () => {
                     <p><strong>Cuenta</strong> significa una cuenta única creada para que usted acceda a nuestro Servicio o a partes de nuestro Servicio.</p>
                 </li>
                 <li>
-                    <p><strong>Afiliado</strong> significa una entidad que controla, está controlada por o está bajo control común con una parte, donde &quot;control&quot; significa la propiedad del 50% o más de las acciones, intereses de capital u otros valores con derecho a voto para la elección de directores u otra autoridad administrativa.</p>
+                    <p><strong>Afiliado</strong> significa una entidad que controla, está controlada por o está bajo control común con una parte, donde control significa la propiedad del 50% o más de las acciones, intereses de capital u otros valores con derecho a voto para la elección de directores u otra autoridad administrativa.</p>
                 </li>
                 <li>
-                    <p><strong>Compañía</strong> (denominada como &quot;la Compañía&quot;, &quot;Nosotros&quot;, &quot;Nos&quot; o &quot;Nuestro&quot; en este Acuerdo) se refiere a Civistano.</p>
+                    <p><strong>Compañía</strong> denominada como la Compañía, Nosotros, Nos o Nuestro en este Acuerdo se refiere a Civistano.</p>
                 </li>
                 <li>
                     <p><strong>Cookies</strong> son pequeños archivos que un sitio web coloca en Su computadora, dispositivo móvil o cualquier otro dispositivo, que contienen los detalles de Su historial de navegación en ese sitio web, entre sus muchos usos.</p>
@@ -39,7 +39,7 @@ const PrivacyPolicy = () => {
                     <p><strong>Proveedor de Servicios</strong> se refiere a cualquier persona física o jurídica que procesa los datos en nombre de la Compañía. Se refiere a empresas o personas de terceros empleadas por la Compañía para facilitar el Servicio, para proporcionar el Servicio en nombre de la Compañía, para realizar servicios relacionados con el Servicio o para ayudar a la Compañía a analizar cómo se utiliza el Servicio.</p>
                 </li>
                 <li>
-                    <p><strong>Datos de uso</strong> se refiere a los datos recopilados automáticamente, ya sea generados por el uso del Servicio o de la propia infraestructura del Servicio (por ejemplo, la duración de una visita a una página).</p>
+                    <p><strong>Datos de uso</strong> se refiere a los datos recopilados automáticamente, ya sea generados por el uso del Servicio o de la propia infraestructura del Servicio por ejemplo, la duración de una visita a una página.</p>
                 </li>
                 <li>
                     <p><strong>Sitio web</strong> se refiere a Civistano, accesible desde <a href="https://civistano.com" rel="external nofollow noopener" target="_blank">https://civistano.com</a></p>
@@ -62,7 +62,7 @@ const PrivacyPolicy = () => {
             </ul>
             <h4>Datos de uso</h4>
             <p>Los datos de uso se recopilan automáticamente al utilizar el Servicio.</p>
-            <p>Los datos de uso pueden incluir información como la dirección de protocolo de Internet de su dispositivo (por ejemplo, la dirección IP), el tipo de navegador, la versión del navegador, las páginas de nuestro Servicio</p>
+            <p>Los datos de uso pueden incluir información como la dirección de protocolo de Internet de su dispositivo por ejemplo, la dirección IP, el tipo de navegador, la versión del navegador, las páginas de nuestro Servicio</p>
         </div>
     )
 }

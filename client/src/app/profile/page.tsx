@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
-import { Navigate } from 'react-router-dom'
 
 import ProfileAncestry from "@/components/profile/ProfileAncestry"
 import ProfileIncomplete from "@/components/profile/ProfileIncomplete"
@@ -92,7 +91,6 @@ const Profile = () => {
     }, [user.user.token])
 
     if (!user.user.token || !user.isLoggedIn) {
-        <Navigate to="/" replace />
         return null
     }
 

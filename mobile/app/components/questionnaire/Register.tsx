@@ -61,7 +61,6 @@ const Register = ({ dispatch, setIsEmail, navigation }: RegisterPropsType) => {
                         />
                     )}
                 />
-
                 <Pressable style={({ pressed }) => [
                     {
                         backgroundColor: pressed ? '#1f8eff' : '#007bff'
